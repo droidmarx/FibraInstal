@@ -1426,16 +1426,17 @@ function atualizarMateriaisSelecionaveis() {
         .map(([nome, qtd]) => `• ${nome}: ${qtd}`)
         .join('\n') || 'Nenhum material registrado.';
 
-      const msg = `📡 **Registro de Instalação - IndaiaFibra**\n\n` +
-                  `🔧 **Tipo de Trabalho:** ${instalacao.tipo}\n` +
-                  `👨‍🔧 **Técnico:** ${instalacao.tecnico}\n` +
-                  `🙍 **Cliente:** ${instalacao.cliente}\n` +
-                  `🧰 **CTO:** ${instalacao.cto}\n` +
-                  `🔌 **Porta:** ${instalacao.porta}\n` +
-                  `📶 **Sinal CTO:** ${instalacao.sinalCTO} dBm\n` +
-                  `📶 **Sinal Cliente:** ${instalacao.sinalCliente} dBm\n` +
-                  `📦**Materiais Utilizados:**\n${materiaisTexto}`+
-                  `📍 **Endereço:** ${instalacao.endereco}\n 🔗${linkMapa}\n`;
+const msg = `📡 **Registro de Instalação - IndaiaFibra**\n\n` +
+  `🔧 **Tipo de Trabalho:** ${instalacao.tipo}\n` +
+  `👨‍🔧 **Técnico:** ${instalacao.tecnico}\n` +
+  `🙍 **Cliente:** ${instalacao.cliente}\n` +
+  `🧰 **CTO:** ${instalacao.cto}\n` +
+  `🔌 **Porta:** ${instalacao.porta}\n` +
+  `📶 **Sinal CTO:** ${instalacao.sinalCTO} dBm\n` +
+  `📶 **Sinal Cliente:** ${instalacao.sinalCliente} dBm\n` +
+  `📦 **Materiais Utilizados:**\n${materiaisTexto}\n\n` +
+  `📍 **Endereço:**\n${instalacao.endereco}\n\n` +
+  `🔗 **Link:**\n${linkMapa}`;
 
       await navigator.clipboard.writeText(msg);
       alert('Mensagem copiada! Agora cole no grupo do Telegram.');
