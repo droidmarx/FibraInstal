@@ -1,22 +1,29 @@
 {
-  "name": "IndaiaFibra",
+  "name": "IndaiaFibra - Sistema de Instalações",
   "short_name": "IndaiaFibra",
-  "start_url": ".",
+  "description": "Sistema para registro de instalações de fibra óptica",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#1E293B",
-  "theme_color": "#1E40AF",
-  "description": "Aplicativo para técnicos da IndaiaFibra",
+  "background_color": "#111827",
+  "theme_color": "#1E3A8A",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "https://img.icons8.com/?size=192&id=Sd1fJXRt5uTd&format=png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "https://img.icons8.com/?size=512&id=Sd1fJXRt5uTd&format=png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "orientation": "portrait-primary"
+  "categories": ["productivity", "utilities"],
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
 }
