@@ -445,6 +445,48 @@
       opacity: 1;
     }
 
+    .btn-router {
+
+      width: 100%;
+
+      margin-top: 16px;
+
+      border: none;
+
+      padding: 16px;
+
+      border-radius: 18px;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      color: white;
+
+      background:
+        linear-gradient(135deg,
+          #7c3aed,
+          #06b6d4);
+
+      transition: .3s;
+    }
+
+    .btn-router:hover {
+
+      transform: scale(1.01);
+    }
+
+    .btn-router:disabled {
+
+      opacity: .4;
+
+      cursor: not-allowed;
+
+      filter: grayscale(1);
+    }
+
     @media(max-width:600px) {
 
       .card {
@@ -508,6 +550,110 @@
   </div>
 
   <script>
+
+    let gatewayPadrao = "192.168.1.1";
+
+    async function detectarGateway() {
+
+      try {
+
+        if (!navigator.onLine) {
+          return null;
+        }
+
+        const conexao =
+          navigator.connection ||
+          navigator.mozConnection ||
+          navigator.webkitConnection;
+
+        if (conexao && conexao.type && conexao.type !== "wifi") {
+          return null;
+        }
+
+        const gateways = [
+          "192.168.1.1",
+          "192.168.0.1",
+          "192.168.15.1",
+          "192.168.100.1",
+          "10.0.0.1"
+        ];
+
+        for (const ip of gateways) {
+
+          try {
+
+            const controller = new AbortController();
+
+            setTimeout(() => {
+              controller.abort();
+            }, 1200);
+
+            await fetch(`http://${ip}`, {
+              mode: "no-cors",
+              signal: controller.signal
+            });
+
+            gatewayPadrao = ip;
+
+            return ip;
+
+          } catch (e) {}
+        }
+
+        return gatewayPadrao;
+
+      } catch (e) {
+
+        return gatewayPadrao;
+      }
+    }
+
+    async function abrirGateway() {
+
+      const conexao =
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection;
+
+      if (
+        !navigator.onLine ||
+        (conexao &&
+          conexao.type &&
+          conexao.type !== "wifi")
+      ) {
+
+        mostrarToast(
+          "📶 Conecte-se ao Wi-Fi antes de configurar o roteador"
+        );
+
+        return;
+      }
+
+      mostrarToast(
+        "🔎 Detectando gateway do roteador..."
+      );
+
+      const gateway =
+        await detectarGateway();
+
+      if (!gateway) {
+
+        mostrarToast(
+          "⚠ Não foi possível detectar o gateway"
+        );
+
+        return;
+      }
+
+      mostrarToast(
+        `🚀 Abrindo roteador ${gateway}`
+      );
+
+      window.open(
+        `http://${gateway}`,
+        "_blank"
+      );
+    }
 
     function gerarAgenda() {
 
@@ -627,6 +773,10 @@
 
           </select>
 
+          <button class="btn-router" disabled>
+            📡 Configurar roteador
+          </button>
+
           <div class="status-box vazio">
 
             Nenhum status definido
@@ -663,6 +813,14 @@
         const box =
           card.querySelector(".status-box");
 
+        const btnRouter =
+          card.querySelector(".btn-router");
+
+        btnRouter.addEventListener(
+          "click",
+          abrirGateway
+        );
+
         const salvo =
           localStorage.getItem(
             "status_" + os
@@ -675,7 +833,8 @@
           atualizar(
             card,
             box,
-            salvo
+            salvo,
+            btnRouter
           );
         }
 
@@ -694,7 +853,8 @@
             atualizar(
               card,
               box,
-              valor
+              valor,
+              btnRouter
             );
 
             let script = "";
@@ -761,7 +921,8 @@ ${maps}`;
     function atualizar(
       card,
       box,
-      valor
+      valor,
+      btnRouter
     ) {
 
       box.className =
@@ -778,6 +939,8 @@ ${maps}`;
 
         box.classList.add(
           "vazio");
+
+        btnRouter.disabled = true;
 
         return;
       }
@@ -798,6 +961,9 @@ ${maps}`;
         valor
       );
 
+      btnRouter.disabled =
+        valor !== "instalacao";
+
       if (
         valor === "concluido"
       ) {
@@ -808,12 +974,14 @@ ${maps}`;
       }
     }
 
-    function mostrarToast() {
+    function mostrarToast(msg = "✅ Script copiado para área de transferência") {
 
       const toast =
         document.getElementById(
           "toast"
         );
+
+      toast.innerHTML = msg;
 
       toast.classList.add(
         "show"
