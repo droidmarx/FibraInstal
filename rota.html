@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0" />
+
+  <title>Agenda Técnica Inteligente</title>
+
+  <link rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+
+      background:
+        radial-gradient(circle at top,
+          #0f172a 0%,
+          #020617 70%);
+
+      color: white;
+
+      min-height: 100vh;
+
+      overflow-x: hidden;
+
+      padding: 20px;
+    }
+
+    .topo {
+
+      margin-bottom: 30px;
+    }
+
+    .topo h1 {
+
+      font-size: 34px;
+
+      font-weight: 800;
+
+      background:
+        linear-gradient(90deg,
+          #38bdf8,
+          #60a5fa);
+
+      -webkit-background-clip: text;
+
+      -webkit-text-fill-color: transparent;
+    }
+
+    .topo p {
+
+      margin-top: 8px;
+
+      color: #94a3b8;
+    }
+
+    .importador {
+
+      background:
+        rgba(255, 255, 255, 0.05);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+      backdrop-filter: blur(20px);
+
+      border-radius: 30px;
+
+      padding: 24px;
+
+      margin-bottom: 30px;
+
+      transition: .4s ease;
+    }
+
+    .importador.oculto {
+
+      opacity: 0;
+
+      transform: translateY(-20px);
+
+      pointer-events: none;
+
+      height: 0;
+
+      overflow: hidden;
+
+      padding: 0;
+
+      margin: 0;
+    }
+
+    textarea {
+
+      width: 100%;
+
+      min-height: 260px;
+
+      resize: vertical;
+
+      border: none;
+
+      outline: none;
+
+      border-radius: 24px;
+
+      padding: 20px;
+
+      font-size: 15px;
+
+      background:
+        rgba(255, 255, 255, 0.06);
+
+      color: white;
+
+      line-height: 1.6;
+    }
+
+    textarea::placeholder {
+
+      color: #94a3b8;
+    }
+
+    .btn-gerar {
+
+      width: 100%;
+
+      margin-top: 18px;
+
+      border: none;
+
+      padding: 18px;
+
+      border-radius: 20px;
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      color: white;
+
+      background:
+        linear-gradient(135deg,
+          #2563eb,
+          #38bdf8);
+
+      transition: .3s;
+    }
+
+    .btn-gerar:hover {
+
+      transform: scale(1.01);
+    }
+
+    .btn-mostrar {
+
+      display: none;
+
+      width: 100%;
+
+      margin-bottom: 20px;
+
+      border: none;
+
+      padding: 16px;
+
+      border-radius: 18px;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      color: white;
+
+      background:
+        rgba(255, 255, 255, 0.08);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .cards {
+
+      display: flex;
+
+      gap: 22px;
+
+      overflow-x: auto;
+
+      scroll-snap-type: x mandatory;
+
+      padding-bottom: 20px;
+
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .cards::-webkit-scrollbar {
+
+      height: 8px;
+    }
+
+    .cards::-webkit-scrollbar-thumb {
+
+      background:
+        rgba(255, 255, 255, 0.15);
+
+      border-radius: 999px;
+    }
+
+    .card {
+
+      min-width: 360px;
+      max-width: 360px;
+
+      flex-shrink: 0;
+
+      scroll-snap-align: center;
+
+      border-radius: 32px;
+
+      padding: 24px;
+
+      background:
+        rgba(255, 255, 255, 0.05);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+      backdrop-filter: blur(18px);
+
+      position: relative;
+
+      overflow: hidden;
+
+      transition: .4s;
+    }
+
+    .card:hover {
+
+      transform: translateY(-5px);
+    }
+
+    .card::before {
+
+      content: "";
+
+      position: absolute;
+
+      top: -100px;
+      right: -100px;
+
+      width: 220px;
+      height: 220px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(56, 189, 248, 0.08);
+    }
+
+    .concluido-card {
+
+      background:
+        linear-gradient(145deg,
+          rgba(34, 197, 94, 0.22),
+          rgba(22, 163, 74, 0.15));
+    }
+
+    .horario {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 10px 16px;
+
+      border-radius: 999px;
+
+      background:
+        linear-gradient(90deg,
+          #0ea5e9,
+          #2563eb);
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      margin-bottom: 18px;
+    }
+
+    .cliente {
+
+      font-size: 24px;
+
+      font-weight: 800;
+
+      line-height: 1.3;
+
+      margin-bottom: 18px;
+    }
+
+    .info {
+
+      color: #cbd5e1;
+
+      line-height: 1.6;
+
+      margin: 10px 0;
+    }
+
+    .info strong {
+
+      color: white;
+    }
+
+    .status-select {
+
+      width: 100%;
+
+      margin-top: 22px;
+
+      background:
+        rgba(255, 255, 255, 0.06);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+      color: white;
+
+      padding: 16px;
+
+      border-radius: 18px;
+
+      outline: none;
+
+      font-size: 15px;
+
+      font-weight: 600;
+    }
+
+    .status-select option {
+
+      color: black;
+    }
+
+    .status-box {
+
+      margin-top: 18px;
+
+      padding: 16px;
+
+      border-radius: 18px;
+
+      text-align: center;
+
+      font-weight: 700;
+
+      font-size: 15px;
+    }
+
+    .rota {
+      background: #f59e0b;
+    }
+
+    .instalacao {
+      background: #2563eb;
+    }
+
+    .concluido {
+      background: #16a34a;
+    }
+
+    .nao-concluido {
+      background: #dc2626;
+    }
+
+    .vazio {
+
+      background:
+        rgba(255, 255, 255, 0.05);
+
+      color: #94a3b8;
+    }
+
+    .toast {
+
+      position: fixed;
+
+      bottom: 30px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      background:
+        rgba(15, 23, 42, 0.95);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+      backdrop-filter: blur(15px);
+
+      padding: 16px 24px;
+
+      border-radius: 18px;
+
+      font-weight: 600;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition: .4s;
+
+      z-index: 999;
+    }
+
+    .toast.show {
+
+      opacity: 1;
+    }
+
+    @media(max-width:600px) {
+
+      .card {
+
+        min-width: 88vw;
+        max-width: 88vw;
+      }
+
+      .topo h1 {
+
+        font-size: 28px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="topo">
+
+    <h1>📡 Agenda Técnica Inteligente</h1>
+
+    <p>
+      Cole sua agenda completa abaixo e o sistema criará automaticamente os cards.
+    </p>
+
+  </div>
+
+  <button class="btn-mostrar"
+    id="btnMostrar"
+    onclick="mostrarImportador()">
+
+    📋 Mostrar campo da agenda
+
+  </button>
+
+  <div class="importador"
+    id="importador">
+
+    <textarea id="entrada"
+      placeholder="Cole aqui toda a agenda recebida do WhatsApp..."></textarea>
+
+    <button class="btn-gerar"
+      onclick="gerarAgenda()">
+
+      🚀 Gerar Agenda Inteligente
+
+    </button>
+
+  </div>
+
+  <div class="cards"
+    id="cards"></div>
+
+  <div class="toast"
+    id="toast">
+
+    ✅ Script copiado para área de transferência
+
+  </div>
+
+  <script>
+
+    function gerarAgenda() {
+
+      const texto =
+        document.getElementById(
+          "entrada"
+        ).value;
+
+      localStorage.setItem(
+        "agendaCompleta",
+        texto
+      );
+
+      criarCards(texto);
+
+      document
+        .getElementById("importador")
+        .classList.add("oculto");
+
+      document
+        .getElementById("btnMostrar")
+        .style.display = "block";
+    }
+
+    function criarCards(texto) {
+
+      const cards =
+        document.getElementById(
+          "cards"
+        );
+
+      cards.innerHTML = "";
+
+      const blocos =
+        texto.split(/ID:/g)
+        .slice(1);
+
+      blocos.forEach(bloco => {
+
+        const id =
+          bloco.match(/^(\d+)/m)?.[1] || "";
+
+        const cliente =
+          bloco.match(/Cliente:\s*\*(.*?)\*/)?.[1]
+          || "Cliente";
+
+        const horario =
+          bloco.match(/Horário:\s*(.*)/)?.[1]
+          || "";
+
+        const endereco =
+          bloco.match(/Endereço:\s*(.*)/)?.[1]
+          || "";
+
+        const login =
+          bloco.match(/Login:\s*(.*)/)?.[1]
+          || "";
+
+        const enderecoLimpo =
+          endereco
+          .replace(/\?/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        const maps =
+          `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(enderecoLimpo)}`;
+
+        cards.innerHTML += `
+
+        <div class="card"
+          data-id="${id}"
+          data-cliente="${cliente}"
+          data-maps="${maps}">
+
+          <div class="horario">
+            🕗 ${horario}
+          </div>
+
+          <div class="cliente">
+            ${cliente}
+          </div>
+
+          <div class="info">
+            <strong>🔹 O.S:</strong> ${id}
+          </div>
+
+          <div class="info">
+            <strong>📍 Endereço:</strong><br>
+            ${enderecoLimpo}
+          </div>
+
+          <div class="info">
+            <strong>🔐 Login:</strong> ${login}
+          </div>
+
+          <select class="status-select">
+
+            <option value="">
+              Selecionar status
+            </option>
+
+            <option value="rota">
+              🚗 Em rota
+            </option>
+
+            <option value="instalacao">
+              🛠 Em instalação
+            </option>
+
+            <option value="concluido">
+              ✅ Concluído
+            </option>
+
+            <option value="nao-concluido">
+              ❌ Não concluído
+            </option>
+
+          </select>
+
+          <div class="status-box vazio">
+
+            Nenhum status definido
+
+          </div>
+
+        </div>
+
+        `;
+      });
+
+      iniciarEventos();
+    }
+
+    function iniciarEventos() {
+
+      const cards =
+        document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+
+        const os =
+          card.dataset.id;
+
+        const cliente =
+          card.dataset.cliente;
+
+        const maps =
+          card.dataset.maps;
+
+        const select =
+          card.querySelector(".status-select");
+
+        const box =
+          card.querySelector(".status-box");
+
+        const salvo =
+          localStorage.getItem(
+            "status_" + os
+          );
+
+        if (salvo) {
+
+          select.value = salvo;
+
+          atualizar(
+            card,
+            box,
+            salvo
+          );
+        }
+
+        select.addEventListener(
+          "change",
+          async () => {
+
+            const valor =
+              select.value;
+
+            localStorage.setItem(
+              "status_" + os,
+              valor
+            );
+
+            atualizar(
+              card,
+              box,
+              valor
+            );
+
+            let script = "";
+
+            if (valor === "rota") {
+
+              script =
+`🚗 **EM ROTA**
+
+👤 Cliente: **${cliente}**
+
+🗺 **Localização:**
+${maps}`;
+            }
+
+            if (valor === "instalacao") {
+
+              script =
+`🛠 **INICIANDO A INSTALAÇÃO**
+
+👤 Cliente: **${cliente}**
+
+📡 Estou iniciando a instalação no local.`;
+            }
+
+            if (valor === "concluido") {
+
+              script =
+`✅ **INSTALAÇÃO CONCLUÍDA**
+
+👤 Cliente: **${cliente}**
+
+📶 Serviço finalizado com sucesso.
+🚀 Cliente liberado para uso.`;
+            }
+
+            if (valor === "nao-concluido") {
+
+              script =
+`❌ **INSTALAÇÃO NÃO CONCLUÍDA**
+
+👤 Cliente: **${cliente}**
+
+⚠ Atendimento encerrado sem conclusão.`;
+            }
+
+            await navigator.clipboard.writeText(
+              script
+            );
+
+            mostrarToast();
+
+            window.open(
+              "https://t.me/c/1989058391/167773",
+              "_blank"
+            );
+
+          });
+
+      });
+
+    }
+
+    function atualizar(
+      card,
+      box,
+      valor
+    ) {
+
+      box.className =
+        "status-box";
+
+      card.classList.remove(
+        "concluido-card"
+      );
+
+      if (!valor) {
+
+        box.innerHTML =
+          "Nenhum status definido";
+
+        box.classList.add(
+          "vazio");
+
+        return;
+      }
+
+      box.innerHTML =
+        valor === "rota" ?
+        "🚗 Em rota" :
+
+        valor === "instalacao" ?
+        "🛠 Em instalação" :
+
+        valor === "concluido" ?
+        "✅ Concluído" :
+
+        "❌ Não concluído";
+
+      box.classList.add(
+        valor
+      );
+
+      if (
+        valor === "concluido"
+      ) {
+
+        card.classList.add(
+          "concluido-card"
+        );
+      }
+    }
+
+    function mostrarToast() {
+
+      const toast =
+        document.getElementById(
+          "toast"
+        );
+
+      toast.classList.add(
+        "show"
+      );
+
+      setTimeout(() => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      }, 2500);
+    }
+
+    function mostrarImportador() {
+
+      document
+        .getElementById("importador")
+        .classList.remove("oculto");
+
+      document
+        .getElementById("btnMostrar")
+        .style.display = "none";
+    }
+
+    // RECUPERAR AGENDA SALVA
+    const agendaSalva =
+      localStorage.getItem(
+        "agendaCompleta"
+      );
+
+    if (agendaSalva) {
+
+      document.getElementById(
+        "entrada"
+      ).value = agendaSalva;
+
+      criarCards(agendaSalva);
+
+      document
+        .getElementById("importador")
+        .classList.add("oculto");
+
+      document
+        .getElementById("btnMostrar")
+        .style.display = "block";
+    }
+
+  </script>
+
+</body>
+
+</html>
