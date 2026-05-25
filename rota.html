@@ -593,6 +593,11 @@
           .replace(/\s+/g, " ")
           .trim();
 
+        const enderecoTelegram =
+          enderecoLimpo
+          .replace(/^SP\s+Indaiatuba\s+\d{5}-\d{3}\s*/i, "")
+          .trim();
+
         const maps =
           `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(enderecoLimpo)}`;
 
@@ -601,6 +606,7 @@
         <div class="card"
           data-id="${id}"
           data-cliente="${cliente}"
+          data-endereco="${enderecoTelegram}"
           data-maps="${maps}">
 
           <div class="horario">
@@ -617,7 +623,7 @@
 
           <div class="info">
             <strong>📍 Endereço:</strong><br>
-            ${enderecoLimpo}
+            ${enderecoTelegram}
           </div>
 
           <div class="info">
@@ -674,6 +680,9 @@
 
         const cliente =
           card.dataset.cliente;
+
+        const enderecoTelegram =
+          card.dataset.endereco;
 
         const maps =
           card.dataset.maps;
@@ -755,8 +764,8 @@
 
 👤 Cliente: ${cliente}
 
-🗺 Localização:
-${maps}`;
+📍 Endereço:
+${enderecoTelegram}`;
             }
 
             if (valor === "concluido") {
