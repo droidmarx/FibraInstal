@@ -22,11 +22,9 @@
 
   <style>
     * {
-
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-
       font-family: 'Inter', sans-serif;
     }
 
@@ -47,7 +45,6 @@
     }
 
     .topo {
-
       margin-bottom: 30px;
     }
 
@@ -68,9 +65,7 @@
     }
 
     .topo p {
-
       margin-top: 8px;
-
       color: #94a3b8;
     }
 
@@ -137,7 +132,6 @@
     }
 
     textarea::placeholder {
-
       color: #94a3b8;
     }
 
@@ -170,7 +164,6 @@
     }
 
     .btn-gerar:hover {
-
       transform: scale(1.01);
     }
 
@@ -219,7 +212,6 @@
     }
 
     .cards::-webkit-scrollbar {
-
       height: 8px;
     }
 
@@ -260,7 +252,6 @@
     }
 
     .card:hover {
-
       transform: translateY(-5px);
     }
 
@@ -335,7 +326,6 @@
     }
 
     .info strong {
-
       color: white;
     }
 
@@ -365,7 +355,6 @@
     }
 
     .status-select option {
-
       color: black;
     }
 
@@ -388,16 +377,8 @@
       background: #f59e0b;
     }
 
-    .instalacao {
-      background: #2563eb;
-    }
-
     .concluido {
       background: #16a34a;
-    }
-
-    .nao-concluido {
-      background: #dc2626;
     }
 
     .vazio {
@@ -441,15 +422,13 @@
     }
 
     .toast.show {
-
       opacity: 1;
     }
 
-    .btn-router {
+    .btn-maps,
+    .btn-ativo {
 
       width: 100%;
-
-      margin-top: 16px;
 
       border: none;
 
@@ -465,38 +444,43 @@
 
       color: white;
 
-      background:
-        linear-gradient(135deg,
-          #7c3aed,
-          #06b6d4);
-
       transition: .3s;
     }
 
-    .btn-router:hover {
+    .btn-maps {
 
-      transform: scale(1.01);
+      margin-top: 16px;
+
+      background:
+        linear-gradient(135deg,
+          #ef4444,
+          #f97316);
     }
 
-    .btn-router:disabled {
+    .btn-ativo {
 
-      opacity: .4;
+      margin-top: 12px;
 
-      cursor: not-allowed;
+      background:
+        linear-gradient(135deg,
+          #06b6d4,
+          #0891b2);
+    }
 
-      filter: grayscale(1);
+    .btn-maps:hover,
+    .btn-ativo:hover {
+
+      transform: scale(1.01);
     }
 
     @media(max-width:600px) {
 
       .card {
-
         min-width: 88vw;
         max-width: 88vw;
       }
 
       .topo h1 {
-
         font-size: 28px;
       }
     }
@@ -511,7 +495,7 @@
     <h1>📡 Agenda Técnica Inteligente</h1>
 
     <p>
-      Cole sua agenda completa abaixo e o sistema criará automaticamente os cards.
+      Cole sua agenda recebida do WhatsApp e o sistema criará os cards automaticamente.
     </p>
 
   </div>
@@ -528,7 +512,7 @@
     id="importador">
 
     <textarea id="entrada"
-      placeholder="Cole aqui toda a agenda recebida do WhatsApp..."></textarea>
+      placeholder="Cole aqui a agenda completa..."></textarea>
 
     <button class="btn-gerar"
       onclick="gerarAgenda()">
@@ -545,122 +529,16 @@
   <div class="toast"
     id="toast">
 
-    ✅ Script copiado para área de transferência
+    ✅ Script copiado
 
   </div>
 
   <script>
 
-    let gatewayPadrao = "192.168.1.1";
-
-    async function detectarGateway() {
-
-      try {
-
-        if (!navigator.onLine) {
-          return null;
-        }
-
-        const conexao =
-          navigator.connection ||
-          navigator.mozConnection ||
-          navigator.webkitConnection;
-
-        if (conexao && conexao.type && conexao.type !== "wifi") {
-          return null;
-        }
-
-        const gateways = [
-          "192.168.1.1",
-          "192.168.0.1",
-          "192.168.15.1",
-          "192.168.100.1",
-          "10.0.0.1"
-        ];
-
-        for (const ip of gateways) {
-
-          try {
-
-            const controller = new AbortController();
-
-            setTimeout(() => {
-              controller.abort();
-            }, 1200);
-
-            await fetch(`http://${ip}`, {
-              mode: "no-cors",
-              signal: controller.signal
-            });
-
-            gatewayPadrao = ip;
-
-            return ip;
-
-          } catch (e) {}
-        }
-
-        return gatewayPadrao;
-
-      } catch (e) {
-
-        return gatewayPadrao;
-      }
-    }
-
-    async function abrirGateway() {
-
-      const conexao =
-        navigator.connection ||
-        navigator.mozConnection ||
-        navigator.webkitConnection;
-
-      if (
-        !navigator.onLine ||
-        (conexao &&
-          conexao.type &&
-          conexao.type !== "wifi")
-      ) {
-
-        mostrarToast(
-          "📶 Conecte-se ao Wi-Fi antes de configurar o roteador"
-        );
-
-        return;
-      }
-
-      mostrarToast(
-        "🔎 Detectando gateway do roteador..."
-      );
-
-      const gateway =
-        await detectarGateway();
-
-      if (!gateway) {
-
-        mostrarToast(
-          "⚠ Não foi possível detectar o gateway"
-        );
-
-        return;
-      }
-
-      mostrarToast(
-        `🚀 Abrindo roteador ${gateway}`
-      );
-
-      window.open(
-        `http://${gateway}`,
-        "_blank"
-      );
-    }
-
     function gerarAgenda() {
 
       const texto =
-        document.getElementById(
-          "entrada"
-        ).value;
+        document.getElementById("entrada").value;
 
       localStorage.setItem(
         "agendaCompleta",
@@ -681,15 +559,12 @@
     function criarCards(texto) {
 
       const cards =
-        document.getElementById(
-          "cards"
-        );
+        document.getElementById("cards");
 
       cards.innerHTML = "";
 
       const blocos =
-        texto.split(/ID:/g)
-        .slice(1);
+        texto.split(/ID:/g).slice(1);
 
       blocos.forEach(bloco => {
 
@@ -697,7 +572,7 @@
           bloco.match(/^(\d+)/m)?.[1] || "";
 
         const cliente =
-          bloco.match(/Cliente:\s*\*(.*?)\*/)?.[1]
+          bloco.match(/Cliente:\s*(.*)/)?.[1]
           || "Cliente";
 
         const horario =
@@ -719,7 +594,7 @@
           .trim();
 
         const maps =
-          `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(enderecoLimpo)}`;
+          `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(enderecoLimpo)}`;
 
         cards.innerHTML += `
 
@@ -749,6 +624,14 @@
             <strong>🔐 Login:</strong> ${login}
           </div>
 
+          <button class="btn-maps">
+            🗺 Abrir no Google Maps
+          </button>
+
+          <button class="btn-ativo">
+            🌐 Abrir Site Ativo
+          </button>
+
           <select class="status-select">
 
             <option value="">
@@ -759,23 +642,11 @@
               🚗 Em rota
             </option>
 
-            <option value="instalacao">
-              🛠 Em instalação
-            </option>
-
             <option value="concluido">
               ✅ Concluído
             </option>
 
-            <option value="nao-concluido">
-              ❌ Não concluído
-            </option>
-
           </select>
-
-          <button class="btn-router" disabled>
-            📡 Configurar roteador
-          </button>
 
           <div class="status-box vazio">
 
@@ -813,12 +684,32 @@
         const box =
           card.querySelector(".status-box");
 
-        const btnRouter =
-          card.querySelector(".btn-router");
+        const btnMaps =
+          card.querySelector(".btn-maps");
 
-        btnRouter.addEventListener(
+        const btnAtivo =
+          card.querySelector(".btn-ativo");
+
+        btnMaps.addEventListener(
           "click",
-          abrirGateway
+          () => {
+
+            window.open(
+              maps,
+              "_blank"
+            );
+          }
+        );
+
+        btnAtivo.addEventListener(
+          "click",
+          () => {
+
+            window.open(
+              "https://sistema.ativotelecom.com.br/central_assinante_web/login",
+              "_blank"
+            );
+          }
         );
 
         const salvo =
@@ -833,8 +724,7 @@
           atualizar(
             card,
             box,
-            salvo,
-            btnRouter
+            salvo
           );
         }
 
@@ -853,8 +743,7 @@
             atualizar(
               card,
               box,
-              valor,
-              btnRouter
+              valor
             );
 
             let script = "";
@@ -862,50 +751,31 @@
             if (valor === "rota") {
 
               script =
-`🚗 **EM ROTA**
+`🚗 EM ROTA
 
-👤 Cliente: **${cliente}**
+👤 Cliente: ${cliente}
 
-🗺 **Localização:**
+🗺 Localização:
 ${maps}`;
-            }
-
-            if (valor === "instalacao") {
-
-              script =
-`🛠 **INICIANDO A INSTALAÇÃO**
-
-👤 Cliente: **${cliente}**
-
-📡 Estou iniciando a instalação no local.`;
             }
 
             if (valor === "concluido") {
 
               script =
-`✅ **INSTALAÇÃO CONCLUÍDA**
+`✅ INSTALAÇÃO CONCLUÍDA
 
-👤 Cliente: **${cliente}**
+👤 Cliente: ${cliente}
 
-📶 Serviço finalizado com sucesso.
-🚀 Cliente liberado para uso.`;
-            }
-
-            if (valor === "nao-concluido") {
-
-              script =
-`❌ **INSTALAÇÃO NÃO CONCLUÍDA**
-
-👤 Cliente: **${cliente}**
-
-⚠ Atendimento encerrado sem conclusão.`;
+📶 Serviço finalizado com sucesso.`;
             }
 
             await navigator.clipboard.writeText(
               script
             );
 
-            mostrarToast();
+            mostrarToast(
+              "✅ Script copiado e Telegram aberto"
+            );
 
             window.open(
               "https://t.me/c/1989058391/167773",
@@ -921,8 +791,7 @@ ${maps}`;
     function atualizar(
       card,
       box,
-      valor,
-      btnRouter
+      valor
     ) {
 
       box.className =
@@ -938,31 +807,20 @@ ${maps}`;
           "Nenhum status definido";
 
         box.classList.add(
-          "vazio");
-
-        btnRouter.disabled = true;
+          "vazio"
+        );
 
         return;
       }
 
       box.innerHTML =
-        valor === "rota" ?
-        "🚗 Em rota" :
-
-        valor === "instalacao" ?
-        "🛠 Em instalação" :
-
-        valor === "concluido" ?
-        "✅ Concluído" :
-
-        "❌ Não concluído";
+        valor === "rota"
+        ? "🚗 Em rota"
+        : "✅ Concluído";
 
       box.classList.add(
         valor
       );
-
-      btnRouter.disabled =
-        valor !== "instalacao";
 
       if (
         valor === "concluido"
@@ -974,7 +832,7 @@ ${maps}`;
       }
     }
 
-    function mostrarToast(msg = "✅ Script copiado para área de transferência") {
+    function mostrarToast(msg = "✅ Script copiado") {
 
       const toast =
         document.getElementById(
@@ -1008,6 +866,7 @@ ${maps}`;
     }
 
     // RECUPERAR AGENDA SALVA
+
     const agendaSalva =
       localStorage.getItem(
         "agendaCompleta"
