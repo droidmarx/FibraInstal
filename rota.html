@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agenda Técnica Inteligente</title>
+  <title>Agenda Técnico Inteligente</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,59 +41,167 @@
     .topo p {
       color: #94a3b8;
       font-size: 15.5px;
+      margin-top: 4px;
     }
 
     .seletor-tecnico {
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      max-width: 520px;
+      gap: 20px;
+      max-width: 600px;
       margin: 0 auto 32px;
     }
 
     .seletor-tecnico.oculto {
-      display: none;
+      display: none !important;
     }
 
-    .btn-tecnico {
-      position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.06);
+    .card-monitor {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
       backdrop-filter: blur(20px);
-      color: white;
-      padding: 24px 28px;
-      border-radius: 24px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
+      border-radius: 28px;
+      padding: 24px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .card-monitor:hover {
+      border-color: rgba(34, 211, 238, 0.3);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .monitor-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
     }
 
-    .btn-tecnico:hover {
-      transform: translateY(-4px);
-      background: linear-gradient(135deg, #22d3ee, #3b82f6);
-      border-color: transparent;
+    .monitor-info-esquerda {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .monitor-nome {
+      font-size: 20px;
+      font-weight: 800;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .status-preview {
       display: flex;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
+      gap: 6px;
     }
 
     .status-preview span {
-      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
       border-radius: 999px;
     }
 
-    .preview-rota { background: rgba(234, 179, 8, 0.25); color: #fde047; }
-    .preview-concluido { background: rgba(74, 222, 128, 0.25); color: #4ade80; }
+    .preview-rota { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
+    .preview-concluido { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
 
-    .painel-tecnico.oculto { display: none; }
+    .btn-dropdown {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-dropdown:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+    }
+
+    .monitor-atividades {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      animation: deslizarAbaixo 0.25s ease-out;
+    }
+
+    .monitor-atividades.visivel {
+      display: flex;
+    }
+
+    @keyframes deslizarAbaixo {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .log-atividade {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+    }
+
+    .log-badge {
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .log-badge.rota { background: #eab308; color: #020617; }
+    .log-badge.concluido { background: #22c55e; color: #020617; }
+
+    .log-info {
+      flex: 1;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .log-info strong { color: white; }
+    .log-info .tipo-servico { color: #a5b4fc; font-size: 13px; display: block; margin-top: 2px; }
+
+    .log-hora {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 700;
+      background: rgba(255,255,255,0.05);
+      padding: 4px 8px;
+      border-radius: 8px;
+      align-self: center;
+    }
+
+    .sem-atividade {
+      color: #64748b;
+      font-size: 14px;
+      font-style: italic;
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    .painel-tecnico.oculto { display: none !important; }
 
     .btn-trocar {
       display: block;
@@ -117,7 +225,7 @@
     }
 
     .importador.oculto {
-      display: none;
+      display: none !important;
     }
 
     textarea {
@@ -261,7 +369,6 @@
     }
 
     .btn-copiar:hover { background: rgba(103, 232, 249, 0.22); transform: translateY(-1px); }
-    .btn-copiar.copiado { background: rgba(74, 222, 128, 0.18); color: #4ade80; }
 
     .os-number {
       font-size: 17px;
@@ -436,16 +543,11 @@
       cursor: pointer;
       transition: border-color 0.2s;
       appearance: none;
-      -webkit-appearance: none;
     }
 
     .campo-select option {
       background: #0f172a;
       color: white;
-    }
-
-    .campo-select:focus {
-      border-color: rgba(34, 211, 238, 0.45);
     }
 
     .select-wrapper {
@@ -490,16 +592,6 @@
       color: white;
       background: linear-gradient(135deg, #22d3ee, #3b82f6);
       box-shadow: 0 8px 20px rgba(34, 211, 238, 0.2);
-      transition: opacity 0.2s;
-    }
-
-    .btn-salvar-modal:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-
-    .btn-salvar-modal:not(:disabled):hover {
-      opacity: 0.9;
     }
 
     .toast {
@@ -522,12 +614,11 @@
 
     .toast.show { opacity: 1; }
 
-    /* ========== ESTILOS DO LOADING ANIMADO ========== */
     .loading-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      z-index: 200; /* Garante visibilidade sobre os modais */
+      z-index: 200;
       background: rgba(2, 6, 23, 0.75);
       backdrop-filter: blur(12px);
       align-items: center;
@@ -571,10 +662,7 @@
     .loading-texto {
       font-size: 16px;
       font-weight: 700;
-      letter-spacing: 0.05em;
       color: #e2e8f0;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-      animation: piscar 1.6s ease-in-out infinite;
     }
 
     @keyframes rodar {
@@ -587,11 +675,6 @@
       50% { transform: scale(1.3); opacity: 0.9; }
     }
 
-    @keyframes piscar {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
-
     @media(max-width: 640px) {
       .card { min-width: 92vw; max-width: 92vw; }
       .modal { padding: 26px 20px; }
@@ -602,24 +685,42 @@
 <body>
 
   <div class="topo">
-    <h1>📡 Agenda Técnica Inteligente</h1>
-    <p id="subtitulo">Selecione o técnico para começar</p>
+    <h1>📡 Monitoramento Técnico em Tempo Real</h1>
+    <p id="subtitulo">Clique no painel de um técnico para abrir a sua agenda completa</p>
   </div>
 
   <div class="seletor-tecnico" id="seletorTecnico">
-    <button class="btn-tecnico" data-tecnico="Andre" onclick="selecionarTecnico('Andre')">
-      <div>👤 Andre</div>
-      <div class="status-preview" id="preview-Andre"></div>
-    </button>
+    <!-- Monitor Andre -->
+    <div class="card-monitor" id="card-monitor-Andre">
+      <div class="monitor-header">
+        <div class="monitor-info-esquerda" onclick="selecionarTecnico('Andre')">
+          <div class="monitor-nome">👤 Andre</div>
+          <div class="status-preview" id="preview-Andre"></div>
+        </div>
+        <button class="btn-dropdown" id="btn-drop-Andre" onclick="toggleDropdown('Andre', event)">Expandir 🔽</button>
+      </div>
+      <div class="monitor-atividades" id="atividades-Andre">
+         <div class="sem-atividade">Nenhuma rota ativa no momento.</div>
+      </div>
+    </div>
 
-    <button class="btn-tecnico" data-tecnico="Guilherme" onclick="selecionarTecnico('Guilherme')">
-      <div>👤 Guilherme</div>
-      <div class="status-preview" id="preview-Guilherme"></div>
-    </button>
+    <!-- Monitor Guilherme -->
+    <div class="card-monitor" id="card-monitor-Guilherme">
+      <div class="monitor-header">
+        <div class="monitor-info-esquerda" onclick="selecionarTecnico('Guilherme')">
+          <div class="monitor-nome">👤 Guilherme</div>
+          <div class="status-preview" id="preview-Guilherme"></div>
+        </div>
+        <button class="btn-dropdown" id="btn-drop-Guilherme" onclick="toggleDropdown('Guilherme', event)">Expandir 🔽</button>
+      </div>
+      <div class="monitor-atividades" id="atividades-Guilherme">
+         <div class="sem-atividade">Nenhuma rota ativa no momento.</div>
+      </div>
+    </div>
   </div>
 
   <div class="painel-tecnico oculto" id="painelTecnico">
-    <button class="btn-trocar" onclick="trocarTecnico()">↩️ Trocar técnico</button>
+    <button class="btn-trocar" onclick="trocarTecnico()">↩️ Voltar ao Painel Geral</button>
 
     <button class="btn-mostrar" id="btnMostrar" onclick="mostrarImportador()">
       📋 Mostrar campo da agenda
@@ -635,47 +736,22 @@
 
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
-      <button class="modal-fechar" onclick="fecharModal()" title="Fechar">✕</button>
+      <button class="modal-fechar" onclick="fecharModal()">✕</button>
       <div class="modal-titulo">✏️ Editar OS</div>
 
       <div class="modal-secao">Dados Principais</div>
-
-      <div class="campo-grupo">
-        <label class="campo-label">Horário</label>
-        <input class="campo-input" id="edit-horario" type="text" placeholder="Ex: 08:00 - 09:00" />
-      </div>
-
-      <div class="campo-grupo">
-        <label class="campo-label">Cliente</label>
-        <input class="campo-input" id="edit-cliente" type="text" placeholder="Nome do cliente" />
-      </div>
-
-      <div class="campo-grupo">
-        <label class="campo-label">Assunto</label>
-        <input class="campo-input" id="edit-assunto" type="text" placeholder="Assunto da OS" />
-      </div>
-
-      <div class="campo-grupo">
-        <label class="campo-label">Endereço</label>
-        <input class="campo-input" id="edit-endereco" type="text" placeholder="Endereço completo" />
-      </div>
+      <div class="campo-grupo"><label class="campo-label">Horário</label><input class="campo-input" id="edit-horario" type="text" /></div>
+      <div class="campo-grupo"><label class="campo-label">Cliente</label><input class="campo-input" id="edit-cliente" type="text" /></div>
+      <div class="campo-grupo"><label class="campo-label">Assunto</label><input class="campo-input" id="edit-assunto" type="text" /></div>
+      <div class="campo-grupo"><label class="campo-label">Endereço</label><input class="campo-input" id="edit-endereco" type="text" /></div>
 
       <hr class="modal-divider" />
       <div class="modal-secao">Credenciais</div>
-
-      <div class="campo-grupo">
-        <label class="campo-label">Login</label>
-        <input class="campo-input" id="edit-login" type="text" placeholder="Login do cliente" />
-      </div>
-
-      <div class="campo-grupo">
-        <label class="campo-label">Senha PPPoE</label>
-        <input class="campo-input" id="edit-senha" type="text" placeholder="Senha PPPoE" />
-      </div>
+      <div class="campo-grupo"><label class="campo-label">Login</label><input class="campo-input" id="edit-login" type="text" /></div>
+      <div class="campo-grupo"><label class="campo-label">Senha PPPoE</label><input class="campo-input" id="edit-senha" type="text" /></div>
 
       <hr class="modal-divider" />
       <div class="modal-secao">Status da OS</div>
-
       <div class="campo-grupo">
         <div class="select-wrapper">
           <select class="campo-select" id="edit-status">
@@ -686,18 +762,13 @@
         </div>
       </div>
 
-      <button class="btn-salvar-modal" id="btnSalvarModal" onclick="salvarEdicaoOS()">
-        💾 Salvar alterações
-      </button>
+      <button class="btn-salvar-modal" id="btnSalvarModal" onclick="salvarEdicaoOS()">💾 Salvar alterações</button>
     </div>
   </div>
 
   <div class="loading-overlay" id="loadingOverlay">
-    <div class="spinner-container">
-      <div class="spinner-pulso"></div>
-      <div class="spinner"></div>
-    </div>
-    <div class="loading-texto" id="loadingTexto">Sincronizando dados...</div>
+    <div class="spinner-container"><div class="spinner-pulso"></div><div class="spinner"></div></div>
+    <div class="loading-texto" id="loadingTexto">Sincronizando...</div>
   </div>
 
   <div class="toast" id="toast">✅ Copiado com sucesso</div>
@@ -711,69 +782,115 @@
     let dadosOS = [];
     let osEditandoIndex = null;
 
-    /* CONTROLE LOGICO DO LOADING OVERLAY */
-    function toggleLoading(exibir, mensagem = "Sincronizando dados...") {
+    function toggleLoading(exibir, mensagem = "Sincronizando...") {
       const overlay = document.getElementById("loadingOverlay");
-      const texto = document.getElementById("loadingTexto");
-      texto.textContent = mensagem;
-      if (exibir) {
-        overlay.classList.add("ativo");
+      document.getElementById("loadingTexto").textContent = mensagem;
+      if (exibir) overlay.classList.add("ativo");
+      else overlay.classList.remove("ativo");
+    }
+
+    function toggleDropdown(tec, event) {
+      if (event) event.stopPropagation();
+      
+      const container = document.getElementById(`atividades-${tec}`);
+      const btn = document.getElementById(`btn-drop-${tec}`);
+      
+      if (container.classList.contains('visivel')) {
+        container.classList.remove('visivel');
+        btn.innerHTML = 'Expandir 🔽';
       } else {
-        overlay.classList.remove("ativo");
+        container.classList.add('visivel');
+        btn.innerHTML = 'Recolher 🔼';
       }
     }
 
-    function atualizarPreviewsIniciais() {
+    async function carregarDashboardGeral() {
       const tecnicos = ['Andre', 'Guilherme'];
-      tecnicos.forEach(tec => {
-        const preview = document.getElementById(`preview-${tec}`);
-        if (!preview) return;
+      
+      for(const tec of tecnicos) {
+        try {
+          const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(tec)}`);
+          if (!resp.ok) throw new Error();
+          const dados = await resp.json();
+          
+          let emRota = 0, concluidas = 0;
+          let logsHtml = "";
 
-        let emRota = 0, concluidas = 0;
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith(`status_${tec}_`)) {
-            const st = localStorage.getItem(key);
-            if (st === "rota") emRota++;
-            if (st === "concluido") concluidas++;
+          if (dados && dados.length > 0 && dados[0].agenda) {
+            const registro = dados[0];
+            const listaOS = parsearAgenda(registro.agenda);
+            
+            let statusSalvo = {};
+            if (registro.status) {
+              try { statusSalvo = JSON.parse(registro.status); } catch(e){}
+            }
+
+            Object.keys(statusSalvo).forEach(osId => {
+              localStorage.setItem(`status_${tec}_${osId}`, statusSalvo[osId]);
+              const itemOS = listaOS.find(o => o.id === osId);
+              if(!itemOS) return;
+
+              if(statusSalvo[osId] === 'rota') {
+                const horaLog = localStorage.getItem(`timestamp_${tec}_${osId}_rota`) || '--:--';
+                emRota++;
+                logsHtml += `
+                  <div class="log-atividade">
+                    <span class="log-badge rota">Em rota</span>
+                    <div class="log-info">
+                      <strong>${escapeHtml(itemOS.cliente)}</strong>
+                      <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
+                    </div>
+                    <div class="log-hora">⏰ ${horaLog}</div>
+                  </div>
+                `;
+              }
+              if(statusSalvo[osId] === 'concluido') {
+                const horaLog = localStorage.getItem(`timestamp_${tec}_${osId}_concluido`) || '--:--';
+                concluidas++;
+                logsHtml += `
+                  <div class="log-atividade">
+                    <span class="log-badge concluido">Concluído</span>
+                    <div class="log-info">
+                      <strong>${escapeHtml(itemOS.cliente)}</strong>
+                      <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
+                    </div>
+                    <div class="log-hora">⏰ ${horaLog}</div>
+                  </div>
+                `;
+              }
+            });
           }
-        }
 
-        let html = '';
-        if (emRota > 0) html += `<span class="preview-rota">🚗 ${emRota}</span>`;
-        if (concluidas > 0) html += `<span class="preview-concluido">✅ ${concluidas}</span>`;
-        preview.innerHTML = html || '<span style="color:#64748b">Sem atividades</span>';
-      });
+          const preview = document.getElementById(`preview-${tec}`);
+          let htmlContador = '';
+          if (emRota > 0) htmlContador += `<span class="preview-rota">🚗 ${emRota}</span>`;
+          if (concluidas > 0) htmlContador += `<span class="preview-concluido">✅ ${concluidas}</span>`;
+          preview.innerHTML = htmlContador || '<span style="color:#64748b">Sem atividades</span>';
+
+          const containerAtividades = document.getElementById(`atividades-${tec}`);
+          containerAtividades.innerHTML = logsHtml || `<div class="sem-atividade">Nenhuma rota ativa ou conclusão recente registrada.</div>`;
+
+        } catch(e) {
+          console.warn("Sem dados para " + tec);
+        }
+      }
     }
 
-    function selecionarTecnico(nome) {
+    async function selecionarTecnico(nome) {
       tecnicoAtual = nome;
-      document.getElementById("subtitulo").textContent = `Agenda de ${nome}`;
+      document.getElementById("subtitulo").textContent = `Agenda completa do Técnico: ${nome}`;
       document.getElementById("seletorTecnico").classList.add("oculto");
       document.getElementById("painelTecnico").classList.remove("oculto");
-      carregarAgendaDaApi();
-    }
-
-    function trocarTecnico() {
-      tecnicoAtual = null;
-      registroAtualId = null;
-      statusOS = {};
-      dadosOS = [];
-      document.getElementById("subtitulo").textContent = "Selecione o técnico para começar";
-      document.getElementById("seletorTecnico").classList.remove("oculto");
-      document.getElementById("painelTecnico").classList.add("oculto");
+      
       document.getElementById("cards").innerHTML = "";
       document.getElementById("entrada").value = "";
-      document.getElementById("importador").classList.remove("oculto");
-      document.getElementById("btnMostrar").style.display = "none";
-      atualizarPreviewsIniciais();
-    }
 
-    async function carregarAgendaDaApi() {
       toggleLoading(true, "Buscando agenda no servidor...");
       try {
         const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(tecnicoAtual)}`);
+        if(!resp.ok) throw new Error();
         const dados = await resp.json();
+        
         if (dados && dados.length > 0) {
           const registro = dados[0];
           registroAtualId = registro.id;
@@ -792,13 +909,35 @@
             criarCards(registro.agenda);
             document.getElementById("importador").classList.add("oculto");
             document.getElementById("btnMostrar").style.display = "block";
+          } else {
+            abrirModoVazio();
           }
+        } else {
+          abrirModoVazio();
         }
       } catch (e) {
-        mostrarToast("❌ Erro ao carregar dados.");
+        abrirModoVazio();
       } finally {
         toggleLoading(false);
       }
+    }
+
+    function abrirModoVazio() {
+      registroAtualId = null;
+      document.getElementById("importador").classList.remove("oculto");
+      document.getElementById("btnMostrar").style.display = "none";
+      document.getElementById("cards").innerHTML = `<div class="sem-atividade" style="width:100%">Nenhuma O.S. configurada para este técnico. Cole a agenda acima.</div>`;
+    }
+
+    function trocarTecnico() {
+      tecnicoAtual = null;
+      registroAtualId = null;
+      statusOS = {};
+      dadosOS = [];
+      document.getElementById("subtitulo").textContent = "Clique no painel de um técnico para abrir a sua agenda completa";
+      document.getElementById("seletorTecnico").classList.remove("oculto");
+      document.getElementById("painelTecnico").classList.add("oculto");
+      carregarDashboardGeral();
     }
 
     async function salvarAgendaNaApi(texto, mensagemSilenciosa = false) {
@@ -836,7 +975,7 @@
           registroAtualId = criado.id;
         }
       } catch (e) {
-        mostrarToast("❌ Falha ao sincronizar com servidor.");
+        mostrarToast("❌ Erro ao salvar dados na nuvem.");
       } finally {
         if(!mensagemSilenciosa) toggleLoading(false);
       }
@@ -878,14 +1017,21 @@
       )).join("\n\n");
     }
 
+    // CORREÇÃO ESSENCIAL: Evita quebrar strings e tags internas do script original
     function escapeHtml(str) {
-      return (str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      if(!str) return "";
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
     function criarCards(texto) {
       dadosOS = parsearAgenda(texto);
       const cardsContainer = document.getElementById("cards");
       cardsContainer.innerHTML = "";
+
+      if(dadosOS.length === 0) {
+        cardsContainer.innerHTML = `<div class="sem-atividade" style="width:100%">Nenhuma O.S. válida encontrada no texto.</div>`;
+        return;
+      }
 
       dadosOS.forEach((os, idx) => {
         const enderecoLimpo = (os.endereco || "").replace(/\?/g, "").replace(/\s+/g, " ").trim();
@@ -895,9 +1041,7 @@
 
         cardsContainer.innerHTML += `
           <div class="card" data-idx="${idx}" data-id="${os.id}" data-cliente="${escapeHtml(os.cliente)}" data-maps="${escapeHtml(maps)}" data-endereco="${escapeHtml(enderecoLimpo)}">
-
-            <button class="btn-editar-os" title="Editar OS" onclick="abrirModal(${idx})">✏️</button>
-
+            <button class="btn-editar-os" onclick="abrirModal(${idx})">✏️</button>
             <div class="horario">🕒 ${os.horario}</div>
             <div class="cliente">${escapeHtml(os.cliente)}</div>
             <div class="info"><strong>🔹 O.S:</strong> <span class="os-number">${os.id}</span></div>
@@ -905,12 +1049,11 @@
             <div class="info"><strong>📍 Endereço:</strong><br>${escapeHtml(enderecoLimpo)}</div>
 
             <div class="info-linha">
-              <div class="info"><strong>🔐 Login:</strong> ${loginSeguro || "&nbsp;"}</div>
+              <div class="info"><strong>🔐 Login:</strong> ${loginSeguro || " "}</div>
               <button class="btn-copiar" data-copiar="${loginSeguro}" title="Copiar login">📋</button>
             </div>
-
             <div class="info-linha">
-              <div class="info"><strong>🔑 Senha PPPoE:</strong> ${senhaSegura || "&nbsp;"}</div>
+              <div class="info"><strong>🔑 Senha PPPoE:</strong> ${senhaSegura || " "}</div>
               <button class="btn-copiar" data-copiar="${senhaSegura}" title="Copiar senha">📋</button>
             </div>
 
@@ -921,13 +1064,17 @@
               </div>
               <button class="btn-status-rota">🚗 Iniciar Rota</button>
             </div>
-
             <div class="status-box vazio">Aguardando status</div>
           </div>
         `;
       });
 
       iniciarEventos();
+    }
+
+    function obterHoraAtual() {
+      const agora = new Date();
+      return agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
 
     function iniciarEventos() {
@@ -953,10 +1100,10 @@
               if (btn.getAttribute("title").includes("senha")) {
                 statusOS[os] = "concluido";
                 localStorage.setItem(`status_${tecnicoAtual}_${os}`, "concluido");
+                localStorage.setItem(`timestamp_${tecnicoAtual}_${os}_concluido`, obterHoraAtual());
                 aplicarStatus(box, btnRota, "concluido");
                 salvarAgendaNaApi(document.getElementById("entrada").value, true);
               }
-              atualizarPreviewsIniciais();
             });
           });
         });
@@ -964,6 +1111,7 @@
         btnRota.addEventListener("click", () => {
           statusOS[os] = "rota";
           localStorage.setItem(`status_${tecnicoAtual}_${os}`, "rota");
+          localStorage.setItem(`timestamp_${tecnicoAtual}_${os}_rota`, obterHoraAtual());
           aplicarStatus(box, btnRota, "rota");
           salvarAgendaNaApi(document.getElementById("entrada").value, true);
 
@@ -972,7 +1120,6 @@
             mostrarToast("✅ Texto copiado!");
             window.open("https://t.me/c/1989058391/167773", "_blank");
           });
-          atualizarPreviewsIniciais();
         });
 
         const statusSalvo = localStorage.getItem(`status_${tecnicoAtual}_${os}`);
@@ -1002,14 +1149,11 @@
       document.getElementById("edit-horario").value  = os.horario  || "";
       document.getElementById("edit-cliente").value  = os.cliente  || "";
       document.getElementById("edit-assunto").value  = os.assunto  || "";
-      document.getElementById("edit-endereco").value = (os.endereco || "").replace(/\?/g, "").replace(/\s+/g, " ").trim();
+      document.getElementById("edit-endereco").value = os.endereco || "";
       document.getElementById("edit-login").value    = os.login     || "";
       document.getElementById("edit-senha").value    = os.senha     || "";
 
-      const statusSalvo = localStorage.getItem(`status_${tecnicoAtual}_${os.id}`) || "";
-      document.getElementById("edit-status").value = statusSalvo;
-
-      document.getElementById("btnSalvarModal").disabled = false;
+      document.getElementById("edit-status").value = localStorage.getItem(`status_${tecnicoAtual}_${os.id}`) || "";
       document.getElementById("modalOverlay").classList.add("aberto");
     }
 
@@ -1025,12 +1169,7 @@
     async function salvarEdicaoOS() {
       if (osEditandoIndex === null) return;
 
-      const btn = document.getElementById("btnSalvarModal");
-      btn.disabled = true;
-      btn.textContent = "⏳ Salvando...";
-
       const os = dadosOS[osEditandoIndex];
-
       os.horario  = document.getElementById("edit-horario").value.trim();
       os.cliente  = document.getElementById("edit-cliente").value.trim();
       os.assunto  = document.getElementById("edit-assunto").value.trim();
@@ -1039,25 +1178,20 @@
       os.senha    = document.getElementById("edit-senha").value.trim();
 
       const novoStatus = document.getElementById("edit-status").value;
-
       if (novoStatus) {
         localStorage.setItem(`status_${tecnicoAtual}_${os.id}`, novoStatus);
-        statusOS[os.id] = novoStatus;
+        localStorage.setItem(`timestamp_${tecnicoAtual}_${os.id}_${novoStatus}`, obterHoraAtual());
       } else {
         localStorage.removeItem(`status_${tecnicoAtual}_${os.id}`);
-        delete statusOS[os.id];
       }
 
       const novoTexto = serializarAgenda(dadosOS);
       document.getElementById("entrada").value = novoTexto;
       
       fecharModal();
-      
       await salvarAgendaNaApi(novoTexto);
-
       criarCards(novoTexto);
-      mostrarToast("💾 OS atualizada com sucesso!");
-      atualizarPreviewsIniciais();
+      mostrarToast("💾 OS Atualizada!");
     }
 
     function mostrarToast(msg) {
@@ -1072,7 +1206,7 @@
       document.getElementById("btnMostrar").style.display = "none";
     }
 
-    window.onload = atualizarPreviewsIniciais;
+    window.onload = carregarDashboardGeral;
   </script>
 </body>
 </html>
