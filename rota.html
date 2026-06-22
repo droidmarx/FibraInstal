@@ -26,7 +26,7 @@
     }
 
     .topo {
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       text-align: center;
     }
 
@@ -44,6 +44,117 @@
       margin-top: 4px;
     }
 
+    /* Botão de Configuração Principal */
+    .btn-config {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 12px auto 0;
+      display: block;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-config:hover {
+      background: rgba(34, 211, 238, 0.1);
+      border-color: rgba(34, 211, 238, 0.3);
+      color: white;
+      transform: scale(1.03);
+    }
+
+    /* Lista dentro do Modal de Técnicos */
+    .form-add-tecnico {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .input-add {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 14.5px;
+      color: white;
+      outline: none;
+      flex: 1;
+      transition: all 0.2s;
+    }
+
+    .input-add:focus {
+      border-color: rgba(34, 211, 238, 0.45);
+      background: rgba(34, 211, 238, 0.05);
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, #22d3ee, #3b82f6);
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 12px 20px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-add:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+    }
+
+    .lista-gerenciar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .item-gerenciar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      color: #cbd5e1;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      animation: fadeInItem 0.25s ease-out forwards;
+    }
+
+    @keyframes fadeInItem {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-deletar-tec {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #f87171;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-deletar-tec:hover {
+      background: #ef4444;
+      color: white;
+      border-color: #ef4444;
+    }
+
+    /* Estrutura de Layout e Cards */
     .seletor-tecnico {
       display: flex;
       flex-direction: column;
@@ -73,6 +184,7 @@
     .card-monitor:hover {
       border-color: rgba(34, 211, 238, 0.3);
       background: rgba(255, 255, 255, 0.07);
+      transform: translateY(-2px);
     }
 
     .monitor-header {
@@ -142,16 +254,15 @@
       display: none;
       flex-direction: column;
       gap: 10px;
-      animation: deslizarAbaixo 0.25s ease-out;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .monitor-atividades.visivel {
       display: flex;
-    }
-
-    @keyframes deslizarAbaixo {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .log-atividade {
@@ -461,20 +572,24 @@
       font-style: italic;
     }
 
+    /* Sistema Unificado de Overlays e Modais Inteligentes */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 100;
-      background: rgba(2, 6, 23, 0.85);
-      backdrop-filter: blur(10px);
+      background: rgba(2, 6, 23, 0);
+      backdrop-filter: blur(0px);
       align-items: center;
       justify-content: center;
       padding: 20px;
+      transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
     }
 
     .modal-overlay.aberto {
       display: flex;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(10px);
     }
 
     .modal {
@@ -488,6 +603,14 @@
       overflow-y: auto;
       position: relative;
       box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+      opacity: 0;
+      transform: scale(0.9) translateY(15px);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+    }
+
+    .modal-overlay.aberto .modal {
+      opacity: 1;
+      transform: scale(1) translateY(0);
     }
 
     .modal-titulo {
@@ -729,34 +852,29 @@
   <div class="topo">
     <h1>📡 Monitoramento Técnico em Tempo Real</h1>
     <p id="subtitulo">Clique no painel de um técnico para abrir a sua agenda completa</p>
+    <button class="btn-config" onclick="abrirModalConfig()">⚙️ Gerenciar Técnicos</button>
+  </div>
+
+  <!-- NOVO MODAL DE GERENCIAMENTO DE TÉCNICOS -->
+  <div class="modal-overlay" id="modalConfigOverlay">
+    <div class="modal">
+      <button class="modal-fechar" onclick="fecharModalConfig()">✕</button>
+      <div class="modal-titulo">⚙️ Gerenciar Técnicos</div>
+      
+      <div class="modal-secao">Cadastrar Novo Técnico</div>
+      <div class="form-add-tecnico">
+        <input type="text" class="input-add" id="nomeNovoTecnico" placeholder="Nome do técnico..." />
+        <button class="btn-add" onclick="adicionarTecnico()">➕ Adicionar</button>
+      </div>
+      
+      <div class="modal-divider"></div>
+      <div class="modal-secao">Técnicos Ativos no Sistema</div>
+      <div class="lista-gerenciar" id="listaGerenciarTecnicos"></div>
+    </div>
   </div>
 
   <div class="seletor-tecnico" id="seletorTecnico">
-    <div class="card-monitor" id="card-monitor-Andre">
-      <div class="monitor-header">
-        <div class="monitor-info-esquerda" onclick="selecionarTecnico('Andre')">
-          <div class="monitor-nome">👤 Andre</div>
-          <div class="status-preview" id="preview-Andre"></div>
-        </div>
-        <button class="btn-dropdown" id="btn-drop-Andre" onclick="toggleDropdown('Andre', event)">Expandir 🔽</button>
-      </div>
-      <div class="monitor-atividades" id="atividades-Andre">
-         <div class="sem-atividade">Nenhuma rota ativa no momento.</div>
-      </div>
-    </div>
-
-    <div class="card-monitor" id="card-monitor-Guilherme">
-      <div class="monitor-header">
-        <div class="monitor-info-esquerda" onclick="selecionarTecnico('Guilherme')">
-          <div class="monitor-nome">👤 Guilherme</div>
-          <div class="status-preview" id="preview-Guilherme"></div>
-        </div>
-        <button class="btn-dropdown" id="btn-drop-Guilherme" onclick="toggleDropdown('Guilherme', event)">Expandir 🔽</button>
-      </div>
-      <div class="monitor-atividades" id="atividades-Guilherme">
-         <div class="sem-atividade">Nenhuma rota ativa no momento.</div>
-      </div>
-    </div>
+    <!-- Os cards de monitoramento são renderizados dinamicamente via JS -->
   </div>
 
   <div class="painel-tecnico oculto" id="painelTecnico">
@@ -774,6 +892,7 @@
     <div class="cards" id="cards"></div>
   </div>
 
+  <!-- MODAL DE EDIÇÃO DE ORDEM DE SERVIÇO -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="modal-fechar" onclick="fecharModal()">✕</button>
@@ -822,18 +941,43 @@
   <script>
     const API_URL = "https://68f458d8b16eb6f46834542c.mockapi.io/Rexord/Galeria";
 
+    let listaTecnicos = ['Andre', 'Guilherme'];
     let tecnicoAtual = null;
     let registroAtualId = null;
     let statusOS = {};
     let dadosOS = [];
     let osEditandoIndex = null;
 
+    if(localStorage.getItem('lista_tecnicos_smart')) {
+      try {
+        listaTecnicos = JSON.parse(localStorage.getItem('lista_tecnicos_smart'));
+      } catch(e){}
+    }
+
     function toggleLoading(exibir, mensagem = "Sincronizando...") {
       const overlay = document.getElementById("loadingOverlay");
-      document.getElementById("loadingTexto").textContent = message = mensagem;
+      document.getElementById("loadingTexto").textContent = mensagem;
       if (exibir) overlay.classList.add("ativo");
       else overlay.classList.remove("ativo");
     }
+
+    /* Gerenciamento do Modal de Técnicos com Animação Fluida */
+    function abrirModalConfig() {
+      const overlay = document.getElementById("modalConfigOverlay");
+      overlay.style.display = "flex";
+      setTimeout(() => overlay.classList.add("aberto"), 10);
+      renderizarListaGerenciar();
+    }
+
+    function fecharModalConfig() {
+      const overlay = document.getElementById("modalConfigOverlay");
+      overlay.classList.remove("aberto");
+      setTimeout(() => overlay.style.display = "none", 300);
+    }
+
+    document.getElementById("modalConfigOverlay").addEventListener("click", function(e) {
+      if (e.target === this) fecharModalConfig();
+    });
 
     function toggleDropdown(tec, event) {
       if (event) event.stopPropagation();
@@ -843,17 +987,108 @@
       
       if (container.classList.contains('visivel')) {
         container.classList.remove('visivel');
+        setTimeout(() => container.style.display = 'none', 250);
         btn.innerHTML = 'Expandir 🔽';
       } else {
-        container.classList.add('visivel');
+        container.style.display = 'flex';
+        setTimeout(() => container.classList.add('visivel'), 10);
         btn.innerHTML = 'Recolher 🔼';
       }
     }
 
-    async function carregarDashboardGeral() {
-      const tecnicos = ['Andre', 'Guilherme'];
+    function renderizarListaGerenciar() {
+      const container = document.getElementById("listaGerenciarTecnicos");
+      container.innerHTML = "";
+      listaTecnicos.forEach(tec => {
+        container.innerHTML += `
+          <div class="item-gerenciar">
+            <span>👤 ${tec}</span>
+            <button class="btn-deletar-tec" onclick="removerTecnico('${tec}')">Excluir</button>
+          </div>
+        `;
+      });
+    }
+
+    function adicionarTecnico() {
+      const input = document.getElementById("nomeNovoTecnico");
+      const nome = input.value.trim().replace(/[^a-zA-Z0-9 ]/g, "");
+      if(!nome) return;
+
+      if(listaTecnicos.includes(nome)) {
+        alert("Este técnico já existe!");
+        return;
+      }
+
+      listaTecnicos.push(nome);
+      localStorage.setItem('lista_tecnicos_smart', JSON.stringify(listaTecnicos));
+      input.value = "";
+      renderizarListaGerenciar();
+      renderizarCardsMonitoramento();
+      carregarDashboardGeral();
+      mostrarToast("👤 Técnico adicionado!");
+    }
+
+    async function removerTecnico(nome) {
+      const senha = prompt(`Digite a senha mestre para excluir o técnico ${nome}:`);
+      if (senha !== "mikeadmin") {
+        alert("Senha incorreta! Operação cancelada.");
+        return;
+      }
+
+      fecharModalConfig();
+      toggleLoading(true, `Excluindo ${nome} do servidor...`);
+      try {
+        const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(nome)}`);
+        if(resp.ok) {
+          const dados = await resp.json();
+          if(dados && dados.length > 0) {
+            await fetch(`${API_URL}/${dados[0].id}`, { method: "DELETE" });
+          }
+        }
+      } catch(e) {
+        console.warn("Erro ao deletar do servidor, limpando apenas localmente.", e);
+      }
+
+      listaTecnicos = listaTecnicos.filter(t => t !== nome);
+      localStorage.setItem('lista_tecnicos_smart', JSON.stringify(listaTecnicos));
       
-      for(const tec of tecnicos) {
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const key = localStorage.key(i);
+        if(key && (key.includes(`_${nome}_`))) {
+          localStorage.removeItem(key);
+        }
+      }
+
+      renderizarCardsMonitoramento();
+      await carregarDashboardGeral();
+      toggleLoading(false);
+      abrirModalConfig(); // reabre o modal de config atualizado
+      mostrarToast("❌ Técnico removido!");
+    }
+
+    function renderizarCardsMonitoramento() {
+      const container = document.getElementById("seletorTecnico");
+      container.innerHTML = "";
+      listaTecnicos.forEach(tec => {
+        container.innerHTML += `
+          <div class="card-monitor" id="card-monitor-${tec}">
+            <div class="monitor-header">
+              <div class="monitor-info-esquerda" onclick="selecionarTecnico('${tec}')">
+                <div class="monitor-nome">👤 ${tec}</div>
+                <div class="status-preview" id="preview-${tec}"></div>
+              </div>
+              <button class="btn-dropdown" id="btn-drop-${tec}" onclick="toggleDropdown('${tec}', event)">Expandir 🔽</button>
+            </div>
+            <div class="monitor-atividades" id="atividades-${tec}">
+               <div class="sem-atividade">Nenhuma rota ativa no momento.</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    async function carregarDashboardGeral() {
+      for(const tec of listaTecnicos) {
         try {
           const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(tec)}`);
           if (!resp.ok) throw new Error();
@@ -871,7 +1106,6 @@
               try { statusSalvo = JSON.parse(registro.status); } catch(e){}
             }
 
-            // Sincroniza do mock pro localStorage
             Object.keys(statusSalvo).forEach(osId => {
               if (typeof statusSalvo[osId] === 'object') {
                 localStorage.setItem(`status_${tec}_${osId}`, statusSalvo[osId].status || "");
@@ -943,18 +1177,22 @@
           }
 
           const preview = document.getElementById(`preview-${tec}`);
-          let htmlContador = '';
-          if (emRota > 0) htmlContador += `<span class="preview-rota">🚗 ${emRota}</span>`;
-          if (concluidas > 0) htmlContador += `<span class="preview-concluido">✅ ${concluidas}</span>`;
-          if (naoConcluidas > 0) htmlContador += `<span class="preview-nao-concluido">❌ ${naoConcluidas}</span>`;
-          if (aguardando > 0) htmlContador += `<span class="preview-aguardando">⏳ ${aguardando}</span>`;
-          preview.innerHTML = htmlContador || '<span style="color:#64748b">Sem atividades</span>';
+          if(preview) {
+            let htmlContador = '';
+            if (emRota > 0) htmlContador += `<span class="preview-rota">🚗 ${emRota}</span>`;
+            if (concluidas > 0) htmlContador += `<span class="preview-concluido">✅ ${concluidas}</span>`;
+            if (naoConcluidas > 0) htmlContador += `<span class="preview-nao-concluido">❌ ${naoConcluidas}</span>`;
+            if (aguardando > 0) htmlContador += `<span class="preview-aguardando">⏳ ${aguardando}</span>`;
+            preview.innerHTML = htmlContador || '<span style="color:#64748b">Sem atividades</span>';
+          }
 
           const containerAtividades = document.getElementById(`atividades-${tec}`);
-          containerAtividades.innerHTML = logsHtml || `<div class="sem-atividade">Nenhuma O.S. configurada no sistema.</div>`;
+          if(containerAtividades) {
+            containerAtividades.innerHTML = logsHtml || `<div class="sem-atividade">Nenhuma O.S. configurada no sistema.</div>`;
+          }
 
         } catch(e) {
-          console.warn("Sem dados para " + tec, e);
+          console.warn("Sem dados ou erro para " + tec, e);
         }
       }
     }
@@ -1033,7 +1271,6 @@
       if(!mensagemSilenciosa) toggleLoading(true, "Salvando alterações...");
       
       const statusParaSalvar = {};
-      // Varre as chaves guardadas localmente para criar o mapa completo estruturado
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key && key.startsWith(`status_${tecnicoAtual}_`)) {
@@ -1172,7 +1409,7 @@
       iniciarEventos();
     }
 
-    function obterHoraAtual() {
+    function obtenerHoraAtual() {
       const agora = new Date();
       return agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
@@ -1200,7 +1437,7 @@
               if (btn.getAttribute("title").includes("senha")) {
                 statusOS[os] = "concluido";
                 localStorage.setItem(`status_${tecnicoAtual}_${os}`, "concluido");
-                localStorage.setItem(`timestamp_${tecnicoAtual}_${os}_concluido`, obterHoraAtual());
+                localStorage.setItem(`timestamp_${tecnicoAtual}_${os}_concluido`, obtenerHoraAtual());
                 aplicarStatus(box, btnRota, "concluido");
                 salvarAgendaNaApi(document.getElementById("entrada").value, true);
               }
@@ -1211,7 +1448,7 @@
         btnRota.addEventListener("click", () => {
           statusOS[os] = "rota";
           localStorage.setItem(`status_${tecnicoAtual}_${os}`, "rota");
-          localStorage.setItem(`timestamp_${tecnicoAtual}_${os}_rota`, obterHoraAtual());
+          localStorage.setItem(`timestamp_${tecnicoAtual}_${os}_rota`, obtenerHoraAtual());
           aplicarStatus(box, btnRota, "rota");
           salvarAgendaNaApi(document.getElementById("entrada").value, true);
 
@@ -1250,15 +1487,14 @@
     }
 
     function forcarNaoExecutada(idx) {
-      // Abre o modal diretamente configurando o status para "Não concluído"
       abrirModal(idx);
       document.getElementById("edit-status").value = "nao-concluido";
-      // Dá foco direto para o técnico escrever a observação imediatamente
       setTimeout(() => {
         document.getElementById("edit-observacao").focus();
       }, 150);
     }
 
+    /* Modal de Edição de OS com Animação Fluida */
     function abrirModal(idx) {
       osEditandoIndex = idx;
       const os = dadosOS[idx];
@@ -1271,14 +1507,20 @@
       document.getElementById("edit-senha").value    = os.senha     || "";
       
       document.getElementById("edit-observacao").value = localStorage.getItem(`obs_${tecnicoAtual}_${os.id}`) || "";
-
       document.getElementById("edit-status").value = localStorage.getItem(`status_${tecnicoAtual}_${os.id}`) || "";
-      document.getElementById("modalOverlay").classList.add("aberto");
+      
+      const overlay = document.getElementById("modalOverlay");
+      overlay.style.display = "flex";
+      setTimeout(() => overlay.classList.add("aberto"), 10);
     }
 
     function fecharModal() {
-      document.getElementById("modalOverlay").classList.remove("aberto");
-      osEditandoIndex = null;
+      const overlay = document.getElementById("modalOverlay");
+      overlay.classList.remove("aberto");
+      setTimeout(() => {
+        overlay.style.display = "none";
+        osEditandoIndex = null;
+      }, 300);
     }
 
     document.getElementById("modalOverlay").addEventListener("click", function(e) {
@@ -1315,7 +1557,6 @@
       document.getElementById("entrada").value = novoTexto;
       
       fecharModal();
-      // O salvamento agora envia a estrutura completa contendo as observações para a API
       await salvarAgendaNaApi(novoTexto);
       criarCards(novoTexto);
       mostrarToast("💾 OS Atualizada e Sincronizada!");
@@ -1333,7 +1574,10 @@
       document.getElementById("btnMostrar").style.display = "none";
     }
 
-    window.onload = carregarDashboardGeral;
+    window.onload = function() {
+      renderizarCardsMonitoramento();
+      carregarDashboardGeral();
+    };
   </script>
 </body>
 </html>
