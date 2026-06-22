@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -44,7 +44,6 @@
       margin-top: 4px;
     }
 
-    /* Botão de Configuração Principal */
     .btn-config {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -66,7 +65,6 @@
       transform: scale(1.03);
     }
 
-    /* Lista dentro do Modal de Técnicos */
     .form-add-tecnico {
       display: flex;
       gap: 10px;
@@ -128,12 +126,6 @@
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.03);
-      animation: fadeInItem 0.25s ease-out forwards;
-    }
-
-    @keyframes fadeInItem {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .btn-deletar-tec {
@@ -154,12 +146,11 @@
       border-color: #ef4444;
     }
 
-    /* Estrutura de Layout e Cards */
     .seletor-tecnico {
       display: flex;
       flex-direction: column;
       gap: 20px;
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto 32px;
     }
 
@@ -168,8 +159,8 @@
     }
 
     .card-monitor {
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(20px);
       border-radius: 28px;
       padding: 24px;
@@ -182,31 +173,28 @@
     }
 
     .card-monitor:hover {
-      border-color: rgba(34, 211, 238, 0.3);
-      background: rgba(255, 255, 255, 0.07);
-      transform: translateY(-2px);
+      border-color: rgba(34, 211, 238, 0.25);
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .monitor-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 12px;
     }
 
     .monitor-info-esquerda {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       cursor: pointer;
       flex: 1;
     }
 
     .monitor-nome {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
-      color: #e2e8f0;
+      color: #f8fafc;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -219,44 +207,44 @@
     }
 
     .status-preview span {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
-      padding: 4px 10px;
+      padding: 5px 11px;
       border-radius: 999px;
     }
 
-    .preview-rota { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
-    .preview-concluido { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
-    .preview-nao-concluido { background: rgba(244, 63, 94, 0.2); color: #f87171; border: 1px solid rgba(244, 63, 94, 0.3); }
-    .preview-aguardando { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25); }
+    .preview-rota { background: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.25); }
+    .preview-concluido { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
+    .preview-nao-concluido { background: rgba(244, 63, 94, 0.15); color: #f87171; border: 1px solid rgba(244, 63, 94, 0.25); }
+    .preview-aguardando { background: rgba(148, 163, 184, 0.12); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
 
     .btn-dropdown {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       color: #94a3b8;
       font-size: 14px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 12px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 14px;
       cursor: pointer;
       transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .btn-dropdown:hover {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.1);
       color: white;
     }
 
     .monitor-atividades {
       display: none;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       opacity: 0;
       transform: translateY(-8px);
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-top: 10px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .monitor-atividades.visivel {
@@ -267,55 +255,78 @@
 
     .log-atividade {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 12px 16px;
-      border-radius: 16px;
-      font-size: 14px;
+      align-items: center;
+      gap: 18px;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 16px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
     .log-badge {
-      font-weight: 700;
-      font-size: 11px;
+      font-weight: 800;
+      font-size: 12px;
       text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 6px;
+      letter-spacing: 0.05em;
+      padding: 6px 14px;
+      border-radius: 12px;
       white-space: nowrap;
-      margin-top: 2px;
+      text-align: center;
+      min-width: 120px;
     }
 
-    .log-badge.rota { background: #eab308; color: #020617; }
-    .log-badge.concluido { background: #22c55e; color: #020617; }
-    .log-badge.nao-concluido { background: #ef4444; color: #ffffff; }
-    .log-badge.aguardando { background: #64748b; color: #f8fafc; }
+    .log-badge.rota { background: rgba(234, 179, 8, 0.12); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.25); }
+    .log-badge.concluido { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
+    .log-badge.nao-concluido { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.25); }
+    .log-badge.aguardando { background: rgba(148, 163, 184, 0.08); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.18); }
 
     .log-info {
       flex: 1;
-      color: #cbd5e1;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
-    .log-info strong { color: white; }
-    .log-info .tipo-servico { color: #a5b4fc; font-size: 13px; display: block; margin-top: 2px; }
-    .log-info .obs-texto { color: #f87171; font-size: 12.5px; display: block; margin-top: 4px; font-style: italic; background: rgba(244, 63, 94, 0.08); padding: 6px 10px; border-radius: 8px; border-left: 3px solid #ef4444; }
+    .log-info strong { 
+      color: #f1f5f9; 
+      font-size: 18px; 
+      font-weight: 700;
+      display: block;
+    }
+    
+    .log-info .tipo-servico { 
+      color: #94a3b8; 
+      font-size: 14.5px; 
+      display: block; 
+      margin-top: 2px; 
+    }
+    
+    .log-info .obs-texto { 
+      color: #f87171; 
+      font-size: 13.5px; 
+      display: block; 
+      margin-top: 6px; 
+      font-style: italic; 
+      background: rgba(244, 63, 94, 0.06); 
+      padding: 8px 12px; 
+      border-radius: 10px; 
+      border-left: 3px solid #ef4444; 
+    }
 
     .log-hora {
-      font-size: 12px;
-      color: #64748b;
+      font-size: 14px;
+      color: #cbd5e1;
       font-weight: 700;
-      background: rgba(255,255,255,0.05);
-      padding: 4px 8px;
-      border-radius: 8px;
-      align-self: center;
+      background: rgba(255,255,255,0.06);
+      padding: 6px 12px;
+      border-radius: 10px;
+      white-space: nowrap;
     }
 
     .sem-atividade {
       color: #64748b;
-      font-size: 14px;
+      font-size: 15px;
       font-style: italic;
       text-align: center;
-      padding: 8px 0;
+      padding: 12px 0;
     }
 
     .painel-tecnico.oculto { display: none !important; }
@@ -572,7 +583,7 @@
       font-style: italic;
     }
 
-    /* Sistema Unificado de Overlays e Modais Inteligentes */
+    /* Modais Estrutura Geral */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -613,6 +624,32 @@
       transform: scale(1) translateY(0);
     }
 
+    /* Animação do Modal Chacoalhando (Shake) */
+    .modal.shake {
+      animation: chacoalhar 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes chacoalhar {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+      40%, 60% { transform: translate3d(6px, 0, 0); }
+    }
+
+    /* Modal de Senha específico */
+    .modal-senha {
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .erro-senha {
+      color: #f87171;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 10px;
+      display: none;
+    }
+
     .modal-titulo {
       font-size: 20px;
       font-weight: 800;
@@ -637,7 +674,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
     }
 
     .modal-fechar:hover {
@@ -653,12 +689,10 @@
       margin-bottom: 16px;
     }
 
-    .campo-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+    /* Wrapper para o Input com o Olho */
+    .senha-input-wrapper {
+      position: relative;
+      width: 100%;
     }
 
     .campo-input {
@@ -669,13 +703,35 @@
       font-size: 15px;
       color: white;
       outline: none;
-      transition: border-color 0.2s;
       width: 100%;
     }
 
     .campo-input:focus {
       border-color: rgba(34, 211, 238, 0.45);
       background: rgba(34, 211, 238, 0.05);
+    }
+
+    /* Estilo do Botão do Olho */
+    .btn-toggle-senha {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 6px;
+      transition: color 0.2s, background-color 0.2s;
+    }
+
+    .btn-toggle-senha:hover {
+      color: #22d3ee;
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .campo-textarea-modal {
@@ -691,11 +747,6 @@
       resize: vertical;
     }
 
-    .campo-textarea-modal:focus {
-      border-color: rgba(244, 63, 94, 0.45);
-      background: rgba(244, 63, 94, 0.05);
-    }
-
     .campo-select {
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.1);
@@ -706,7 +757,6 @@
       outline: none;
       width: 100%;
       cursor: pointer;
-      transition: border-color 0.2s;
       appearance: none;
     }
 
@@ -830,19 +880,12 @@
       color: #e2e8f0;
     }
 
-    @keyframes rodar {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes pulsar {
-      0%, 100% { transform: scale(0.9); opacity: 0.4; }
-      50% { transform: scale(1.3); opacity: 0.9; }
-    }
-
     @media(max-width: 640px) {
       .card { min-width: 92vw; max-width: 92vw; }
       .modal { padding: 26px 20px; }
+      .log-atividade { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .log-badge { min-width: auto; width: 100%; }
+      .log-hora { align-self: flex-end; }
     }
   </style>
 </head>
@@ -852,10 +895,29 @@
   <div class="topo">
     <h1>📡 Monitoramento Técnico em Tempo Real</h1>
     <p id="subtitulo">Clique no painel de um técnico para abrir a sua agenda completa</p>
-    <button class="btn-config" onclick="abrirModalConfig()">⚙️ Gerenciar Técnicos</button>
+    <button class="btn-config" onclick="abrirModalSenha()">⚙️ Gerenciar Técnicos</button>
   </div>
 
-  <!-- NOVO MODAL DE GERENCIAMENTO DE TÉCNICOS -->
+  <div class="modal-overlay" id="modalSenhaOverlay">
+    <div class="modal modal-senha" id="cardModalSenha">
+      <button class="modal-fechar" onclick="fecharModalSenha()">✕</button>
+      <div class="modal-titulo">🔑 Área Restrita</div>
+      <div class="modal-secao" style="margin-bottom: 20px;">Digite a senha master para continuar</div>
+      
+      <div class="campo-grupo">
+        <div class="senha-input-wrapper">
+          <input type="password" class="campo-input" id="inputSenhaMaster" placeholder="Digite a senha..." style="text-align: center; font-size: 18px; letter-spacing: 0.15em; padding-right: 48px;" onkeydown="verificarTeclaSenha(event)" />
+          <button class="btn-toggle-senha" onclick="toggleVisibilidadeSenha()" id="btnToggleSenha" title="Mostrar senha">
+            <svg id="svgOlho" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>
+          </button>
+        </div>
+        <div class="erro-senha" id="erroSenhaMsg">⚠️ Senha incorreta! Tente novamente.</div>
+      </div>
+      
+      <button class="btn-salvar-modal" onclick="validarSenhaMaster()">Confirmar Acesso</button>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="modalConfigOverlay">
     <div class="modal">
       <button class="modal-fechar" onclick="fecharModalConfig()">✕</button>
@@ -873,9 +935,7 @@
     </div>
   </div>
 
-  <div class="seletor-tecnico" id="seletorTecnico">
-    <!-- Os cards de monitoramento são renderizados dinamicamente via JS -->
-  </div>
+  <div class="seletor-tecnico" id="seletorTecnico"></div>
 
   <div class="painel-tecnico oculto" id="painelTecnico">
     <button class="btn-trocar" onclick="trocarTecnico()">↩️ Voltar ao Painel Geral</button>
@@ -892,7 +952,6 @@
     <div class="cards" id="cards"></div>
   </div>
 
-  <!-- MODAL DE EDIÇÃO DE ORDEM DE SERVIÇO -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="modal-fechar" onclick="fecharModal()">✕</button>
@@ -941,7 +1000,7 @@
   <script>
     const API_URL = "https://68f458d8b16eb6f46834542c.mockapi.io/Rexord/Galeria";
 
-    let listaTecnicos = ['Andre', 'Guilherme'];
+    let listaTecnicos = [];
     let tecnicoAtual = null;
     let registroAtualId = null;
     let statusOS = {};
@@ -951,7 +1010,7 @@
     if(localStorage.getItem('lista_tecnicos_smart')) {
       try {
         listaTecnicos = JSON.parse(localStorage.getItem('lista_tecnicos_smart'));
-      } catch(e){}
+      } catch(e){ listaTecnicos = []; }
     }
 
     function toggleLoading(exibir, mensagem = "Sincronizando...") {
@@ -961,7 +1020,74 @@
       else overlay.classList.remove("ativo");
     }
 
-    /* Gerenciamento do Modal de Técnicos com Animação Fluida */
+    function toggleVisibilidadeSenha() {
+      const input = document.getElementById("inputSenhaMaster");
+      const btn = document.getElementById("btnToggleSenha");
+      const svgContainer = document.getElementById("svgOlho");
+
+      if (input.type === "password") {
+        input.type = "text";
+        btn.title = "Ocultar senha";
+        svgContainer.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
+      } else {
+        input.type = "password";
+        btn.title = "Mostrar senha";
+        svgContainer.innerHTML = `<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line>`;
+      }
+    }
+
+    function abrirModalSenha() {
+      const overlay = document.getElementById("modalSenhaOverlay");
+      const modal = document.getElementById("cardModalSenha");
+      const input = document.getElementById("inputSenhaMaster");
+
+      document.getElementById("erroSenhaMsg").style.display = "none";
+      input.value = "";
+      input.type = "password";
+      
+      document.getElementById("svgOlho").innerHTML = `<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line>`;
+      
+      modal.classList.remove("shake");
+      overlay.style.display = "flex";
+      setTimeout(() => {
+        overlay.classList.add("aberto");
+        input.focus();
+      }, 10);
+    }
+
+    function fecharModalSenha() {
+      const overlay = document.getElementById("modalSenhaOverlay");
+      overlay.classList.remove("aberto");
+      setTimeout(() => overlay.style.display = "none", 300);
+    }
+
+    function verificarTeclaSenha(e) {
+      if (e.key === "Enter") validarSenhaMaster();
+    }
+
+    // Função de validação ajustada para limpar o campo pós-shake
+    function validarSenhaMaster() {
+      const input = document.getElementById("inputSenhaMaster");
+      const modal = document.getElementById("cardModalSenha");
+
+      if (input.value === "mikeadmin") {
+        fecharModalSenha();
+        abrirModalConfig();
+      } else {
+        modal.classList.remove("shake");
+        void modal.offsetWidth; // Reset de animação nativo do browser
+        modal.classList.add("shake");
+
+        document.getElementById("erroSenhaMsg").style.display = "block";
+        
+        // Limpa o campo e foca novamente logo após os 400ms do chacoalhar
+        setTimeout(() => {
+          input.value = "";
+          input.focus();
+        }, 400);
+      }
+    }
+
     function abrirModalConfig() {
       const overlay = document.getElementById("modalConfigOverlay");
       overlay.style.display = "flex";
@@ -978,13 +1104,15 @@
     document.getElementById("modalConfigOverlay").addEventListener("click", function(e) {
       if (e.target === this) fecharModalConfig();
     });
+    
+    document.getElementById("modalSenhaOverlay").addEventListener("click", function(e) {
+      if (e.target === this) fecharModalSenha();
+    });
 
     function toggleDropdown(tec, event) {
       if (event) event.stopPropagation();
-      
       const container = document.getElementById(`atividades-${tec}`);
       const btn = document.getElementById(`btn-drop-${tec}`);
-      
       if (container.classList.contains('visivel')) {
         container.classList.remove('visivel');
         setTimeout(() => container.style.display = 'none', 250);
@@ -999,6 +1127,10 @@
     function renderizarListaGerenciar() {
       const container = document.getElementById("listaGerenciarTecnicos");
       container.innerHTML = "";
+      if(!listaTecnicos || listaTecnicos.length === 0) {
+        container.innerHTML = `<div class="sem-atividade">Nenhum técnico cadastrado.</div>`;
+        return;
+      }
       listaTecnicos.forEach(tec => {
         container.innerHTML += `
           <div class="item-gerenciar">
@@ -1009,7 +1141,7 @@
       });
     }
 
-    function adicionarTecnico() {
+    async function adicionarTecnico() {
       const input = document.getElementById("nomeNovoTecnico");
       const nome = input.value.trim().replace(/[^a-zA-Z0-9 ]/g, "");
       if(!nome) return;
@@ -1019,24 +1151,35 @@
         return;
       }
 
-      listaTecnicos.push(nome);
-      localStorage.setItem('lista_tecnicos_smart', JSON.stringify(listaTecnicos));
-      input.value = "";
-      renderizarListaGerenciar();
-      renderizarCardsMonitoramento();
-      carregarDashboardGeral();
-      mostrarToast("👤 Técnico adicionado!");
+      fecharModalConfig();
+      toggleLoading(true, `Salvando técnico ${nome}...`);
+
+      try {
+        const payload = { tecnico: nome, agenda: "", status: JSON.stringify({}) };
+        await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        listaTecnicos.push(nome);
+        localStorage.setItem('lista_tecnicos_smart', JSON.stringify(listaTecnicos));
+        input.value = "";
+        
+        renderizarCardsMonitoramento();
+        await carregarDashboardGeral();
+        mostrarToast("👤 Técnico adicionado!");
+      } catch (e) {
+        alert("Erro ao salvar técnico no servidor remoto.");
+      } finally {
+        toggleLoading(false);
+        abrirModalConfig();
+      }
     }
 
     async function removerTecnico(nome) {
-      const senha = prompt(`Digite a senha mestre para excluir o técnico ${nome}:`);
-      if (senha !== "mikeadmin") {
-        alert("Senha incorreta! Operação cancelada.");
-        return;
-      }
-
       fecharModalConfig();
-      toggleLoading(true, `Excluindo ${nome} do servidor...`);
+      toggleLoading(true, `Excluindo ${nome}...`);
       try {
         const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(nome)}`);
         if(resp.ok) {
@@ -1045,30 +1188,25 @@
             await fetch(`${API_URL}/${dados[0].id}`, { method: "DELETE" });
           }
         }
-      } catch(e) {
-        console.warn("Erro ao deletar do servidor, limpando apenas localmente.", e);
-      }
+      } catch(e) { console.warn(e); }
 
       listaTecnicos = listaTecnicos.filter(t => t !== nome);
       localStorage.setItem('lista_tecnicos_smart', JSON.stringify(listaTecnicos));
-      
-      for (let i = localStorage.length - 1; i >= 0; i--) {
-        const key = localStorage.key(i);
-        if(key && (key.includes(`_${nome}_`))) {
-          localStorage.removeItem(key);
-        }
-      }
 
       renderizarCardsMonitoramento();
       await carregarDashboardGeral();
       toggleLoading(false);
-      abrirModalConfig(); // reabre o modal de config atualizado
+      abrirModalConfig();
       mostrarToast("❌ Técnico removido!");
     }
 
     function renderizarCardsMonitoramento() {
       const container = document.getElementById("seletorTecnico");
       container.innerHTML = "";
+      if(!listaTecnicos || listaTecnicos.length === 0) {
+        container.innerHTML = `<div class="sem-atividade" style="padding:40px; background:rgba(255,255,255,0.02); border-radius:20px;">Nenhum técnico ativo. Adicione um no painel superior!</div>`;
+        return;
+      }
       listaTecnicos.forEach(tec => {
         container.innerHTML += `
           <div class="card-monitor" id="card-monitor-${tec}">
@@ -1088,6 +1226,7 @@
     }
 
     async function carregarDashboardGeral() {
+      if(!listaTecnicos) return;
       for(const tec of listaTecnicos) {
         try {
           const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(tec)}`);
@@ -1125,7 +1264,7 @@
                 emRota++;
                 logsHtml += `
                   <div class="log-atividade">
-                    <span class="log-badge rota">Em rota</span>
+                    <span class="log-badge rota">🚗 Em rota</span>
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong>
                       <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
@@ -1138,7 +1277,7 @@
                 concluidas++;
                 logsHtml += `
                   <div class="log-atividade">
-                    <span class="log-badge concluido">Concluído</span>
+                    <span class="log-badge concluido">✅ Concluído</span>
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong>
                       <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
@@ -1151,7 +1290,7 @@
                 naoConcluidas++;
                 logsHtml += `
                   <div class="log-atividade">
-                    <span class="log-badge nao-concluido">Não Concluido</span>
+                    <span class="log-badge nao-concluido">❌ Mal Sucedida</span>
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong>
                       <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
@@ -1164,12 +1303,12 @@
                 aguardando++;
                 logsHtml += `
                   <div class="log-atividade">
-                    <span class="log-badge aguardando">Aguardando</span>
+                    <span class="log-badge aguardando">⏳ Pendente</span>
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong>
                       <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
                     </div>
-                    <div class="log-hora">⏳ --:--</div>
+                    <div class="log-hora">Pendente</div>
                   </div>
                 `;
               }
@@ -1191,9 +1330,7 @@
             containerAtividades.innerHTML = logsHtml || `<div class="sem-atividade">Nenhuma O.S. configurada no sistema.</div>`;
           }
 
-        } catch(e) {
-          console.warn("Sem dados ou erro para " + tec, e);
-        }
+        } catch(e) { console.warn(e); }
       }
     }
 
@@ -1206,7 +1343,7 @@
       document.getElementById("cards").innerHTML = "";
       document.getElementById("entrada").value = "";
 
-      toggleLoading(true, "Buscando agenda no servidor...");
+      toggleLoading(true, "Buscando agenda...");
       try {
         const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(tecnicoAtual)}`);
         if(!resp.ok) throw new Error();
@@ -1236,24 +1373,16 @@
             criarCards(registro.agenda);
             document.getElementById("importador").classList.add("oculto");
             document.getElementById("btnMostrar").style.display = "block";
-          } else {
-            abrirModoVazio();
-          }
-        } else {
-          abrirModoVazio();
-        }
-      } catch (e) {
-        abrirModoVazio();
-      } finally {
-        toggleLoading(false);
-      }
+          } else { abrirModoVazio(); }
+        } else { abrirModoVazio(); }
+      } catch (e) { abrirModoVazio(); } finally { toggleLoading(false); }
     }
 
     function abrirModoVazio() {
       registroAtualId = null;
       document.getElementById("importador").classList.remove("oculto");
       document.getElementById("btnMostrar").style.display = "none";
-      document.getElementById("cards").innerHTML = `<div class="sem-atividade" style="width:100%">Nenhuma O.S. configurada para este técnico. Cole a agenda acima.</div>`;
+      document.getElementById("cards").innerHTML = `<div class="sem-atividade" style="width:100%">Nenhuma O.S. configurada para este técnico.</div>`;
     }
 
     function trocarTecnico() {
@@ -1267,8 +1396,8 @@
       carregarDashboardGeral();
     }
 
-    async function salvarAgendaNaApi(texto, mensagemSilenciosa = false) {
-      if(!mensagemSilenciosa) toggleLoading(true, "Salvando alterações...");
+    async function salvarAgendaNaApi(texto, messageSilenciosa = false) {
+      if(!messageSilenciosa) toggleLoading(true, "Salvando alterações...");
       
       const statusParaSalvar = {};
       for (let i = 0; i < localStorage.length; i++) {
@@ -1279,20 +1408,12 @@
           const obsVal = localStorage.getItem(`obs_${tecnicoAtual}_${osId}`) || "";
           const timeVal = localStorage.getItem(`timestamp_${tecnicoAtual}_${osId}_${statusVal}`) || "--:--";
 
-          statusParaSalvar[osId] = {
-            status: statusVal,
-            obs: obsVal,
-            timestamp: timeVal
-          };
+          statusParaSalvar[osId] = { status: statusVal, obs: obsVal, timestamp: timeVal };
         }
       }
 
       try {
-        const payload = {
-          tecnico: tecnicoAtual,
-          agenda: texto,
-          status: JSON.stringify(statusParaSalvar)
-        };
+        const payload = { tecnico: tecnicoAtual, agenda: texto, status: JSON.stringify(statusParaSalvar) };
 
         if (registroAtualId) {
           await fetch(`${API_URL}/${registroAtualId}`, {
@@ -1309,17 +1430,12 @@
           const criado = await resp.json();
           registroAtualId = criado.id;
         }
-      } catch (e) {
-        mostrarToast("❌ Erro ao salvar dados na nuvem.");
-      } finally {
-        if(!mensagemSilenciosa) toggleLoading(false);
-      }
+      } catch (e) { mostrarToast("❌ Erro ao salvar dados na nuvem."); } finally { if(!messageSilenciosa) toggleLoading(false); }
     }
 
     function gerarAgenda() {
       const texto = document.getElementById("entrada").value.trim();
       if (!texto) return;
-
       criarCards(texto);
       salvarAgendaNaApi(texto);
       document.getElementById("importador").classList.add("oculto");
@@ -1335,8 +1451,7 @@
         endereco:  bloco.match(/Endereço:\s*(.*)/i)?.[1]?.trim()               || "",
         login:     bloco.match(/Login:\s*(.*)/i)?.[1]?.trim()                  || "",
         senha:     bloco.match(/Senha\s*(?:do\s*)?PP+o?E:\s*(.*)/i)?.[1]?.trim() || "",
-        assunto:   bloco.match(/Assunto:\s*(.*)/i)?.[1]?.trim()                || "Sem assunto",
-        raw:       bloco
+        assunto:   bloco.match(/Assunto:\s*(.*)/i)?.[1]?.trim()                || "Sem assunto"
       }));
     }
 
@@ -1363,13 +1478,13 @@
       cardsContainer.innerHTML = "";
 
       if(dadosOS.length === 0) {
-        cardsContainer.innerHTML = `<div class="sem-atividade" style="width:100%">Nenhuma O.S. válida encontrada no texto.</div>`;
+        cardsContainer.innerHTML = `<div class="sem-atividade" style="width:100%">Nenhuma O.S. válida encontrada.</div>`;
         return;
       }
 
       dadosOS.forEach((os, idx) => {
         const enderecoLimpo = (os.endereco || "").replace(/\?/g, "").replace(/\s+/g, " ").trim();
-        const maps = `https://maps.google.com/?q=${encodeURIComponent(enderecoLimpo)}`;
+        const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(enderecoLimpo)}`;
         const loginSeguro = escapeHtml(os.login);
         const senhaSegura = escapeHtml(os.senha);
         const obsSalva = localStorage.getItem(`obs_${tecnicoAtual}_${os.id}`) || "";
@@ -1489,12 +1604,9 @@
     function forcarNaoExecutada(idx) {
       abrirModal(idx);
       document.getElementById("edit-status").value = "nao-concluido";
-      setTimeout(() => {
-        document.getElementById("edit-observacao").focus();
-      }, 150);
+      setTimeout(() => { document.getElementById("edit-observacao").focus(); }, 150);
     }
 
-    /* Modal de Edição de OS com Animação Fluida */
     function abrirModal(idx) {
       osEditandoIndex = idx;
       const os = dadosOS[idx];
@@ -1517,10 +1629,7 @@
     function fecharModal() {
       const overlay = document.getElementById("modalOverlay");
       overlay.classList.remove("aberto");
-      setTimeout(() => {
-        overlay.style.display = "none";
-        osEditandoIndex = null;
-      }, 300);
+      setTimeout(() => { overlay.style.display = "none"; osEditandoIndex = null; }, 300);
     }
 
     document.getElementById("modalOverlay").addEventListener("click", function(e) {
@@ -1539,19 +1648,14 @@
       os.senha    = document.getElementById("edit-senha").value.trim();
 
       const novaObs = document.getElementById("edit-observacao").value.trim();
-      if(novaObs) {
-        localStorage.setItem(`obs_${tecnicoAtual}_${os.id}`, novaObs);
-      } else {
-        localStorage.removeItem(`obs_${tecnicoAtual}_${os.id}`);
-      }
+      if(novaObs) { localStorage.setItem(`obs_${tecnicoAtual}_${os.id}`, novaObs); } 
+      else { localStorage.removeItem(`obs_${tecnicoAtual}_${os.id}`); }
 
       const novoStatus = document.getElementById("edit-status").value;
       if (novoStatus) {
         localStorage.setItem(`status_${tecnicoAtual}_${os.id}`, novoStatus);
-        localStorage.setItem(`timestamp_${tecnicoAtual}_${os.id}_${novoStatus}`, obterHoraAtual());
-      } else {
-        localStorage.removeItem(`status_${tecnicoAtual}_${os.id}`);
-      }
+        localStorage.setItem(`timestamp_${tecnicoAtual}_${os.id}_${novoStatus}`, obtenerHoraAtual());
+      } else { localStorage.removeItem(`status_${tecnicoAtual}_${os.id}`); }
 
       const novoTexto = serializarAgenda(dadosOS);
       document.getElementById("entrada").value = novoTexto;
@@ -1559,7 +1663,7 @@
       fecharModal();
       await salvarAgendaNaApi(novoTexto);
       criarCards(novoTexto);
-      mostrarToast("💾 OS Atualizada e Sincronizada!");
+      mostrarToast("💾 OS Atualizada!");
     }
 
     function mostrarToast(msg) {
@@ -1574,10 +1678,33 @@
       document.getElementById("btnMostrar").style.display = "none";
     }
 
-    window.onload = function() {
+    async function sincronizarTecnicosDaApi() {
       renderizarCardsMonitoramento();
       carregarDashboardGeral();
-    };
+
+      toggleLoading(true, "Carregando painel remoto...");
+      try {
+        const resp = await fetch(API_URL);
+        if(resp.ok) {
+          const dados = await resp.json();
+          if (dados && dados.length > 0) {
+            const nomesApi = dados.map(d => d.tecnico).filter(t => t);
+            if(nomesApi.length > 0) {
+              listaTecnicos = nomesApi;
+              localStorage.setItem('lista_tecnicos_smart', JSON.stringify(listaTecnicos));
+            }
+          }
+        }
+      } catch (e) { 
+        console.warn("Erro ao buscar API, usando cache local estável."); 
+      } finally {
+        renderizarCardsMonitoramento();
+        carregarDashboardGeral();
+        toggleLoading(false);
+      }
+    }
+
+    window.onload = function() { sincronizarTecnicosDaApi(); };
   </script>
 </body>
 </html>
