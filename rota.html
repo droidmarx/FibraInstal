@@ -187,7 +187,6 @@
 
     .card:hover { transform: translateY(-8px); }
 
-    /* Botão Editar (lápis) */
     .btn-editar-os {
       position: absolute;
       top: 18px;
@@ -331,7 +330,6 @@
       border: 1px solid rgba(74, 222, 128, 0.4);
     }
 
-    /* ========== MODAL DE EDIÇÃO ========== */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -504,7 +502,6 @@
       opacity: 0.9;
     }
 
-    /* ========== TOAST ========== */
     .toast {
       position: fixed;
       bottom: 30px;
@@ -525,6 +522,76 @@
 
     .toast.show { opacity: 1; }
 
+    /* ========== ESTILOS DO LOADING ANIMADO ========== */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200; /* Garante visibilidade sobre os modais */
+      background: rgba(2, 6, 23, 0.75);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .loading-overlay.ativo {
+      display: flex;
+    }
+
+    .spinner-container {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid rgba(255, 255, 255, 0.03);
+      border-top-color: #22d3ee;
+      border-right-color: #3b82f6;
+      animation: rodar 1s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
+    }
+
+    .spinner-pulso {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, transparent 70%);
+      animation: pulsar 1.6s ease-in-out infinite;
+    }
+
+    .loading-texto {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #e2e8f0;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      animation: piscar 1.6s ease-in-out infinite;
+    }
+
+    @keyframes rodar {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulsar {
+      0%, 100% { transform: scale(0.9); opacity: 0.4; }
+      50% { transform: scale(1.3); opacity: 0.9; }
+    }
+
+    @keyframes piscar {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
     @media(max-width: 640px) {
       .card { min-width: 92vw; max-width: 92vw; }
       .modal { padding: 26px 20px; }
@@ -539,7 +606,6 @@
     <p id="subtitulo">Selecione o técnico para começar</p>
   </div>
 
-  <!-- Tela Inicial com Status -->
   <div class="seletor-tecnico" id="seletorTecnico">
     <button class="btn-tecnico" data-tecnico="Andre" onclick="selecionarTecnico('Andre')">
       <div>👤 Andre</div>
@@ -552,7 +618,6 @@
     </button>
   </div>
 
-  <!-- Tela do Técnico -->
   <div class="painel-tecnico oculto" id="painelTecnico">
     <button class="btn-trocar" onclick="trocarTecnico()">↩️ Trocar técnico</button>
 
@@ -568,7 +633,6 @@
     <div class="cards" id="cards"></div>
   </div>
 
-  <!-- Modal de Edição de OS -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="modal-fechar" onclick="fecharModal()" title="Fechar">✕</button>
@@ -628,6 +692,14 @@
     </div>
   </div>
 
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner-container">
+      <div class="spinner-pulso"></div>
+      <div class="spinner"></div>
+    </div>
+    <div class="loading-texto" id="loadingTexto">Sincronizando dados...</div>
+  </div>
+
   <div class="toast" id="toast">✅ Copiado com sucesso</div>
 
   <script>
@@ -636,16 +708,21 @@
     let tecnicoAtual = null;
     let registroAtualId = null;
     let statusOS = {};
-
-    // Guarda os dados parseados de todas as OS para reescrever o texto da agenda
     let dadosOS = [];
-
-    // OS sendo editada no momento
     let osEditandoIndex = null;
 
-    /* ============================================================
-       PREVIEWS INICIAIS
-    ============================================================ */
+    /* CONTROLE LOGICO DO LOADING OVERLAY */
+    function toggleLoading(exibir, mensagem = "Sincronizando dados...") {
+      const overlay = document.getElementById("loadingOverlay");
+      const texto = document.getElementById("loadingTexto");
+      texto.textContent = mensagem;
+      if (exibir) {
+        overlay.classList.add("ativo");
+      } else {
+        overlay.classList.remove("ativo");
+      }
+    }
+
     function atualizarPreviewsIniciais() {
       const tecnicos = ['Andre', 'Guilherme'];
       tecnicos.forEach(tec => {
@@ -669,9 +746,6 @@
       });
     }
 
-    /* ============================================================
-       SELEÇÃO / TROCA DE TÉCNICO
-    ============================================================ */
     function selecionarTecnico(nome) {
       tecnicoAtual = nome;
       document.getElementById("subtitulo").textContent = `Agenda de ${nome}`;
@@ -695,10 +769,8 @@
       atualizarPreviewsIniciais();
     }
 
-    /* ============================================================
-       API
-    ============================================================ */
     async function carregarAgendaDaApi() {
+      toggleLoading(true, "Buscando agenda no servidor...");
       try {
         const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(tecnicoAtual)}`);
         const dados = await resp.json();
@@ -706,38 +778,70 @@
           const registro = dados[0];
           registroAtualId = registro.id;
           document.getElementById("entrada").value = registro.agenda || "";
+          
+          if (registro.status) {
+            try {
+              const statusSalvo = JSON.parse(registro.status);
+              Object.keys(statusSalvo).forEach(osId => {
+                localStorage.setItem(`status_${tecnicoAtual}_${osId}`, statusSalvo[osId]);
+              });
+            } catch(e) {}
+          }
+
           if (registro.agenda) {
             criarCards(registro.agenda);
             document.getElementById("importador").classList.add("oculto");
             document.getElementById("btnMostrar").style.display = "block";
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        mostrarToast("❌ Erro ao carregar dados.");
+      } finally {
+        toggleLoading(false);
+      }
     }
 
-    async function salvarAgendaNaApi(texto) {
+    async function salvarAgendaNaApi(texto, mensagemSilenciosa = false) {
+      if(!mensagemSilenciosa) toggleLoading(true, "Salvando alterações...");
+      
+      const statusParaSalvar = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(`status_${tecnicoAtual}_`)) {
+          const osId = key.replace(`status_${tecnicoAtual}_`, "");
+          statusParaSalvar[osId] = localStorage.getItem(key);
+        }
+      }
+
       try {
+        const payload = {
+          tecnico: tecnicoAtual,
+          agenda: texto,
+          status: JSON.stringify(statusParaSalvar)
+        };
+
         if (registroAtualId) {
           await fetch(`${API_URL}/${registroAtualId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ tecnico: tecnicoAtual, agenda: texto })
+            body: JSON.stringify(payload)
           });
         } else {
           const resp = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ tecnico: tecnicoAtual, agenda: texto })
+            body: JSON.stringify(payload)
           });
           const criado = await resp.json();
           registroAtualId = criado.id;
         }
-      } catch (e) {}
+      } catch (e) {
+        mostrarToast("❌ Falha ao sincronizar com servidor.");
+      } finally {
+        if(!mensagemSilenciosa) toggleLoading(false);
+      }
     }
 
-    /* ============================================================
-       GERAR AGENDA
-    ============================================================ */
     function gerarAgenda() {
       const texto = document.getElementById("entrada").value.trim();
       if (!texto) return;
@@ -748,12 +852,9 @@
       document.getElementById("btnMostrar").style.display = "block";
     }
 
-    /* ============================================================
-       PARSER + SERIALIZER
-    ============================================================ */
     function parsearAgenda(texto) {
-      const blocos = texto.split(/ID:\s*/i).slice(1);
-      return blocos.map(bloco => ({
+      const blocks = texto.split(/ID:\s*/i).slice(1);
+      return blocks.map(bloco => ({
         id:        bloco.match(/^(\d+)/)?.[1]?.trim()                          || "Sem ID",
         cliente:   bloco.match(/Cliente:\s*(.*)/i)?.[1]?.trim()                || "Cliente não informado",
         horario:   bloco.match(/Horário:\s*(.*)/i)?.[1]?.trim()                || "",
@@ -777,9 +878,6 @@
       )).join("\n\n");
     }
 
-    /* ============================================================
-       CRIAR CARDS
-    ============================================================ */
     function escapeHtml(str) {
       return (str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
@@ -791,7 +889,7 @@
 
       dadosOS.forEach((os, idx) => {
         const enderecoLimpo = (os.endereco || "").replace(/\?/g, "").replace(/\s+/g, " ").trim();
-        const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(enderecoLimpo)}`;
+        const maps = `https://maps.google.com/?q=${encodeURIComponent(enderecoLimpo)}`;
         const loginSeguro = escapeHtml(os.login);
         const senhaSegura = escapeHtml(os.senha);
 
@@ -813,7 +911,7 @@
 
             <div class="info-linha">
               <div class="info"><strong>🔑 Senha PPPoE:</strong> ${senhaSegura || "&nbsp;"}</div>
-              <button class="btn-copiar" data-copiar="${senhaSegura}" title="Copiar senha PPPoE">📋</button>
+              <button class="btn-copiar" data-copiar="${senhaSegura}" title="Copiar senha">📋</button>
             </div>
 
             <div class="botoes-grupo">
@@ -832,9 +930,6 @@
       iniciarEventos();
     }
 
-    /* ============================================================
-       EVENTOS DOS CARDS
-    ============================================================ */
     function iniciarEventos() {
       statusOS = {};
 
@@ -859,6 +954,7 @@
                 statusOS[os] = "concluido";
                 localStorage.setItem(`status_${tecnicoAtual}_${os}`, "concluido");
                 aplicarStatus(box, btnRota, "concluido");
+                salvarAgendaNaApi(document.getElementById("entrada").value, true);
               }
               atualizarPreviewsIniciais();
             });
@@ -869,6 +965,7 @@
           statusOS[os] = "rota";
           localStorage.setItem(`status_${tecnicoAtual}_${os}`, "rota");
           aplicarStatus(box, btnRota, "rota");
+          salvarAgendaNaApi(document.getElementById("entrada").value, true);
 
           const script = `🚗 EM ROTA\n\n👤 Cliente: ${cliente}\n📍 Endereço: ${endereco}`;
           navigator.clipboard.writeText(script).then(() => {
@@ -898,9 +995,6 @@
       }
     }
 
-    /* ============================================================
-       MODAL DE EDIÇÃO
-    ============================================================ */
     function abrirModal(idx) {
       osEditandoIndex = idx;
       const os = dadosOS[idx];
@@ -924,7 +1018,6 @@
       osEditandoIndex = null;
     }
 
-    // Fechar ao clicar fora do modal
     document.getElementById("modalOverlay").addEventListener("click", function(e) {
       if (e.target === this) fecharModal();
     });
@@ -938,7 +1031,6 @@
 
       const os = dadosOS[osEditandoIndex];
 
-      // Atualizar dados na memória
       os.horario  = document.getElementById("edit-horario").value.trim();
       os.cliente  = document.getElementById("edit-cliente").value.trim();
       os.assunto  = document.getElementById("edit-assunto").value.trim();
@@ -948,7 +1040,6 @@
 
       const novoStatus = document.getElementById("edit-status").value;
 
-      // Atualizar status no localStorage
       if (novoStatus) {
         localStorage.setItem(`status_${tecnicoAtual}_${os.id}`, novoStatus);
         statusOS[os.id] = novoStatus;
@@ -957,22 +1048,18 @@
         delete statusOS[os.id];
       }
 
-      // Serializar e salvar na API
       const novoTexto = serializarAgenda(dadosOS);
       document.getElementById("entrada").value = novoTexto;
+      
+      fecharModal();
+      
       await salvarAgendaNaApi(novoTexto);
 
-      // Recriar os cards com os dados atualizados
       criarCards(novoTexto);
-
-      fecharModal();
       mostrarToast("💾 OS atualizada com sucesso!");
       atualizarPreviewsIniciais();
     }
 
-    /* ============================================================
-       UTILS
-    ============================================================ */
     function mostrarToast(msg) {
       const toast = document.getElementById("toast");
       toast.textContent = msg;
@@ -985,7 +1072,6 @@
       document.getElementById("btnMostrar").style.display = "none";
     }
 
-    // Inicialização
     window.onload = atualizarPreviewsIniciais;
   </script>
 </body>
