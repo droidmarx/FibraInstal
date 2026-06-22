@@ -403,7 +403,7 @@
 
     .btn-links { display: flex; gap: 12px; }
 
-    .btn-maps, .btn-ativo, .btn-status-rota {
+    .btn-maps, .btn-ativo, .btn-status-rota, .btn-status-falha {
       border: none;
       padding: 15px;
       border-radius: 18px;
@@ -421,6 +421,7 @@
     .btn-maps { flex: 1; background: linear-gradient(135deg, #f43f5e, #fb923c); }
     .btn-ativo { flex: 1; background: linear-gradient(135deg, #64748b, #475569); }
     .btn-status-rota { background: linear-gradient(135deg, #eab308, #f59e0b); padding: 16px; }
+    .btn-status-falha { background: linear-gradient(135deg, #ef4444, #b91c1c); padding: 14px; font-size: 13.5px; }
 
     .status-box {
       margin-top: 16px;
@@ -563,7 +564,7 @@
       color: white;
       outline: none;
       width: 100%;
-      min-height: 80px;
+      min-height: 90px;
       resize: vertical;
     }
 
@@ -803,8 +804,8 @@
       </div>
 
       <div class="campo-grupo" id="campo-grupo-obs">
-        <label class="campo-label">Motivo / Observação</label>
-        <textarea class="campo-textarea-modal" id="edit-observacao" placeholder="Caso não tenha sido concluída, digite o motivo aqui..."></textarea>
+        <label class="campo-label" style="color: #f87171;">⚠️ Motivo / Observação</label>
+        <textarea class="campo-textarea-modal" id="edit-observacao" placeholder="Caso não tenha sido concluída, digite o motivo aqui para salvar..."></textarea>
       </div>
 
       <button class="btn-salvar-modal" id="btnSalvarModal" onclick="salvarEdicaoOS()">💾 Salvar alterações</button>
@@ -829,7 +830,7 @@
 
     function toggleLoading(exibir, mensagem = "Sincronizando...") {
       const overlay = document.getElementById("loadingOverlay");
-      document.getElementById("loadingTexto").textContent = mensagem;
+      document.getElementById("loadingTexto").textContent = message = mensagem;
       if (exibir) overlay.classList.add("ativo");
       else overlay.classList.remove("ativo");
     }
@@ -870,8 +871,15 @@
               try { statusSalvo = JSON.parse(registro.status); } catch(e){}
             }
 
+            // Sincroniza do mock pro localStorage
             Object.keys(statusSalvo).forEach(osId => {
-              localStorage.setItem(`status_${tec}_${osId}`, statusSalvo[osId]);
+              if (typeof statusSalvo[osId] === 'object') {
+                localStorage.setItem(`status_${tec}_${osId}`, statusSalvo[osId].status || "");
+                localStorage.setItem(`obs_${tec}_${osId}`, statusSalvo[osId].obs || "");
+                localStorage.setItem(`timestamp_${tec}_${osId}_${statusSalvo[osId].status}`, statusSalvo[osId].timestamp || "--:--");
+              } else {
+                localStorage.setItem(`status_${tec}_${osId}`, statusSalvo[osId]);
+              }
             });
 
             listaOS.forEach(itemOS => {
@@ -913,7 +921,7 @@
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong>
                       <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
-                      ${obsSalva ? `<span class="obs-texto">⚠️ Obs: ${escapeHtml(obsSalva)}</span>` : ''}
+                      ${obsSalva ? `<span class="obs-texto">⚠️ Motivo: ${escapeHtml(obsSalva)}</span>` : ''}
                     </div>
                     <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
@@ -975,7 +983,13 @@
             try {
               const statusSalvo = JSON.parse(registro.status);
               Object.keys(statusSalvo).forEach(osId => {
-                localStorage.setItem(`status_${tecnicoAtual}_${osId}`, statusSalvo[osId]);
+                if (typeof statusSalvo[osId] === 'object') {
+                  localStorage.setItem(`status_${tecnicoAtual}_${osId}`, statusSalvo[osId].status || "");
+                  localStorage.setItem(`obs_${tecnicoAtual}_${osId}`, statusSalvo[osId].obs || "");
+                  localStorage.setItem(`timestamp_${tecnicoAtual}_${osId}_${statusSalvo[osId].status}`, statusSalvo[osId].timestamp || "--:--");
+                } else {
+                  localStorage.setItem(`status_${tecnicoAtual}_${osId}`, statusSalvo[osId]);
+                }
               });
             } catch(e) {}
           }
@@ -1019,11 +1033,20 @@
       if(!mensagemSilenciosa) toggleLoading(true, "Salvando alterações...");
       
       const statusParaSalvar = {};
+      // Varre as chaves guardadas localmente para criar o mapa completo estruturado
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key && key.startsWith(`status_${tecnicoAtual}_`)) {
           const osId = key.replace(`status_${tecnicoAtual}_`, "");
-          statusParaSalvar[osId] = localStorage.getItem(key);
+          const statusVal = localStorage.getItem(key);
+          const obsVal = localStorage.getItem(`obs_${tecnicoAtual}_${osId}`) || "";
+          const timeVal = localStorage.getItem(`timestamp_${tecnicoAtual}_${osId}_${statusVal}`) || "--:--";
+
+          statusParaSalvar[osId] = {
+            status: statusVal,
+            obs: obsVal,
+            timestamp: timeVal
+          };
         }
       }
 
@@ -1136,6 +1159,7 @@
               <div class="btn-links">
                 <button class="btn-maps">🗺️ Maps</button>
                 <button class="btn-ativo">🌐 Ativo</button>
+                <button class="btn-status-falha" onclick="forcarNaoExecutada(${idx})">❌ Não Executada</button>
               </div>
               <button class="btn-status-rota">🚗 Iniciar Rota</button>
             </div>
@@ -1225,6 +1249,16 @@
       }
     }
 
+    function forcarNaoExecutada(idx) {
+      // Abre o modal diretamente configurando o status para "Não concluído"
+      abrirModal(idx);
+      document.getElementById("edit-status").value = "nao-concluido";
+      // Dá foco direto para o técnico escrever a observação imediatamente
+      setTimeout(() => {
+        document.getElementById("edit-observacao").focus();
+      }, 150);
+    }
+
     function abrirModal(idx) {
       osEditandoIndex = idx;
       const os = dadosOS[idx];
@@ -1281,9 +1315,10 @@
       document.getElementById("entrada").value = novoTexto;
       
       fecharModal();
+      // O salvamento agora envia a estrutura completa contendo as observações para a API
       await salvarAgendaNaApi(novoTexto);
       criarCards(novoTexto);
-      mostrarToast("💾 OS Atualizada!");
+      mostrarToast("💾 OS Atualizada e Sincronizada!");
     }
 
     function mostrarToast(msg) {
