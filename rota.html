@@ -102,6 +102,7 @@
 
     .status-preview {
       display: flex;
+      flex-wrap: wrap;
       gap: 6px;
     }
 
@@ -114,6 +115,7 @@
 
     .preview-rota { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
     .preview-concluido { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+    .preview-nao-concluido { background: rgba(244, 63, 94, 0.2); color: #f87171; border: 1px solid rgba(244, 63, 94, 0.3); }
     .preview-aguardando { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25); }
 
     .btn-dropdown {
@@ -174,6 +176,7 @@
 
     .log-badge.rota { background: #eab308; color: #020617; }
     .log-badge.concluido { background: #22c55e; color: #020617; }
+    .log-badge.nao-concluido { background: #ef4444; color: #ffffff; }
     .log-badge.aguardando { background: #64748b; color: #f8fafc; }
 
     .log-info {
@@ -184,6 +187,7 @@
 
     .log-info strong { color: white; }
     .log-info .tipo-servico { color: #a5b4fc; font-size: 13px; display: block; margin-top: 2px; }
+    .log-info .obs-texto { color: #f87171; font-size: 12.5px; display: block; margin-top: 4px; font-style: italic; background: rgba(244, 63, 94, 0.08); padding: 6px 10px; border-radius: 8px; border-left: 3px solid #ef4444; }
 
     .log-hora {
       font-size: 12px;
@@ -439,6 +443,23 @@
       border: 1px solid rgba(74, 222, 128, 0.4);
     }
 
+    .nao-concluido {
+      background: rgba(244, 63, 94, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(244, 63, 94, 0.4);
+    }
+
+    .card-obs-preview {
+      margin-top: 10px;
+      font-size: 13.5px;
+      color: #f87171;
+      background: rgba(244, 63, 94, 0.08);
+      padding: 8px 12px;
+      border-radius: 10px;
+      border-left: 3px solid #ef4444;
+      font-style: italic;
+    }
+
     .modal-overlay {
       display: none;
       position: fixed;
@@ -531,6 +552,24 @@
     .campo-input:focus {
       border-color: rgba(34, 211, 238, 0.45);
       background: rgba(34, 211, 238, 0.05);
+    }
+
+    .campo-textarea-modal {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 13px 16px;
+      font-size: 15px;
+      color: white;
+      outline: none;
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .campo-textarea-modal:focus {
+      border-color: rgba(244, 63, 94, 0.45);
+      background: rgba(244, 63, 94, 0.05);
     }
 
     .campo-select {
@@ -758,8 +797,14 @@
             <option value="">Aguardando status</option>
             <option value="rota">🚗 Em rota</option>
             <option value="concluido">✅ Concluído</option>
+            <option value="nao-concluido">❌ Não concluído</option>
           </select>
         </div>
+      </div>
+
+      <div class="campo-grupo" id="campo-grupo-obs">
+        <label class="campo-label">Motivo / Observação</label>
+        <textarea class="campo-textarea-modal" id="edit-observacao" placeholder="Caso não tenha sido concluída, digite o motivo aqui..."></textarea>
       </div>
 
       <button class="btn-salvar-modal" id="btnSalvarModal" onclick="salvarEdicaoOS()">💾 Salvar alterações</button>
@@ -813,7 +858,7 @@
           if (!resp.ok) throw new Error();
           const dados = await resp.json();
           
-          let emRota = 0, concluidas = 0, aguardando = 0;
+          let emRota = 0, concluidas = 0, naoConcluidas = 0, aguardando = 0;
           let logsHtml = "";
 
           if (dados && dados.length > 0 && dados[0].agenda) {
@@ -825,14 +870,13 @@
               try { statusSalvo = JSON.parse(registro.status); } catch(e){}
             }
 
-            // Garante o armazenamento local dos dados salvos
             Object.keys(statusSalvo).forEach(osId => {
               localStorage.setItem(`status_${tec}_${osId}`, statusSalvo[osId]);
             });
 
-            // Varre cada O.S. da agenda para montar o painel
             listaOS.forEach(itemOS => {
               const statusAtual = localStorage.getItem(`status_${tec}_${itemOS.id}`);
+              const obsSalva = localStorage.getItem(`obs_${tec}_${itemOS.id}`) || "";
 
               if (statusAtual === 'rota') {
                 const horaLog = localStorage.getItem(`timestamp_${tec}_${itemOS.id}_rota`) || '--:--';
@@ -860,8 +904,21 @@
                     <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
                 `;
+              } else if (statusAtual === 'nao-concluido') {
+                const horaLog = localStorage.getItem(`timestamp_${tec}_${itemOS.id}_nao-concluido`) || '--:--';
+                naoConcluidas++;
+                logsHtml += `
+                  <div class="log-atividade">
+                    <span class="log-badge nao-concluido">Não Concluido</span>
+                    <div class="log-info">
+                      <strong>${escapeHtml(itemOS.cliente)}</strong>
+                      <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
+                      ${obsSalva ? `<span class="obs-texto">⚠️ Obs: ${escapeHtml(obsSalva)}</span>` : ''}
+                    </div>
+                    <div class="log-hora">⏰ ${horaLog}</div>
+                  </div>
+                `;
               } else {
-                // EXIBE AS OS AGUARDANDO STATUS NO MONITOR INICIAL
                 aguardando++;
                 logsHtml += `
                   <div class="log-atividade">
@@ -877,11 +934,11 @@
             });
           }
 
-          // Monta o preview do header com todos os contadores de status
           const preview = document.getElementById(`preview-${tec}`);
           let htmlContador = '';
           if (emRota > 0) htmlContador += `<span class="preview-rota">🚗 ${emRota}</span>`;
           if (concluidas > 0) htmlContador += `<span class="preview-concluido">✅ ${concluidas}</span>`;
+          if (naoConcluidas > 0) htmlContador += `<span class="preview-nao-concluido">❌ ${naoConcluidas}</span>`;
           if (aguardando > 0) htmlContador += `<span class="preview-aguardando">⏳ ${aguardando}</span>`;
           preview.innerHTML = htmlContador || '<span style="color:#64748b">Sem atividades</span>';
 
@@ -1055,6 +1112,7 @@
         const maps = `https://maps.google.com/?q=${encodeURIComponent(enderecoLimpo)}`;
         const loginSeguro = escapeHtml(os.login);
         const senhaSegura = escapeHtml(os.senha);
+        const obsSalva = localStorage.getItem(`obs_${tecnicoAtual}_${os.id}`) || "";
 
         cardsContainer.innerHTML += `
           <div class="card" data-idx="${idx}" data-id="${os.id}" data-cliente="${escapeHtml(os.cliente)}" data-maps="${escapeHtml(maps)}" data-endereco="${escapeHtml(enderecoLimpo)}">
@@ -1082,6 +1140,7 @@
               <button class="btn-status-rota">🚗 Iniciar Rota</button>
             </div>
             <div class="status-box vazio">Aguardando status</div>
+            ${obsSalva ? `<div class="card-obs-preview" id="obs-preview-${os.id}">⚠️ Observação: ${escapeHtml(obsSalva)}</div>` : ''}
           </div>
         `;
       });
@@ -1156,6 +1215,13 @@
       } else if (status === "concluido") {
         box.className = "status-box concluido";
         box.innerHTML = "✅ Concluído";
+        btnRota.style.opacity = "1";
+        btnRota.style.pointerEvents = "auto";
+      } else if (status === "nao-concluido") {
+        box.className = "status-box nao-concluido";
+        box.innerHTML = "❌ Não concluído";
+        btnRota.style.opacity = "1";
+        btnRota.style.pointerEvents = "auto";
       }
     }
 
@@ -1169,6 +1235,8 @@
       document.getElementById("edit-endereco").value = os.endereco || "";
       document.getElementById("edit-login").value    = os.login     || "";
       document.getElementById("edit-senha").value    = os.senha     || "";
+      
+      document.getElementById("edit-observacao").value = localStorage.getItem(`obs_${tecnicoAtual}_${os.id}`) || "";
 
       document.getElementById("edit-status").value = localStorage.getItem(`status_${tecnicoAtual}_${os.id}`) || "";
       document.getElementById("modalOverlay").classList.add("aberto");
@@ -1193,6 +1261,13 @@
       os.endereco = document.getElementById("edit-endereco").value.trim();
       os.login    = document.getElementById("edit-login").value.trim();
       os.senha    = document.getElementById("edit-senha").value.trim();
+
+      const novaObs = document.getElementById("edit-observacao").value.trim();
+      if(novaObs) {
+        localStorage.setItem(`obs_${tecnicoAtual}_${os.id}`, novaObs);
+      } else {
+        localStorage.removeItem(`obs_${tecnicoAtual}_${os.id}`);
+      }
 
       const novoStatus = document.getElementById("edit-status").value;
       if (novoStatus) {
