@@ -43,6 +43,68 @@
       font-size: 15.5px;
     }
 
+    .seletor-tecnico {
+      display: flex;
+      gap: 16px;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+
+    .seletor-tecnico.oculto {
+      display: none;
+    }
+
+    .btn-tecnico {
+      flex: 1;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(20px);
+      color: white;
+      padding: 22px;
+      border-radius: 22px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-tecnico:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(135deg, #22d3ee, #3b82f6);
+      border-color: transparent;
+    }
+
+    .painel-tecnico.oculto {
+      display: none;
+    }
+
+    .btn-trocar {
+      display: block;
+      margin: 0 auto 20px;
+      border: none;
+      background: none;
+      color: #67e8f9;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 6px 10px;
+    }
+
+    .btn-trocar:hover {
+      text-decoration: underline;
+    }
+
+    .carregando {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 15px;
+      padding: 20px;
+    }
+
+    .carregando.oculto {
+      display: none;
+    }
+
     .importador {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -164,6 +226,47 @@
       color: #e0f2fe;
     }
 
+    .info-linha {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .info-linha .info {
+      margin: 0;
+      flex: 1;
+      min-width: 0;
+      word-break: break-word;
+    }
+
+    .btn-copiar {
+      flex-shrink: 0;
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #67e8f9;
+      background: rgba(103, 232, 249, 0.12);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s;
+    }
+
+    .btn-copiar:hover {
+      background: rgba(103, 232, 249, 0.22);
+      transform: translateY(-1px);
+    }
+
+    .btn-copiar.copiado {
+      background: rgba(74, 222, 128, 0.18);
+      color: #4ade80;
+    }
+
     .os-number {
       font-size: 17px;
       font-weight: 800;
@@ -267,31 +370,134 @@
 
   <div class="topo">
     <h1>📡 Agenda Técnica Inteligente</h1>
-    <p>Cole sua agenda do WhatsApp e gere os cards automaticamente</p>
+    <p id="subtitulo">Selecione o técnico para começar</p>
   </div>
 
-  <button class="btn-mostrar" id="btnMostrar" onclick="mostrarImportador()">
-    📋 Mostrar campo da agenda
-  </button>
-
-  <div class="importador" id="importador">
-    <textarea id="entrada" placeholder="Cole aqui a agenda completa..."></textarea>
-    <button class="btn-gerar" onclick="gerarAgenda()">🚀 Gerar Agenda Inteligente</button>
+  <div class="seletor-tecnico" id="seletorTecnico">
+    <button class="btn-tecnico" data-tecnico="Andre" onclick="selecionarTecnico('Andre')">
+      👤 Andre
+    </button>
+    <button class="btn-tecnico" data-tecnico="Guilherme" onclick="selecionarTecnico('Guilherme')">
+      👤 Guilherme
+    </button>
   </div>
 
-  <div class="cards" id="cards"></div>
+  <div class="painel-tecnico oculto" id="painelTecnico">
+    <button class="btn-trocar" onclick="trocarTecnico()">↩️ Trocar técnico</button>
+
+    <button class="btn-mostrar" id="btnMostrar" onclick="mostrarImportador()">
+      📋 Mostrar campo da agenda
+    </button>
+
+    <div class="importador" id="importador">
+      <textarea id="entrada" placeholder="Cole aqui a agenda completa..."></textarea>
+      <button class="btn-gerar" onclick="gerarAgenda()">🚀 Gerar Agenda Inteligente</button>
+    </div>
+
+    <div class="carregando oculto" id="carregando">⏳ Carregando agenda salva...</div>
+
+    <div class="cards" id="cards"></div>
+  </div>
 
   <div class="toast" id="toast">✅ Copiado com sucesso</div>
 
   <script>
+    const API_URL = "https://68f458d8b16eb6f46834542c.mockapi.io/Rexord/Galeria";
+
+    let tecnicoAtual = null;
+    let registroAtualId = null; // id do registro na Mock API (null = ainda não existe)
+
+    function selecionarTecnico(nome) {
+      tecnicoAtual = nome;
+      document.getElementById("subtitulo").textContent = `Agenda de ${nome} · cole a agenda do WhatsApp`;
+      document.getElementById("seletorTecnico").classList.add("oculto");
+      document.getElementById("painelTecnico").classList.remove("oculto");
+      carregarAgendaDaApi();
+    }
+
+    function trocarTecnico() {
+      tecnicoAtual = null;
+      registroAtualId = null;
+      document.getElementById("subtitulo").textContent = "Selecione o técnico para começar";
+      document.getElementById("seletorTecnico").classList.remove("oculto");
+      document.getElementById("painelTecnico").classList.add("oculto");
+      document.getElementById("cards").innerHTML = "";
+      document.getElementById("entrada").value = "";
+      document.getElementById("importador").classList.remove("oculto");
+      document.getElementById("btnMostrar").style.display = "none";
+    }
+
+    async function carregarAgendaDaApi() {
+      const carregando = document.getElementById("carregando");
+      carregando.classList.remove("oculto");
+      document.getElementById("importador").classList.add("oculto");
+      document.getElementById("btnMostrar").style.display = "none";
+
+      try {
+        const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(tecnicoAtual)}`);
+        const dados = await resp.json();
+
+        if (dados && dados.length > 0) {
+          const registro = dados[0];
+          registroAtualId = registro.id;
+          document.getElementById("entrada").value = registro.agenda || "";
+          if (registro.agenda) {
+            criarCards(registro.agenda);
+            document.getElementById("importador").classList.add("oculto");
+            document.getElementById("btnMostrar").style.display = "block";
+          } else {
+            document.getElementById("importador").classList.remove("oculto");
+          }
+        } else {
+          registroAtualId = null;
+          document.getElementById("importador").classList.remove("oculto");
+        }
+      } catch (e) {
+        mostrarToast("⚠️ Não foi possível carregar a agenda salva");
+        document.getElementById("importador").classList.remove("oculto");
+      } finally {
+        carregando.classList.add("oculto");
+      }
+    }
+
+    async function salvarAgendaNaApi(texto) {
+      try {
+        if (registroAtualId) {
+          await fetch(`${API_URL}/${registroAtualId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ tecnico: tecnicoAtual, agenda: texto })
+          });
+        } else {
+          const resp = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ tecnico: tecnicoAtual, agenda: texto })
+          });
+          const criado = await resp.json();
+          registroAtualId = criado.id;
+        }
+      } catch (e) {
+        mostrarToast("⚠️ Agenda gerada, mas houve erro ao salvar na nuvem");
+      }
+    }
+
     function gerarAgenda() {
       const texto = document.getElementById("entrada").value.trim();
       if (!texto) return;
 
-      localStorage.setItem("agendaCompleta", texto);
       criarCards(texto);
+      salvarAgendaNaApi(texto);
       document.getElementById("importador").classList.add("oculto");
       document.getElementById("btnMostrar").style.display = "block";
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
     }
 
     function criarCards(texto) {
@@ -303,15 +509,19 @@
 
       blocos.forEach(bloco => {
         const id = bloco.match(/^(\d+)/)?.[1] || "Sem ID";
-        
+
         const cliente = bloco.match(/Cliente:\s*(.*)/i)?.[1]?.trim() || "Cliente não informado";
         const horario = bloco.match(/Horário:\s*(.*)/i)?.[1]?.trim() || "";
         const endereco = bloco.match(/Endereço:\s*(.*)/i)?.[1]?.trim() || "";
         const login = bloco.match(/Login:\s*(.*)/i)?.[1]?.trim() || "";
+        const senhaPppoe = bloco.match(/Senha\s*(?:do\s*)?PP+o?E:\s*(.*)/i)?.[1]?.trim() || "";
         const assunto = bloco.match(/Assunto:\s*(.*)/i)?.[1]?.trim() || "Sem assunto";
 
         const enderecoLimpo = endereco.replace(/\?/g, "").replace(/\s+/g, " ").trim();
         const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(enderecoLimpo)}`;
+
+        const loginSeguro = escapeHtml(login);
+        const senhaSegura = escapeHtml(senhaPppoe);
 
         cardsContainer.innerHTML += `
           <div class="card" data-id="${id}" data-cliente="${cliente}" data-maps="${maps}" data-endereco="${enderecoLimpo}">
@@ -326,7 +536,16 @@
             <div class="assunto">📋 ${assunto}</div>
             
             <div class="info"><strong>📍 Endereço:</strong><br>${enderecoLimpo}</div>
-            <div class="info"><strong>🔐 Login:</strong> ${login}</div>
+
+            <div class="info-linha">
+              <div class="info"><strong>🔐 Login:</strong> ${loginSeguro || "&nbsp;"}</div>
+              <button class="btn-copiar" type="button" data-copiar="${loginSeguro}" title="Copiar login">📋</button>
+            </div>
+
+            <div class="info-linha">
+              <div class="info"><strong>🔑 Senha PPPoE:</strong> ${senhaSegura || "&nbsp;"}</div>
+              <button class="btn-copiar" type="button" data-copiar="${senhaSegura}" title="Copiar senha PPPoE">📋</button>
+            </div>
 
             <div class="botoes-grupo">
               <div class="btn-links">
@@ -358,11 +577,31 @@
         btnMaps.addEventListener("click", () => window.open(card.dataset.maps, "_blank"));
         btnAtivo.addEventListener("click", () => window.open("https://sistema.ativotelecom.com.br/central_assinante_web/login", "_blank"));
 
-        const statusSalvo = localStorage.getItem("status_" + os);
+        // Botões de copiar (login / senha PPPoE)
+        card.querySelectorAll(".btn-copiar").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const valor = btn.dataset.copiar || "";
+            if (!valor) {
+              mostrarToast("⚠️ Nada para copiar");
+              return;
+            }
+            navigator.clipboard.writeText(valor).then(() => {
+              mostrarToast("✅ Copiado com sucesso");
+              btn.classList.add("copiado");
+              btn.textContent = "✅";
+              setTimeout(() => {
+                btn.classList.remove("copiado");
+                btn.textContent = "📋";
+              }, 1500);
+            });
+          });
+        });
+
+        const statusSalvo = localStorage.getItem(`status_${tecnicoAtual}_${os}`);
         if (statusSalvo) atualizarStatusUI(card, box, btnRota, statusSalvo);
 
         btnRota.addEventListener("click", () => {
-          localStorage.setItem("status_" + os, "rota");
+          localStorage.setItem(`status_${tecnicoAtual}_${os}`, "rota");
           atualizarStatusUI(card, box, btnRota, "rota");
 
           const script = `🚗 EM ROTA\n\n👤 Cliente: ${cliente}\n📍 Endereço: ${endereco}`;
@@ -395,15 +634,6 @@
     function mostrarImportador() {
       document.getElementById("importador").classList.remove("oculto");
       document.getElementById("btnMostrar").style.display = "none";
-    }
-
-    // Carregar agenda salva
-    const agendaSalva = localStorage.getItem("agendaCompleta");
-    if (agendaSalva) {
-      document.getElementById("entrada").value = agendaSalva;
-      criarCards(agendaSalva);
-      document.getElementById("importador").classList.add("oculto");
-      document.getElementById("btnMostrar").style.display = "block";
     }
   </script>
 </body>
