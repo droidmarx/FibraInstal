@@ -114,6 +114,7 @@
 
     .preview-rota { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
     .preview-concluido { background: rgba(74, 222, 128, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+    .preview-aguardando { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.25); }
 
     .btn-dropdown {
       background: rgba(255, 255, 255, 0.05);
@@ -173,6 +174,7 @@
 
     .log-badge.rota { background: #eab308; color: #020617; }
     .log-badge.concluido { background: #22c55e; color: #020617; }
+    .log-badge.aguardando { background: #64748b; color: #f8fafc; }
 
     .log-info {
       flex: 1;
@@ -690,7 +692,6 @@
   </div>
 
   <div class="seletor-tecnico" id="seletorTecnico">
-    <!-- Monitor Andre -->
     <div class="card-monitor" id="card-monitor-Andre">
       <div class="monitor-header">
         <div class="monitor-info-esquerda" onclick="selecionarTecnico('Andre')">
@@ -704,7 +705,6 @@
       </div>
     </div>
 
-    <!-- Monitor Guilherme -->
     <div class="card-monitor" id="card-monitor-Guilherme">
       <div class="monitor-header">
         <div class="monitor-info-esquerda" onclick="selecionarTecnico('Guilherme')">
@@ -813,7 +813,7 @@
           if (!resp.ok) throw new Error();
           const dados = await resp.json();
           
-          let emRota = 0, concluidas = 0;
+          let emRota = 0, concluidas = 0, aguardando = 0;
           let logsHtml = "";
 
           if (dados && dados.length > 0 && dados[0].agenda) {
@@ -825,13 +825,17 @@
               try { statusSalvo = JSON.parse(registro.status); } catch(e){}
             }
 
+            // Garante o armazenamento local dos dados salvos
             Object.keys(statusSalvo).forEach(osId => {
               localStorage.setItem(`status_${tec}_${osId}`, statusSalvo[osId]);
-              const itemOS = listaOS.find(o => o.id === osId);
-              if(!itemOS) return;
+            });
 
-              if(statusSalvo[osId] === 'rota') {
-                const horaLog = localStorage.getItem(`timestamp_${tec}_${osId}_rota`) || '--:--';
+            // Varre cada O.S. da agenda para montar o painel
+            listaOS.forEach(itemOS => {
+              const statusAtual = localStorage.getItem(`status_${tec}_${itemOS.id}`);
+
+              if (statusAtual === 'rota') {
+                const horaLog = localStorage.getItem(`timestamp_${tec}_${itemOS.id}_rota`) || '--:--';
                 emRota++;
                 logsHtml += `
                   <div class="log-atividade">
@@ -843,9 +847,8 @@
                     <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
                 `;
-              }
-              if(statusSalvo[osId] === 'concluido') {
-                const horaLog = localStorage.getItem(`timestamp_${tec}_${osId}_concluido`) || '--:--';
+              } else if (statusAtual === 'concluido') {
+                const horaLog = localStorage.getItem(`timestamp_${tec}_${itemOS.id}_concluido`) || '--:--';
                 concluidas++;
                 logsHtml += `
                   <div class="log-atividade">
@@ -857,21 +860,36 @@
                     <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
                 `;
+              } else {
+                // EXIBE AS OS AGUARDANDO STATUS NO MONITOR INICIAL
+                aguardando++;
+                logsHtml += `
+                  <div class="log-atividade">
+                    <span class="log-badge aguardando">Aguardando</span>
+                    <div class="log-info">
+                      <strong>${escapeHtml(itemOS.cliente)}</strong>
+                      <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
+                    </div>
+                    <div class="log-hora">⏳ --:--</div>
+                  </div>
+                `;
               }
             });
           }
 
+          // Monta o preview do header com todos os contadores de status
           const preview = document.getElementById(`preview-${tec}`);
           let htmlContador = '';
           if (emRota > 0) htmlContador += `<span class="preview-rota">🚗 ${emRota}</span>`;
           if (concluidas > 0) htmlContador += `<span class="preview-concluido">✅ ${concluidas}</span>`;
+          if (aguardando > 0) htmlContador += `<span class="preview-aguardando">⏳ ${aguardando}</span>`;
           preview.innerHTML = htmlContador || '<span style="color:#64748b">Sem atividades</span>';
 
           const containerAtividades = document.getElementById(`atividades-${tec}`);
-          containerAtividades.innerHTML = logsHtml || `<div class="sem-atividade">Nenhuma rota ativa ou conclusão recente registrada.</div>`;
+          containerAtividades.innerHTML = logsHtml || `<div class="sem-atividade">Nenhuma O.S. configurada no sistema.</div>`;
 
         } catch(e) {
-          console.warn("Sem dados para " + tec);
+          console.warn("Sem dados para " + tec, e);
         }
       }
     }
@@ -1017,10 +1035,9 @@
       )).join("\n\n");
     }
 
-    // CORREÇÃO ESSENCIAL: Evita quebrar strings e tags internas do script original
     function escapeHtml(str) {
       if(!str) return "";
-      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return str.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
     }
 
     function criarCards(texto) {
