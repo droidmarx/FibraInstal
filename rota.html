@@ -22,16 +22,16 @@
       color: white;
       min-height: 100vh;
       overflow-x: hidden;
-      padding: 20px;
+      padding: 16px;
     }
 
     .topo {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       text-align: center;
     }
 
     .topo h1 {
-      font-size: 32px;
+      font-size: 26px;
       font-weight: 800;
       background: linear-gradient(90deg, #22d3ee, #60a5fa, #a78bfa);
       -webkit-background-clip: text;
@@ -40,29 +40,22 @@
 
     .topo p {
       color: #94a3b8;
-      font-size: 15.5px;
-      margin-top: 4px;
+      font-size: 14px;
+      margin-top: 6px;
     }
 
     .btn-config {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #cbd5e1;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
-      padding: 8px 16px;
+      padding: 10px 18px;
       border-radius: 12px;
       cursor: pointer;
-      margin: 12px auto 0;
+      margin: 14px auto 0;
       display: block;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .btn-config:hover {
-      background: rgba(34, 211, 238, 0.1);
-      border-color: rgba(34, 211, 238, 0.3);
-      color: white;
-      transform: scale(1.03);
+      transition: all 0.25s ease;
     }
 
     .form-add-tecnico {
@@ -80,12 +73,6 @@
       color: white;
       outline: none;
       flex: 1;
-      transition: all 0.2s;
-    }
-
-    .input-add:focus {
-      border-color: rgba(34, 211, 238, 0.45);
-      background: rgba(34, 211, 238, 0.05);
     }
 
     .btn-add {
@@ -96,12 +83,6 @@
       padding: 12px 20px;
       border-radius: 14px;
       cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-add:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
     }
 
     .lista-gerenciar {
@@ -113,7 +94,6 @@
       background: rgba(0, 0, 0, 0.2);
       padding: 12px;
       border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .item-gerenciar {
@@ -125,7 +105,6 @@
       padding: 8px 12px;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.03);
     }
 
     .btn-deletar-tec {
@@ -137,44 +116,27 @@
       padding: 6px 12px;
       border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-deletar-tec:hover {
-      background: #ef4444;
-      color: white;
-      border-color: #ef4444;
     }
 
     .seletor-tecnico {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
       max-width: 650px;
       margin: 0 auto 32px;
     }
 
-    .seletor-tecnico.oculto {
-      display: none !important;
-    }
+    .seletor-tecnico.oculto { display: none !important; }
 
     .card-monitor {
       border: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(20px);
-      border-radius: 28px;
-      padding: 24px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 24px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      position: relative;
-    }
-
-    .card-monitor:hover {
-      border-color: rgba(34, 211, 238, 0.25);
-      background: rgba(255, 255, 255, 0.05);
+      gap: 12px;
     }
 
     .monitor-header {
@@ -186,290 +148,240 @@
     .monitor-info-esquerda {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
       cursor: pointer;
       flex: 1;
     }
 
     .monitor-nome {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 800;
       color: #f8fafc;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
 
     .status-preview {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
     }
 
     .status-preview span {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 5px 11px;
+      padding: 4px 8px;
       border-radius: 999px;
     }
 
-    .preview-rota { background: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.25); }
-    .preview-concluido { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
-    .preview-nao-concluido { background: rgba(244, 63, 94, 0.15); color: #f87171; border: 1px solid rgba(244, 63, 94, 0.25); }
-    .preview-aguardando { background: rgba(148, 163, 184, 0.12); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
+    .preview-rota { background: rgba(234, 179, 8, 0.15); color: #fde047; }
+    .preview-concluido { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+    .preview-nao-concluido { background: rgba(244, 63, 94, 0.15); color: #f87171; }
+    .preview-aguardando { background: rgba(148, 163, 184, 0.12); color: #94a3b8; }
 
     .btn-dropdown {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: #94a3b8;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 14px;
+      padding: 6px 12px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-dropdown:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
     }
 
     .monitor-atividades {
       display: none;
       flex-direction: column;
-      gap: 12px;
-      opacity: 0;
-      transform: translateY(-8px);
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      margin-top: 10px;
-      padding-top: 20px;
+      gap: 10px;
+      margin-top: 6px;
+      padding-top: 14px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .monitor-atividades.visivel {
-      display: flex;
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .monitor-atividades.visivel { display: flex; }
 
     .log-atividade {
       display: flex;
-      align-items: center;
-      gap: 18px;
+      flex-direction: column;
+      gap: 6px;
       background: rgba(255, 255, 255, 0.02);
-      padding: 16px 20px;
-      border-radius: 20px;
+      padding: 12px;
+      border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
     .log-badge {
       font-weight: 800;
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 6px 14px;
-      border-radius: 12px;
-      white-space: nowrap;
-      text-align: center;
-      min-width: 120px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      align-self: flex-start;
     }
 
-    .log-badge.rota { background: rgba(234, 179, 8, 0.12); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.25); }
-    .log-badge.concluido { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
-    .log-badge.nao-concluido { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.25); }
-    .log-badge.aguardando { background: rgba(148, 163, 184, 0.08); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.18); }
+    .log-badge.rota { background: rgba(234, 179, 8, 0.12); color: #facc15; }
+    .log-badge.concluido { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+    .log-badge.nao-concluido { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .log-badge.aguardando { background: rgba(148, 163, 184, 0.08); color: #94a3b8; }
 
-    .log-info {
-      flex: 1;
-      line-height: 1.5;
-    }
-
-    .log-info strong { 
-      color: #f1f5f9; 
-      font-size: 18px; 
-      font-weight: 700;
-      display: block;
-    }
-    
-    .log-info .tipo-servico { 
-      color: #94a3b8; 
-      font-size: 14.5px; 
-      display: block; 
-      margin-top: 2px; 
-    }
+    .log-info strong { color: #f1f5f9; font-size: 15px; font-weight: 700; display: block; }
+    .log-info .tipo-servico { color: #94a3b8; font-size: 13px; display: block; margin-top: 2px; }
     
     .log-info .obs-texto { 
       color: #f87171; 
-      font-size: 13.5px; 
+      font-size: 12.5px; 
       display: block; 
       margin-top: 6px; 
       font-style: italic; 
       background: rgba(244, 63, 94, 0.06); 
-      padding: 8px 12px; 
-      border-radius: 10px; 
+      padding: 6px 10px; 
+      border-radius: 8px; 
       border-left: 3px solid #ef4444; 
     }
 
     .log-hora {
-      font-size: 14px;
+      font-size: 12px;
       color: #cbd5e1;
-      font-weight: 700;
-      background: rgba(255,255,255,0.06);
-      padding: 6px 12px;
-      border-radius: 10px;
-      white-space: nowrap;
+      font-weight: 600;
+      align-self: flex-end;
     }
 
     .sem-atividade {
       color: #64748b;
-      font-size: 15px;
+      font-size: 14px;
       font-style: italic;
       text-align: center;
-      padding: 12px 0;
     }
 
     .painel-tecnico.oculto { display: none !important; }
 
     .btn-trocar {
       display: block;
-      margin: 0 auto 20px;
+      margin: 0 auto 16px;
       border: none;
       background: none;
       color: #67e8f9;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      padding: 6px 10px;
     }
 
     .importador {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border-radius: 28px;
-      padding: 28px;
-      margin-bottom: 32px;
+      border-radius: 24px;
+      padding: 16px;
+      margin-bottom: 24px;
     }
 
-    .importador.oculto {
-      display: none !important;
-    }
+    .importador.oculto { display: none !important; }
 
     textarea {
       width: 100%;
-      min-height: 260px;
+      min-height: 180px;
       resize: vertical;
       border: none;
       outline: none;
-      border-radius: 24px;
-      padding: 22px;
-      font-size: 15.5px;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 14px;
       background: rgba(255, 255, 255, 0.07);
       color: white;
-      line-height: 1.65;
     }
 
     .btn-gerar {
       width: 100%;
-      margin-top: 20px;
+      margin-top: 14px;
       border: none;
-      padding: 18px;
-      border-radius: 20px;
-      font-size: 16.5px;
+      padding: 14px;
+      border-radius: 16px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       color: white;
       background: linear-gradient(135deg, #22d3ee, #3b82f6);
-      box-shadow: 0 10px 20px rgba(34, 211, 238, 0.2);
     }
 
     .btn-mostrar {
       display: none;
       width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       border: none;
-      padding: 16px;
-      border-radius: 18px;
-      font-size: 15px;
+      padding: 14px;
+      border-radius: 16px;
+      font-size: 14px;
       font-weight: 700;
-      cursor: pointer;
       color: white;
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .cards {
       display: flex;
-      gap: 24px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
+      flex-direction: column;
+      gap: 16px;
       padding-bottom: 20px;
     }
 
     .card {
-      min-width: 360px;
-      max-width: 360px;
-      flex-shrink: 0;
-      scroll-snap-align: center;
-      border-radius: 32px;
-      padding: 26px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      transition: all 0.4s ease;
+      width: 100%;
+      border-radius: 24px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       position: relative;
     }
 
-    .card:hover { transform: translateY(-8px); }
-
     .btn-editar-os {
       position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.15);
       background: rgba(255,255,255,0.08);
       color: #a5b4fc;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.25s;
       z-index: 2;
     }
 
-    .btn-editar-os:hover {
-      background: rgba(165, 180, 252, 0.2);
-      color: #c4b5fd;
-      border-color: rgba(165,180,252,0.35);
-      transform: scale(1.08);
+    .card-top-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      max-width: 85%;
     }
 
     .horario {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
+      gap: 6px;
+      padding: 6px 12px;
       border-radius: 999px;
       background: linear-gradient(90deg, #22d3ee, #3b82f6);
-      font-size: 14.5px;
+      font-size: 12.5px;
       font-weight: 700;
-      margin-bottom: 18px;
     }
 
-    .cliente { font-size: 24px; font-weight: 800; margin-bottom: 16px; padding-right: 44px; }
-
-    .info {
-      color: #cbd5e1;
-      line-height: 1.65;
-      margin: 10px 0;
-      font-size: 15px;
+    .card-status-topo {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
     }
 
+    .card-status-topo.vazio { background: rgba(255,255,255,0.06); color: #94a3b8; }
+    .card-status-topo.rota { background: rgba(234,179,8,0.2); color: #facc15; }
+    .card-status-topo.concluido { background: rgba(34,197,94,0.2); color: #4ade80; }
+    .card-status-topo.nao-concluido { background: rgba(244,63,94,0.2); color: #f87171; }
+
+    .cliente { font-size: 20px; font-weight: 800; margin-bottom: 12px; padding-right: 40px; }
+    .info { color: #cbd5e1; line-height: 1.5; margin: 8px 0; font-size: 14px; }
     .info strong { color: #e0f2fe; }
 
     .info-linha {
@@ -477,113 +389,124 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin: 10px 0;
+      margin: 8px 0;
+      background: rgba(255,255,255,0.02);
+      padding: 8px 12px;
+      border-radius: 12px;
     }
 
     .btn-copiar {
       flex-shrink: 0;
       border: none;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       cursor: pointer;
       color: #67e8f9;
       background: rgba(103, 232, 249, 0.12);
-      font-size: 15px;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.25s;
     }
 
-    .btn-copiar:hover { background: rgba(103, 232, 249, 0.22); transform: translateY(-1px); }
-
     .os-number {
-      font-size: 17px;
+      font-size: 14px;
       font-weight: 800;
       color: #67e8f9;
       background: rgba(103, 232, 249, 0.12);
-      padding: 4px 12px;
-      border-radius: 8px;
+      padding: 3px 8px;
+      border-radius: 6px;
     }
 
     .assunto {
-      font-size: 14.5px;
+      font-size: 13.5px;
       color: #a5b4fc;
       background: rgba(165, 180, 252, 0.1);
-      padding: 6px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
       margin: 8px 0;
+      display: inline-block;
     }
 
-    .botoes-grupo {
-      margin-top: 24px;
+    .botoes-grupo-novo {
+      margin-top: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .btn-links { display: flex; gap: 12px; }
+    .btn-links-linha {
+      display: flex;
+      gap: 10px;
+    }
 
-    .btn-maps, .btn-ativo, .btn-status-rota, .btn-status-falha {
+    .btn-acao-mobile {
+      flex: 1;
       border: none;
-      padding: 15px;
-      border-radius: 18px;
-      font-size: 14.5px;
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 13.5px;
       font-weight: 700;
       cursor: pointer;
       color: white;
-      transition: all 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
     }
 
-    .btn-maps { flex: 1; background: linear-gradient(135deg, #f43f5e, #fb923c); }
-    .btn-ativo { flex: 1; background: linear-gradient(135deg, #64748b, #475569); }
-    .btn-status-rota { background: linear-gradient(135deg, #eab308, #f59e0b); padding: 16px; }
-    .btn-status-falha { background: linear-gradient(135deg, #ef4444, #b91c1c); padding: 14px; font-size: 13.5px; }
+    .btn-maps-mob { background: linear-gradient(135deg, #f43f5e, #fb923c); }
+    .btn-ativo-mob { background: linear-gradient(135deg, #64748b, #475569); }
 
-    .status-box {
-      margin-top: 16px;
+    .seletor-status-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .select-status-unico {
+      width: 100%;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f1f5f9;
       padding: 14px;
-      border-radius: 16px;
-      text-align: center;
+      border-radius: 14px;
+      font-size: 14px;
       font-weight: 700;
-      font-size: 15px;
+      cursor: pointer;
+      appearance: none;
+      text-align: center;
     }
 
-    .rota {
-      background: rgba(234, 179, 8, 0.15);
-      color: #fde047;
-      border: 1px solid rgba(234, 179, 8, 0.4);
-    }
-
-    .concluido {
-      background: rgba(74, 222, 128, 0.15);
-      color: #4ade80;
-      border: 1px solid rgba(74, 222, 128, 0.4);
-    }
-
-    .nao-concluido {
-      background: rgba(244, 63, 94, 0.15);
-      color: #f87171;
-      border: 1px solid rgba(244, 63, 94, 0.4);
+    .seletor-status-container::after {
+      content: '▾';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #67e8f9;
+      pointer-events: none;
+      font-size: 16px;
     }
 
     .card-obs-preview {
-      margin-top: 10px;
-      font-size: 13.5px;
+      margin-top: 12px;
+      font-size: 13px;
       color: #f87171;
       background: rgba(244, 63, 94, 0.08);
-      padding: 8px 12px;
-      border-radius: 10px;
-      border-left: 3px solid #ef4444;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border-left: 4px solid #ef4444;
       font-style: italic;
     }
+    
+    .card-obs-preview.concluida-obs {
+      color: #4ade80;
+      background: rgba(34, 197, 94, 0.08);
+      border-left-color: #22c55e;
+    }
 
-    /* Modais Estrutura Geral */
+    /* Modais */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -593,233 +516,99 @@
       backdrop-filter: blur(0px);
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+      padding: 16px;
+      transition: all 0.3s ease;
     }
 
     .modal-overlay.aberto {
       display: flex;
       background: rgba(2, 6, 23, 0.85);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(8px);
     }
 
     .modal {
       background: #0f172a;
       border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 32px;
-      padding: 32px 28px;
+      border-radius: 24px;
+      padding: 24px 20px;
       width: 100%;
-      max-width: 480px;
-      max-height: 92vh;
+      max-width: 440px;
+      max-height: 90vh;
       overflow-y: auto;
       position: relative;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
       opacity: 0;
-      transform: scale(0.9) translateY(15px);
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+      transform: scale(0.95) translateY(10px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .modal-overlay.aberto .modal {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
+    .modal-overlay.aberto .modal { opacity: 1; transform: scale(1) translateY(0); }
 
-    /* Animação do Modal Chacoalhando (Shake) */
-    .modal.shake {
-      animation: chacoalhar 0.4s cubic-bezier(.36,.07,.19,.97) both;
-    }
+    .modal.shake { animation: chacoalhar 0.4s both; }
 
     @keyframes chacoalhar {
       10%, 90% { transform: translate3d(-2px, 0, 0); }
       20%, 80% { transform: translate3d(4px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-      40%, 60% { transform: translate3d(6px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+      40%, 60% { transform: translate3d(5px, 0, 0); }
     }
 
-    /* Modal de Senha específico */
-    .modal-senha {
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .erro-senha {
-      color: #f87171;
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 10px;
-      display: none;
-    }
-
-    .modal-titulo {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 24px;
-      background: linear-gradient(90deg, #22d3ee, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    .modal-senha { text-align: center; }
+    .erro-senha { color: #f87171; font-size: 13px; font-weight: 600; margin-top: 10px; display: none; }
+    .modal-titulo { font-size: 18px; font-weight: 800; margin-bottom: 20px; background: linear-gradient(90deg, #22d3ee, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
     .modal-fechar {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       border: 1px solid rgba(255,255,255,0.15);
       background: rgba(255,255,255,0.07);
       color: #94a3b8;
-      font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .modal-fechar:hover {
-      background: rgba(244, 63, 94, 0.2);
-      color: #f87171;
-      border-color: rgba(244,63,94,0.3);
-    }
-
-    .campo-grupo {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    /* Wrapper para o Input com o Olho */
-    .senha-input-wrapper {
-      position: relative;
-      width: 100%;
-    }
-
-    .campo-input {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 13px 16px;
-      font-size: 15px;
-      color: white;
-      outline: none;
-      width: 100%;
-    }
-
-    .campo-input:focus {
-      border-color: rgba(34, 211, 238, 0.45);
-      background: rgba(34, 211, 238, 0.05);
-    }
-
-    /* Estilo do Botão do Olho */
+    .campo-grupo { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .senha-input-wrapper { position: relative; width: 100%; }
+    .campo-input { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; font-size: 14.5px; color: white; outline: none; width: 100%; }
+    
     .btn-toggle-senha {
       position: absolute;
-      right: 14px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
       cursor: pointer;
       color: #64748b;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-      border-radius: 6px;
-      transition: color 0.2s, background-color 0.2s;
     }
 
-    .btn-toggle-senha:hover {
-      color: #22d3ee;
-      background: rgba(255, 255, 255, 0.05);
-    }
+    .campo-textarea-modal { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; font-size: 14.5px; color: white; outline: none; width: 100%; min-height: 80px; resize: vertical; }
+    .campo-select { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; font-size: 14.5px; color: white; outline: none; width: 100%; cursor: pointer; appearance: none; }
+    .campo-select option { background: #0f172a; color: white; }
+    .select-wrapper { position: relative; }
+    .select-wrapper::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748b; pointer-events: none; }
 
-    .campo-textarea-modal {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 13px 16px;
-      font-size: 15px;
-      color: white;
-      outline: none;
-      width: 100%;
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    .campo-select {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 13px 16px;
-      font-size: 15px;
-      color: white;
-      outline: none;
-      width: 100%;
-      cursor: pointer;
-      appearance: none;
-    }
-
-    .campo-select option {
-      background: #0f172a;
-      color: white;
-    }
-
-    .select-wrapper {
-      position: relative;
-    }
-
-    .select-wrapper::after {
-      content: '▾';
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #64748b;
-      pointer-events: none;
-      font-size: 14px;
-    }
-
-    .modal-divider {
-      border: none;
-      border-top: 1px solid rgba(255,255,255,0.07);
-      margin: 20px 0;
-    }
-
-    .modal-secao {
-      font-size: 11px;
-      font-weight: 700;
-      color: #475569;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-    }
-
-    .btn-salvar-modal {
-      width: 100%;
-      margin-top: 24px;
-      border: none;
-      padding: 17px;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      color: white;
-      background: linear-gradient(135deg, #22d3ee, #3b82f6);
-      box-shadow: 0 8px 20px rgba(34, 211, 238, 0.2);
-    }
+    .modal-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 16px 0; }
+    .modal-secao { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+    .btn-salvar-modal { width: 100%; margin-top: 16px; border: none; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; color: white; background: linear-gradient(135deg, #22d3ee, #3b82f6); }
 
     .toast {
       position: fixed;
-      bottom: 30px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(15, 23, 42, 0.96);
       border: 1px solid rgba(34, 211, 238, 0.2);
       backdrop-filter: blur(16px);
-      padding: 16px 26px;
-      border-radius: 20px;
+      padding: 12px 24px;
+      border-radius: 16px;
       font-weight: 600;
+      font-size: 14px;
       opacity: 0;
       pointer-events: none;
       transition: all 0.4s;
@@ -835,66 +624,25 @@
       inset: 0;
       z-index: 200;
       background: rgba(2, 6, 23, 0.75);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(8px);
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
-    .loading-overlay.ativo {
-      display: flex;
-    }
-
-    .spinner-container {
-      position: relative;
-      width: 80px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .spinner {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 4px solid rgba(255, 255, 255, 0.03);
-      border-top-color: #22d3ee;
-      border-right-color: #3b82f6;
-      animation: rodar 1s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
-    }
-
-    .spinner-pulso {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, transparent 70%);
-      animation: pulsar 1.6s ease-in-out infinite;
-    }
-
-    .loading-texto {
-      font-size: 16px;
-      font-weight: 700;
-      color: #e2e8f0;
-    }
-
-    @media(max-width: 640px) {
-      .card { min-width: 92vw; max-width: 92vw; }
-      .modal { padding: 26px 20px; }
-      .log-atividade { flex-direction: column; align-items: flex-start; gap: 8px; }
-      .log-badge { min-width: auto; width: 100%; }
-      .log-hora { align-self: flex-end; }
-    }
+    .loading-overlay.ativo { display: flex; }
+    .spinner { width: 50px; height: 50px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.03); border-top-color: #22d3ee; animation: rodar 1s linear infinite; }
+    @keyframes rodar { to { transform: rotate(360deg); } }
+    .loading-texto { font-size: 14px; font-weight: 700; color: #e2e8f0; }
   </style>
 </head>
 
 <body>
 
   <div class="topo">
-    <h1>📡 Monitoramento Técnico em Tempo Real</h1>
-    <p id="subtitulo">Clique no painel de um técnico para abrir a sua agenda completa</p>
+    <h1>📡 Monitoramento Técnico</h1>
+    <p id="subtitulo">Toque no painel do técnico para ver a agenda</p>
     <button class="btn-config" onclick="abrirModalSenha()">⚙️ Gerenciar Técnicos</button>
   </div>
 
@@ -902,18 +650,15 @@
     <div class="modal modal-senha" id="cardModalSenha">
       <button class="modal-fechar" onclick="fecharModalSenha()">✕</button>
       <div class="modal-titulo">🔑 Área Restrita</div>
-      <div class="modal-secao" style="margin-bottom: 20px;">Digite a senha master para continuar</div>
+      <div class="modal-secao" style="margin-bottom: 20px;">Digite a senha master</div>
       
       <div class="campo-grupo">
         <div class="senha-input-wrapper">
-          <input type="password" class="campo-input" id="inputSenhaMaster" placeholder="Digite a senha..." style="text-align: center; font-size: 18px; letter-spacing: 0.15em; padding-right: 48px;" onkeydown="verificarTeclaSenha(event)" />
-          <button class="btn-toggle-senha" onclick="toggleVisibilidadeSenha()" id="btnToggleSenha" title="Mostrar senha">
-            <svg id="svgOlho" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>
-          </button>
+          <input type="password" class="campo-input" id="inputSenhaMaster" placeholder="Senha..." style="text-align: center; font-size: 16px;" onkeydown="verificarTeclaSenha(event)" />
+          <button class="btn-toggle-senha" onclick="toggleVisibilidadeSenha()" id="btnToggleSenha">👁️</button>
         </div>
-        <div class="erro-senha" id="erroSenhaMsg">⚠️ Senha incorreta! Tente novamente.</div>
+        <div class="erro-senha" id="erroSenhaMsg">⚠️ Senha incorreta!</div>
       </div>
-      
       <button class="btn-salvar-modal" onclick="validarSenhaMaster()">Confirmar Acesso</button>
     </div>
   </div>
@@ -923,14 +668,14 @@
       <button class="modal-fechar" onclick="fecharModalConfig()">✕</button>
       <div class="modal-titulo">⚙️ Gerenciar Técnicos</div>
       
-      <div class="modal-secao">Cadastrar Novo Técnico</div>
+      <div class="modal-secao">Cadastrar Novo</div>
       <div class="form-add-tecnico">
-        <input type="text" class="input-add" id="nomeNovoTecnico" placeholder="Nome do técnico..." />
-        <button class="btn-add" onclick="adicionarTecnico()">➕ Adicionar</button>
+        <input type="text" class="input-add" id="nomeNovoTecnico" placeholder="Nome..." />
+        <button class="btn-add" onclick="adicionarTecnico()">➕</button>
       </div>
       
       <div class="modal-divider"></div>
-      <div class="modal-secao">Técnicos Ativos no Sistema</div>
+      <div class="modal-secao">Técnicos Ativos</div>
       <div class="lista-gerenciar" id="listaGerenciarTecnicos"></div>
     </div>
   </div>
@@ -939,10 +684,7 @@
 
   <div class="painel-tecnico oculto" id="painelTecnico">
     <button class="btn-trocar" onclick="trocarTecnico()">↩️ Voltar ao Painel Geral</button>
-
-    <button class="btn-mostrar" id="btnMostrar" onclick="mostrarImportador()">
-      📋 Mostrar campo da agenda
-    </button>
+    <button class="btn-mostrar" id="btnMostrar" onclick="mostrarImportador()">📋 Mostrar campo da agenda</button>
 
     <div class="importador" id="importador">
       <textarea id="entrada" placeholder="Cole aqui a agenda completa..."></textarea>
@@ -958,15 +700,16 @@
       <div class="modal-titulo">✏️ Editar OS</div>
 
       <div class="modal-secao">Dados Principais</div>
-      <div class="campo-grupo"><label class="campo-label">Horário</label><input class="campo-input" id="edit-horario" type="text" /></div>
-      <div class="campo-grupo"><label class="campo-label">Cliente</label><input class="campo-input" id="edit-cliente" type="text" /></div>
-      <div class="campo-grupo"><label class="campo-label">Assunto</label><input class="campo-input" id="edit-assunto" type="text" /></div>
-      <div class="campo-grupo"><label class="campo-label">Endereço</label><input class="campo-input" id="edit-endereco" type="text" /></div>
+      <div class="campo-grupo"><label>Horário</label><input class="campo-input" id="edit-horario" type="text" /></div>
+      <div class="campo-grupo"><label>Cliente</label><input class="campo-input" id="edit-cliente" type="text" /></div>
+      <div class="campo-grupo"><label>Assunto</label><input class="campo-input" id="edit-assunto" type="text" /></div>
+      <div class="campo-grupo"><label>Endereço</label><input class="campo-input" id="edit-endereco" type="text" /></div>
+      <div class="campo-grupo"><label>Contato</label><input class="campo-input" id="edit-contato" type="text" /></div>
 
       <hr class="modal-divider" />
       <div class="modal-secao">Credenciais</div>
-      <div class="campo-grupo"><label class="campo-label">Login</label><input class="campo-input" id="edit-login" type="text" /></div>
-      <div class="campo-grupo"><label class="campo-label">Senha PPPoE</label><input class="campo-input" id="edit-senha" type="text" /></div>
+      <div class="campo-grupo"><label>Login</label><input class="campo-input" id="edit-login" type="text" /></div>
+      <div class="campo-grupo"><label>Senha PPPoE</label><input class="campo-input" id="edit-senha" type="text" /></div>
 
       <hr class="modal-divider" />
       <div class="modal-secao">Status da OS</div>
@@ -981,17 +724,30 @@
         </div>
       </div>
 
-      <div class="campo-grupo" id="campo-grupo-obs">
-        <label class="campo-label" style="color: #f87171;">⚠️ Motivo / Observação</label>
-        <textarea class="campo-textarea-modal" id="edit-observacao" placeholder="Caso não tenha sido concluída, digite o motivo aqui para salvar..."></textarea>
+      <div class="campo-grupo">
+        <label style="color: #67e8f9;">📝 Observações / Motivo (Qualquer Status)</label>
+        <textarea class="campo-textarea-modal" id="edit-observacao" placeholder="Digite as observações ou o motivo do encerramento aqui..."></textarea>
       </div>
 
       <button class="btn-salvar-modal" id="btnSalvarModal" onclick="salvarEdicaoOS()">💾 Salvar alterações</button>
     </div>
   </div>
 
+  <div class="modal-overlay" id="modalObsExpressaOverlay">
+    <div class="modal">
+      <button class="modal-fechar" onclick="fecharModalObsExpressa()">✕</button>
+      <div class="modal-titulo" id="tit-obs-expressa">📝 Adicionar Observação</div>
+      <p id="desc-obs-expressa" style="font-size:13.5px; color:#cbd5e1; margin-bottom:14px;"></p>
+      
+      <div class="campo-grupo">
+        <textarea class="campo-textarea-modal" id="input-obs-expressa" placeholder="Escreva as observações finais desta OS..."></textarea>
+      </div>
+      <button class="btn-salvar-modal" onclick="salvarObsExpressa()">💾 Confirmar e Finalizar</button>
+    </div>
+  </div>
+
   <div class="loading-overlay" id="loadingOverlay">
-    <div class="spinner-container"><div class="spinner-pulso"></div><div class="spinner"></div></div>
+    <div class="spinner"></div>
     <div class="loading-texto" id="loadingTexto">Sincronizando...</div>
   </div>
 
@@ -1006,11 +762,12 @@
     let statusOS = {};
     let dadosOS = [];
     let osEditandoIndex = null;
+    
+    let statusTemporarioExpressado = null;
+    let indexTemporarioExpressado = null;
 
     if(localStorage.getItem('lista_tecnicos_smart')) {
-      try {
-        listaTecnicos = JSON.parse(localStorage.getItem('lista_tecnicos_smart'));
-      } catch(e){ listaTecnicos = []; }
+      try { listaTecnicos = JSON.parse(localStorage.getItem('lista_tecnicos_smart')); } catch(e){ listaTecnicos = []; }
     }
 
     function toggleLoading(exibir, mensagem = "Sincronizando...") {
@@ -1022,37 +779,17 @@
 
     function toggleVisibilidadeSenha() {
       const input = document.getElementById("inputSenhaMaster");
-      const btn = document.getElementById("btnToggleSenha");
-      const svgContainer = document.getElementById("svgOlho");
-
-      if (input.type === "password") {
-        input.type = "text";
-        btn.title = "Ocultar senha";
-        svgContainer.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
-      } else {
-        input.type = "password";
-        btn.title = "Mostrar senha";
-        svgContainer.innerHTML = `<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line>`;
-      }
+      input.type = input.type === "password" ? "text" : "password";
     }
 
     function abrirModalSenha() {
       const overlay = document.getElementById("modalSenhaOverlay");
       const modal = document.getElementById("cardModalSenha");
-      const input = document.getElementById("inputSenhaMaster");
-
       document.getElementById("erroSenhaMsg").style.display = "none";
-      input.value = "";
-      input.type = "password";
-      
-      document.getElementById("svgOlho").innerHTML = `<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line>`;
-      
+      document.getElementById("inputSenhaMaster").value = "";
       modal.classList.remove("shake");
       overlay.style.display = "flex";
-      setTimeout(() => {
-        overlay.classList.add("aberto");
-        input.focus();
-      }, 10);
+      setTimeout(() => { overlay.classList.add("aberto"); document.getElementById("inputSenhaMaster").focus(); }, 10);
     }
 
     function fecharModalSenha() {
@@ -1061,11 +798,8 @@
       setTimeout(() => overlay.style.display = "none", 300);
     }
 
-    function verificarTeclaSenha(e) {
-      if (e.key === "Enter") validarSenhaMaster();
-    }
+    function verificarTeclaSenha(e) { if (e.key === "Enter") validarSenhaMaster(); }
 
-    // Função de validação ajustada para limpar o campo pós-shake
     function validarSenhaMaster() {
       const input = document.getElementById("inputSenhaMaster");
       const modal = document.getElementById("cardModalSenha");
@@ -1075,16 +809,10 @@
         abrirModalConfig();
       } else {
         modal.classList.remove("shake");
-        void modal.offsetWidth; // Reset de animação nativo do browser
+        void modal.offsetWidth;
         modal.classList.add("shake");
-
         document.getElementById("erroSenhaMsg").style.display = "block";
-        
-        // Limpa o campo e foca novamente logo após os 400ms do chacoalhar
-        setTimeout(() => {
-          input.value = "";
-          input.focus();
-        }, 400);
+        setTimeout(() => { input.value = ""; input.focus(); }, 400);
       }
     }
 
@@ -1101,13 +829,10 @@
       setTimeout(() => overlay.style.display = "none", 300);
     }
 
-    document.getElementById("modalConfigOverlay").addEventListener("click", function(e) {
-      if (e.target === this) fecharModalConfig();
-    });
-    
-    document.getElementById("modalSenhaOverlay").addEventListener("click", function(e) {
-      if (e.target === this) fecharModalSenha();
-    });
+    document.getElementById("modalConfigOverlay").addEventListener("click", function(e) { if (e.target === this) fecharModalConfig(); });
+    document.getElementById("modalSenhaOverlay").addEventListener("click", function(e) { if (e.target === this) fecharModalSenha(); });
+    document.getElementById("modalOverlay").addEventListener("click", function(e) { if (e.target === this) fecharModal(); });
+    document.getElementById("modalObsExpressaOverlay").addEventListener("click", function(e) { if (e.target === this) fecharModalObsExpressa(); });
 
     function toggleDropdown(tec, event) {
       if (event) event.stopPropagation();
@@ -1170,7 +895,7 @@
         await carregarDashboardGeral();
         mostrarToast("👤 Técnico adicionado!");
       } catch (e) {
-        alert("Erro ao salvar técnico no servidor remoto.");
+        alert("Erro ao salvar técnico remoto.");
       } finally {
         toggleLoading(false);
         abrirModalConfig();
@@ -1265,10 +990,7 @@
                 logsHtml += `
                   <div class="log-atividade">
                     <span class="log-badge rota">🚗 Em rota</span>
-                    <div class="log-info">
-                      <strong>${escapeHtml(itemOS.cliente)}</strong>
-                      <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
-                    </div>
+                    <div class="log-info"><strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span></div>
                     <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
                 `;
@@ -1279,8 +1001,8 @@
                   <div class="log-atividade">
                     <span class="log-badge concluido">✅ Concluído</span>
                     <div class="log-info">
-                      <strong>${escapeHtml(itemOS.cliente)}</strong>
-                      <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
+                      <strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
+                      ${obsSalva ? `<span class="obs-texto" style="color:#4ade80; background:rgba(34,197,94,0.06); border-left-color:#22c55e;">📝 Obs: ${escapeHtml(obsSalva)}</span>` : ''}
                     </div>
                     <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
@@ -1292,8 +1014,7 @@
                   <div class="log-atividade">
                     <span class="log-badge nao-concluido">❌ Mal Sucedida</span>
                     <div class="log-info">
-                      <strong>${escapeHtml(itemOS.cliente)}</strong>
-                      <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
+                      <strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
                       ${obsSalva ? `<span class="obs-texto">⚠️ Motivo: ${escapeHtml(obsSalva)}</span>` : ''}
                     </div>
                     <div class="log-hora">⏰ ${horaLog}</div>
@@ -1304,10 +1025,7 @@
                 logsHtml += `
                   <div class="log-atividade">
                     <span class="log-badge aguardando">⏳ Pendente</span>
-                    <div class="log-info">
-                      <strong>${escapeHtml(itemOS.cliente)}</strong>
-                      <span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
-                    </div>
+                    <div class="log-info"><strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span></div>
                     <div class="log-hora">Pendente</div>
                   </div>
                 `;
@@ -1336,7 +1054,7 @@
 
     async function selecionarTecnico(nome) {
       tecnicoAtual = nome;
-      document.getElementById("subtitulo").textContent = `Agenda completa do Técnico: ${nome}`;
+      document.getElementById("subtitulo").textContent = `Agenda: ${nome}`;
       document.getElementById("seletorTecnico").classList.add("oculto");
       document.getElementById("painelTecnico").classList.remove("oculto");
       
@@ -1390,7 +1108,7 @@
       registroAtualId = null;
       statusOS = {};
       dadosOS = [];
-      document.getElementById("subtitulo").textContent = "Clique no painel de um técnico para abrir a sua agenda completa";
+      document.getElementById("subtitulo").textContent = "Toque no painel do técnico para ver a agenda";
       document.getElementById("seletorTecnico").classList.remove("oculto");
       document.getElementById("painelTecnico").classList.add("oculto");
       carregarDashboardGeral();
@@ -1430,7 +1148,7 @@
           const criado = await resp.json();
           registroAtualId = criado.id;
         }
-      } catch (e) { mostrarToast("❌ Erro ao salvar dados na nuvem."); } finally { if(!messageSilenciosa) toggleLoading(false); }
+      } catch (e) { mostrarToast("❌ Erro ao sincronizar nuvem."); } finally { if(!messageSilenciosa) toggleLoading(false); }
     }
 
     function gerarAgenda() {
@@ -1450,7 +1168,8 @@
         horario:   bloco.match(/Horário:\s*(.*)/i)?.[1]?.trim()                || "",
         endereco:  bloco.match(/Endereço:\s*(.*)/i)?.[1]?.trim()               || "",
         login:     bloco.match(/Login:\s*(.*)/i)?.[1]?.trim()                  || "",
-        senha:     bloco.match(/Senha\s*(?:do\s*)?PP+o?E:\s*(.*)/i)?.[1]?.trim() || "",
+        senha:     bloco.match(/Senha\s*(?:do\s*)?(?:PPPoE)?:\s*(.*)/i)?.[1]?.trim() || "",
+        contato:   bloco.match(/Contato:\s*(.*)/i)?.[1]?.trim()                || "",
         assunto:   bloco.match(/Assunto:\s*(.*)/i)?.[1]?.trim()                || "Sem assunto"
       }));
     }
@@ -1463,7 +1182,8 @@
         `Assunto: ${os.assunto}\n` +
         `Endereço: ${os.endereco}\n` +
         `Login: ${os.login}\n` +
-        `Senha PPPoE: ${os.senha}`
+        `Senha: ${os.senha}\n` +
+        `Contato: ${os.contato}`
       )).join("\n\n");
     }
 
@@ -1478,7 +1198,7 @@
       cardsContainer.innerHTML = "";
 
       if(dadosOS.length === 0) {
-        cardsContainer.innerHTML = `<div class="sem-atividade" style="width:100%">Nenhuma O.S. válida encontrada.</div>`;
+        cardsContainer.innerHTML = `<div class="sem-atividade" style="width:100%">Nenhuma O.S. encontrada.</div>`;
         return;
       }
 
@@ -1487,12 +1207,32 @@
         const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(enderecoLimpo)}`;
         const loginSeguro = escapeHtml(os.login);
         const senhaSegura = escapeHtml(os.senha);
+        const contatoSeguro = escapeHtml(os.contato);
+        
+        const statusSalvo = localStorage.getItem(`status_${tecnicoAtual}_${os.id}`) || "";
         const obsSalva = localStorage.getItem(`obs_${tecnicoAtual}_${os.id}`) || "";
+
+        let statusClass = "vazio";
+        let statusTxt = "Aguardando status";
+        if (statusSalvo === "rota") { statusClass = "rota"; statusTxt = "🚗 Em rota"; }
+        else if (statusSalvo === "concluido") { statusClass = "concluido"; statusTxt = "✅ Concluído"; }
+        else if (statusSalvo === "nao-concluido") { statusClass = "nao-concluido"; statusTxt = "❌ Não concluído"; }
+
+        let obsHtmlExpressa = '';
+        if(obsSalva) {
+          const extraClass = (statusSalvo === 'concluido') ? ' concluida-obs' : '';
+          obsHtmlExpressa = `<div class="card-obs-preview${extraClass}" id="obs-preview-${os.id}">📝 Obs: ${escapeHtml(obsSalva)}</div>`;
+        }
 
         cardsContainer.innerHTML += `
           <div class="card" data-idx="${idx}" data-id="${os.id}" data-cliente="${escapeHtml(os.cliente)}" data-maps="${escapeHtml(maps)}" data-endereco="${escapeHtml(enderecoLimpo)}">
             <button class="btn-editar-os" onclick="abrirModal(${idx})">✏️</button>
-            <div class="horario">🕒 ${os.horario}</div>
+            
+            <div class="card-top-header">
+              <div class="horario">🕒 ${os.horario}</div>
+              <div class="card-status-topo ${statusClass}" id="topo-status-badge-${os.id}">${statusTxt}</div>
+            </div>
+
             <div class="cliente">${escapeHtml(os.cliente)}</div>
             <div class="info"><strong>🔹 O.S:</strong> <span class="os-number">${os.id}</span></div>
             <div class="assunto">📋 ${escapeHtml(os.assunto)}</div>
@@ -1503,25 +1243,47 @@
               <button class="btn-copiar" data-copiar="${loginSeguro}" title="Copiar login">📋</button>
             </div>
             <div class="info-linha">
-              <div class="info"><strong>🔑 Senha PPPoE:</strong> ${senhaSegura || " "}</div>
+              <div class="info"><strong>🔑 Senha:</strong> ${senhaSegura || " "}</div>
               <button class="btn-copiar" data-copiar="${senhaSegura}" title="Copiar senha">📋</button>
             </div>
-
-            <div class="botoes-grupo">
-              <div class="btn-links">
-                <button class="btn-maps">🗺️ Maps</button>
-                <button class="btn-ativo">🌐 Ativo</button>
-                <button class="btn-status-falha" onclick="forcarNaoExecutada(${idx})">❌ Não Executada</button>
-              </div>
-              <button class="btn-status-rota">🚗 Iniciar Rota</button>
+            <div class="info-linha">
+              <div class="info"><strong>📞 Contato:</strong> ${contatoSeguro || " "}</div>
+              <button class="btn-copiar" data-copiar="${contatoSeguro}" title="Copiar contato">📋</button>
             </div>
-            <div class="status-box vazio">Aguardando status</div>
-            ${obsSalva ? `<div class="card-obs-preview" id="obs-preview-${os.id}">⚠️ Observação: ${escapeHtml(obsSalva)}</div>` : ''}
+
+            <div class="botoes-grupo-novo">
+              <div class="btn-links-linha">
+                <button class="btn-acao-mobile btn-maps-mob" onclick="window.open('${escapeHtml(maps)}', '_blank')">🗺️ Maps</button>
+                <button class="btn-acao-mobile btn-ativo-mob" onclick="window.open('https://sistema.ativotelecom.com.br/central_assinante_web/login', '_blank')">🌐 Ativo</button>
+              </div>
+              
+              <div class="seletor-status-container">
+                <select class="select-status-unico" id="select-status-os-${idx}" onchange="dispararAlteracaoStatus(${idx}, this.value)">
+                  <option value="" ${statusSalvo===''?'selected':''}>⏳ Alterar Status...</option>
+                  <option value="rota" ${statusSalvo==='rota'?'selected':''}>🚗 Iniciar Rota</option>
+                  <option value="concluido" ${statusSalvo==='concluido'?'selected':''}>✅ Concluído OS</option>
+                  <option value="nao-concluido" ${statusSalvo==='nao-concluido'?'selected':''}>❌ Não Executada / Falha</option>
+                </select>
+              </div>
+            </div>
+            <div id="container-obs-preview-box-${os.id}">${obsHtmlExpressa}</div>
           </div>
         `;
       });
 
-      iniciarEventos();
+      iniciarEventosCopiarNativos();
+    }
+
+    function iniciarEventosCopiarNativos() {
+      document.querySelectorAll(".btn-copiar").forEach(btn => {
+        btn.onclick = function() {
+          const valor = btn.dataset.copiar || "";
+          if (!valor) return;
+          navigator.clipboard.writeText(valor).then(() => {
+            mostrarToast("✅ Copiado com sucesso!");
+          });
+        };
+      });
     }
 
     function obtenerHoraAtual() {
@@ -1529,82 +1291,108 @@
       return agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
 
-    function iniciarEventos() {
-      statusOS = {};
+    function dispararAlteracaoStatus(idx, novoStatus) {
+      const os = dadosOS[idx];
+      
+      if (!novoStatus) {
+        localStorage.removeItem(`status_${tecnicoAtual}_${os.id}`);
+        atualizarLayoutCardStatus(os.id, "", "Aguardando status");
+        salvarAgendaNaApi(document.getElementById("entrada").value, true);
+        return;
+      }
 
-      document.querySelectorAll(".card").forEach(card => {
-        const os      = card.dataset.id;
-        const cliente = card.dataset.cliente;
-        const endereco = card.dataset.endereco;
-        const box     = card.querySelector(".status-box");
-        const btnRota = card.querySelector(".btn-status-rota");
+      if (novoStatus === "rota") {
+        localStorage.setItem(`status_${tecnicoAtual}_${os.id}`, "rota");
+        localStorage.setItem(`timestamp_${tecnicoAtual}_${os.id}_rota`, obtenerHoraAtual());
+        atualizarLayoutCardStatus(os.id, "rota", "🚗 Em rota");
+        salvarAgendaNaApi(document.getElementById("entrada").value, true);
 
-        card.querySelector(".btn-maps").addEventListener("click", () => window.open(card.dataset.maps, "_blank"));
-        card.querySelector(".btn-ativo").addEventListener("click", () => window.open("https://sistema.ativotelecom.com.br/central_assinante_web/login", "_blank"));
-
-        card.querySelectorAll(".btn-copiar").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const valor = btn.dataset.copiar || "";
-            if (!valor) return;
-            navigator.clipboard.writeText(valor).then(() => {
-              mostrarToast("✅ Copiado com sucesso");
-
-              if (btn.getAttribute("title").includes("senha")) {
-                statusOS[os] = "concluido";
-                localStorage.setItem(`status_${tecnicoAtual}_${os}`, "concluido");
-                localStorage.setItem(`timestamp_${tecnicoAtual}_${os}_concluido`, obtenerHoraAtual());
-                aplicarStatus(box, btnRota, "concluido");
-                salvarAgendaNaApi(document.getElementById("entrada").value, true);
-              }
-            });
-          });
+        const script = `🚗 EM ROTA\n\n👤 Cliente: ${os.cliente}\n📍 Endereço: ${os.endereco}`;
+        navigator.clipboard.writeText(script).then(() => {
+          mostrarToast("✅ Rota Copiada!");
+          window.open("https://t.me/c/1989058391/167773", "_blank");
         });
-
-        btnRota.addEventListener("click", () => {
-          statusOS[os] = "rota";
-          localStorage.setItem(`status_${tecnicoAtual}_${os}`, "rota");
-          localStorage.setItem(`timestamp_${tecnicoAtual}_${os}_rota`, obtenerHoraAtual());
-          aplicarStatus(box, btnRota, "rota");
-          salvarAgendaNaApi(document.getElementById("entrada").value, true);
-
-          const script = `🚗 EM ROTA\n\n👤 Cliente: ${cliente}\n📍 Endereço: ${endereco}`;
-          navigator.clipboard.writeText(script).then(() => {
-            mostrarToast("✅ Texto copiado!");
-            window.open("https://t.me/c/1989058391/167773", "_blank");
-          });
-        });
-
-        const statusSalvo = localStorage.getItem(`status_${tecnicoAtual}_${os}`);
-        if (statusSalvo) {
-          statusOS[os] = statusSalvo;
-          aplicarStatus(box, btnRota, statusSalvo);
+      } 
+      else if (novoStatus === "concluido" || novoStatus === "nao-concluido") {
+        statusTemporarioExpressado = novoStatus;
+        indexTemporarioExpressado = idx;
+        
+        const overlay = document.getElementById("modalObsExpressaOverlay");
+        const titulo = document.getElementById("tit-obs-expressa");
+        const desc = document.getElementById("desc-obs-expressa");
+        const input = document.getElementById("input-obs-expressa");
+        
+        input.value = localStorage.getItem(`obs_${tecnicoAtual}_${os.id}`) || "";
+        
+        if(novoStatus === "concluido") {
+          titulo.innerText = "✅ Concluir Ordem de Serviço";
+          desc.innerText = "Insira as observações técnicas de encerramento da OS (Opcional):";
+        } else {
+          titulo.innerText = "❌ Finalizar como Não Concluída";
+          desc.innerText = "Insira detalhadamente o motivo/justificativa pelo qual a OS não foi executada (Obrigatório):";
         }
-      });
-    }
-
-    function aplicarStatus(box, btnRota, status) {
-      if (status === "rota") {
-        box.className = "status-box rota";
-        box.innerHTML = "🚗 Em rota";
-        btnRota.style.opacity = "0.6";
-        btnRota.style.pointerEvents = "none";
-      } else if (status === "concluido") {
-        box.className = "status-box concluido";
-        box.innerHTML = "✅ Concluído";
-        btnRota.style.opacity = "1";
-        btnRota.style.pointerEvents = "auto";
-      } else if (status === "nao-concluido") {
-        box.className = "status-box nao-concluido";
-        box.innerHTML = "❌ Não concluído";
-        btnRota.style.opacity = "1";
-        btnRota.style.pointerEvents = "auto";
+        
+        overlay.style.display = "flex";
+        setTimeout(() => { overlay.classList.add("aberto"); input.focus(); }, 10);
       }
     }
 
-    function forcarNaoExecutada(idx) {
-      abrirModal(idx);
-      document.getElementById("edit-status").value = "nao-concluido";
-      setTimeout(() => { document.getElementById("edit-observacao").focus(); }, 150);
+    function fecharModalObsExpressa() {
+      const overlay = document.getElementById("modalObsExpressaOverlay");
+      overlay.classList.remove("aberto");
+      setTimeout(() => { 
+        overlay.style.display = "none";
+        if(indexTemporarioExpressado !== null) {
+          const statusSalvoOriginal = localStorage.getItem(`status_${tecnicoAtual}_dadosOS[indexTemporarioExpressado].id`) || "";
+          document.getElementById(`select-status-os-${indexTemporarioExpressado}`).value = statusSalvoOriginal;
+        }
+        statusTemporarioExpressado = null;
+        indexTemporarioExpressado = null;
+      }, 300);
+    }
+
+    function salvarObsExpressa() {
+      if (indexTemporarioExpressado === null || !statusTemporarioExpressado) return;
+      
+      const os = dadosOS[indexTemporarioExpressado];
+      const obsTexto = document.getElementById("input-obs-expressa").value.trim();
+
+      if(statusTemporarioExpressado === "nao-concluido" && !obsTexto) {
+        alert("Por favor, digite um motivo para a não conclusão.");
+        return;
+      }
+
+      localStorage.setItem(`status_${tecnicoAtual}_${os.id}`, statusTemporarioExpressado);
+      localStorage.setItem(`timestamp_${tecnicoAtual}_${os.id}_${statusTemporarioExpressado}`, obtenerHoraAtual());
+
+      if(obsTexto) {
+        localStorage.setItem(`obs_${tecnicoAtual}_${os.id}`, obsTexto);
+      } else {
+        localStorage.removeItem(`obs_${tecnicoAtual}_${os.id}`);
+      }
+
+      const txtStatus = statusTemporarioExpressado === "concluido" ? "✅ Concluído" : "❌ Não concluído";
+      atualizarLayoutCardStatus(os.id, statusTemporarioExpressado, txtStatus);
+      
+      const previewBox = document.getElementById(`container-obs-preview-box-${os.id}`);
+      if(obsTexto) {
+        const extraClass = (statusTemporarioExpressado === 'concluido') ? ' concluida-obs' : '';
+        previewBox.innerHTML = `<div class="card-obs-preview${extraClass}" id="obs-preview-${os.id}">📝 Obs: ${escapeHtml(obsTexto)}</div>`;
+      } else {
+        previewBox.innerHTML = '';
+      }
+
+      fecharModalObsExpressa();
+      salvarAgendaNaApi(document.getElementById("entrada").value, false);
+      mostrarToast("💾 Status atualizado!");
+    }
+
+    function atualizarLayoutCardStatus(osId, classeStatus, textoStatus) {
+      const badge = document.getElementById(`topo-status-badge-${osId}`);
+      if(badge) {
+        badge.className = `card-status-topo ${classeStatus || 'vazio'}`;
+        badge.innerText = textoStatus;
+      }
     }
 
     function abrirModal(idx) {
@@ -1617,6 +1405,7 @@
       document.getElementById("edit-endereco").value = os.endereco || "";
       document.getElementById("edit-login").value    = os.login     || "";
       document.getElementById("edit-senha").value    = os.senha     || "";
+      document.getElementById("edit-contato").value  = os.contato   || "";
       
       document.getElementById("edit-observacao").value = localStorage.getItem(`obs_${tecnicoAtual}_${os.id}`) || "";
       document.getElementById("edit-status").value = localStorage.getItem(`status_${tecnicoAtual}_${os.id}`) || "";
@@ -1632,10 +1421,6 @@
       setTimeout(() => { overlay.style.display = "none"; osEditandoIndex = null; }, 300);
     }
 
-    document.getElementById("modalOverlay").addEventListener("click", function(e) {
-      if (e.target === this) fecharModal();
-    });
-
     async function salvarEdicaoOS() {
       if (osEditandoIndex === null) return;
 
@@ -1646,6 +1431,7 @@
       os.endereco = document.getElementById("edit-endereco").value.trim();
       os.login    = document.getElementById("edit-login").value.trim();
       os.senha    = document.getElementById("edit-senha").value.trim();
+      os.contato  = document.getElementById("edit-contato").value.trim();
 
       const novaObs = document.getElementById("edit-observacao").value.trim();
       if(novaObs) { localStorage.setItem(`obs_${tecnicoAtual}_${os.id}`, novaObs); } 
@@ -1696,7 +1482,7 @@
           }
         }
       } catch (e) { 
-        console.warn("Erro ao buscar API, usando cache local estável."); 
+        console.warn("Usando cache local."); 
       } finally {
         renderizarCardsMonitoramento();
         carregarDashboardGeral();
