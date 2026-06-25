@@ -107,6 +107,22 @@
       background: rgba(255, 255, 255, 0.02);
     }
 
+    .acoes-gerenciar-tec {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-editar-tec-lista {
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      color: #60a5fa;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
     .btn-deletar-tec {
       background: rgba(239, 68, 68, 0.12);
       border: 1px solid rgba(239, 68, 68, 0.25);
@@ -207,6 +223,16 @@
       padding: 12px;
       border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .log-atividade:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .log-atividade:active {
+      transform: scale(0.99);
     }
 
     .log-badge {
@@ -857,13 +883,98 @@
         return;
       }
       listaTecnicos.forEach(tec => {
+        const tecEscapado = String(tec).replace(/'/g, "\\'");
         container.innerHTML += `
           <div class="item-gerenciar">
             <span>👤 ${tec}</span>
-            <button class="btn-deletar-tec" onclick="removerTecnico('${tec}')">Excluir</button>
+            <div class="acoes-gerenciar-tec">
+              <button class="btn-editar-tec-lista" onclick="editarNomeTecnico('${tecEscapado}')">✏️</button>
+              <button class="btn-deletar-tec" onclick="removerTecnico('${tecEscapado}')">Excluir</button>
+            </div>
           </div>
         `;
       });
+    }
+
+    async function editarNomeTecnico(nomeAntigo) {
+      const novoNome = prompt(`Editar nome do técnico "${nomeAntigo}" para:`, nomeAntigo);
+      if (novoNome === null) return;
+      
+      const nomeLimpo = novoNome.trim().replace(/[^a-zA-Z0-9 ]/g, "");
+      if (!nomeLimpo) {
+        alert("O nome do técnico não pode ficar em branco.");
+        return;
+      }
+
+      if (nomeLimpo === nomeAntigo) return;
+
+      if (listaTecnicos.includes(nomeLimpo)) {
+        alert("Este nome de técnico já existe!");
+        return;
+      }
+
+      fecharModalConfig();
+      toggleLoading(true, `Atualizando ${nomeAntigo} para ${nomeLimpo}...`);
+
+      try {
+        const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(nomeAntigo)}`);
+        if(resp.ok) {
+          const dados = await resp.json();
+          if(dados && dados.length > 0) {
+            const registro = dados[0];
+            
+            // Migrar chaves de status no localStorage se houverem
+            if (registro.agenda) {
+              const oसेस = parsearAgenda(registro.agenda);
+              oसेस.forEach(os => {
+                const statusSalvo = localStorage.getItem(`status_${nomeAntigo}_${os.id}`);
+                const obsSalva = localStorage.getItem(`obs_${nomeAntigo}_${os.id}`);
+                if (statusSalvo) {
+                  localStorage.setItem(`status_${nomeLimpo}_${os.id}`, statusSalvo);
+                  localStorage.removeItem(`status_${nomeAntigo}_${os.id}`);
+                }
+                if (obsSalva) {
+                  localStorage.setItem(`obs_${nomeLimpo}_${os.id}`, obsSalva);
+                  localStorage.removeItem(`obs_${nomeAntigo}_${os.id}`);
+                }
+                ['rota', 'concluido', 'nao-concluido'].forEach(st => {
+                  const tm = localStorage.getItem(`timestamp_${nomeAntigo}_${os.id}_${st}`);
+                  if (tm) {
+                    localStorage.setItem(`timestamp_${nomeLimpo}_${os.id}_${st}`, tm);
+                    localStorage.removeItem(`timestamp_${nomeAntigo}_${os.id}_${st}`);
+                  }
+                });
+              });
+            }
+
+            // Atualizar na API preservando a agenda e status atuais
+            await fetch(`${API_URL}/${registro.id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ tecnico: nomeLimpo })
+            });
+          }
+        }
+
+        // Atualizar lista local
+        const idx = listaTecnicos.indexOf(nomeAntigo);
+        if (idx !== -1) listaTecnicos[idx] = nomeLimpo;
+        localStorage.setItem('lista_tecnicos_smart', JSON.stringify(listaTecnicos));
+
+        if (tecnicoAtual === nomeAntigo) {
+          tecnicoAtual = nomeLimpo;
+          document.getElementById("subtitulo").textContent = `Agenda: ${nomeLimpo}`;
+        }
+
+        renderizarCardsMonitoramento();
+        await carregarDashboardGeral();
+        mostrarToast("💾 Nome atualizado!");
+      } catch (e) {
+        alert("Erro ao atualizar o nome do técnico na nuvem.");
+      } finally {
+        toggleLoading(false);
+        abrirModalConfig();
+      }
     }
 
     async function adicionarTecnico() {
@@ -903,6 +1014,7 @@
     }
 
     async function removerTecnico(nome) {
+      if(!confirm(`Tem certeza que deseja excluir o técnico ${nome}?`)) return;
       fecharModalConfig();
       toggleLoading(true, `Excluindo ${nome}...`);
       try {
@@ -943,11 +1055,57 @@
               <button class="btn-dropdown" id="btn-drop-${tec}" onclick="toggleDropdown('${tec}', event)">Expandir 🔽</button>
             </div>
             <div class="monitor-atividades" id="atividades-${tec}">
-               <div class="sem-atividade">Nenhuma rota ativa no momento.</div>
+               <div class="sem-atividade">Nenhuma rota activa no momento.</div>
             </div>
           </div>
         `;
       });
+    }
+
+    async function abrirModalDeAtividadeRemota(nomeTecnico, osId) {
+      toggleLoading(true, "Carregando dados da O.S...");
+      try {
+        const resp = await fetch(`${API_URL}?tecnico=${encodeURIComponent(nomeTecnico)}`);
+        if(!resp.ok) throw new Error();
+        const dados = await resp.json();
+        
+        if (dados && dados.length > 0) {
+          const registro = dados[0];
+          tecnicoAtual = nomeTecnico;
+          registroAtualId = registro.id;
+          dadosOS = parsearAgenda(registro.agenda || "");
+
+          if (registro.status) {
+            try {
+              const statusSalvo = JSON.parse(registro.status);
+              Object.keys(statusSalvo).forEach(idKey => {
+                if (typeof statusSalvo[idKey] === 'object') {
+                  localStorage.setItem(`status_${tecnicoAtual}_${idKey}`, statusSalvo[idKey].status || "");
+                  localStorage.setItem(`obs_${tecnicoAtual}_${idKey}`, statusSalvo[idKey].obs || "");
+                  localStorage.setItem(`timestamp_${tecnicoAtual}_${idKey}_${statusSalvo[idKey].status}`, statusSalvo[idKey].timestamp || "--:--");
+                } else {
+                  localStorage.setItem(`status_${tecnicoAtual}_${idKey}`, statusSalvo[idKey]);
+                }
+              });
+            } catch(e) {}
+          }
+
+          const targetIndex = dadosOS.findIndex(os => os.id === String(osId));
+          if (targetIndex !== -1) {
+            toggleLoading(false);
+            abrirModal(targetIndex);
+          } else {
+            alert("Ordem de serviço não encontrada na agenda ativa deste técnico.");
+            toggleLoading(false);
+          }
+        } else {
+          toggleLoading(false);
+        }
+      } catch(e) {
+        console.error(e);
+        toggleLoading(false);
+        alert("Erro ao buscar dados remotos da atividade.");
+      }
     }
 
     async function carregarDashboardGeral() {
@@ -982,13 +1140,15 @@
 
             listaOS.forEach(itemOS => {
               const statusAtual = localStorage.getItem(`status_${tec}_${itemOS.id}`);
+              const osIdLimpo = String(itemOS.id).replace(/"/g, '"');
+              const tecLimpo = String(tec).replace(/"/g, '"');
               const obsSalva = localStorage.getItem(`obs_${tec}_${itemOS.id}`) || "";
 
               if (statusAtual === 'rota') {
                 const horaLog = localStorage.getItem(`timestamp_${tec}_${itemOS.id}_rota`) || '--:--';
                 emRota++;
                 logsHtml += `
-                  <div class="log-atividade">
+                  <div class="log-atividade" onclick="abrirModalDeAtividadeRemota('${tecLimpo}', '${osIdLimpo}')">
                     <span class="log-badge rota">🚗 Em rota</span>
                     <div class="log-info"><strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span></div>
                     <div class="log-hora">⏰ ${horaLog}</div>
@@ -998,7 +1158,7 @@
                 const horaLog = localStorage.getItem(`timestamp_${tec}_${itemOS.id}_concluido`) || '--:--';
                 concluidas++;
                 logsHtml += `
-                  <div class="log-atividade">
+                  <div class="log-atividade" onclick="abrirModalDeAtividadeRemota('${tecLimpo}', '${osIdLimpo}')">
                     <span class="log-badge concluido">✅ Concluído</span>
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
@@ -1011,7 +1171,7 @@
                 const horaLog = localStorage.getItem(`timestamp_${tec}_${itemOS.id}_nao-concluido`) || '--:--';
                 naoConcluidas++;
                 logsHtml += `
-                  <div class="log-atividade">
+                  <div class="log-atividade" onclick="abrirModalDeAtividadeRemota('${tecLimpo}', '${osIdLimpo}')">
                     <span class="log-badge nao-concluido">❌ Mal Sucedida</span>
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
@@ -1023,7 +1183,7 @@
               } else {
                 aguardando++;
                 logsHtml += `
-                  <div class="log-atividade">
+                  <div class="log-atividade" onclick="abrirModalDeAtividadeRemota('${tecLimpo}', '${osIdLimpo}')">
                     <span class="log-badge aguardando">⏳ Pendente</span>
                     <div class="log-info"><strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span></div>
                     <div class="log-hora">Pendente</div>
@@ -1189,7 +1349,7 @@
 
     function escapeHtml(str) {
       if(!str) return "";
-      return str.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
     function criarCards(texto) {
@@ -1204,7 +1364,7 @@
 
       dadosOS.forEach((os, idx) => {
         const enderecoLimpo = (os.endereco || "").replace(/\?/g, "").replace(/\s+/g, " ").trim();
-        const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(enderecoLimpo)}`;
+        const maps = `https://maps.google.com/?q=${encodeURIComponent(enderecoLimpo)}`;
         const loginSeguro = escapeHtml(os.login);
         const senhaSegura = escapeHtml(os.senha);
         const contatoSeguro = escapeHtml(os.contato);
@@ -1343,7 +1503,7 @@
       setTimeout(() => { 
         overlay.style.display = "none";
         if(indexTemporarioExpressado !== null) {
-          const statusSalvoOriginal = localStorage.getItem(`status_${tecnicoAtual}_dadosOS[indexTemporarioExpressado].id`) || "";
+          const statusSalvoOriginal = localStorage.getItem(`status_${tecnicoAtual}_${dadosOS[indexTemporarioExpressado].id}`) || "";
           document.getElementById(`select-status-os-${indexTemporarioExpressado}`).value = statusSalvoOriginal;
         }
         statusTemporarioExpressado = null;
@@ -1355,6 +1515,7 @@
       if (indexTemporarioExpressado === null || !statusTemporarioExpressado) return;
       
       const os = dadosOS[indexTemporarioExpressado];
+      const osIdLimpo = os.id;
       const obsTexto = document.getElementById("input-obs-expressa").value.trim();
 
       if(statusTemporarioExpressado === "nao-concluido" && !obsTexto) {
