@@ -218,7 +218,7 @@
     .log-atividade {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       background: rgba(255, 255, 255, 0.02);
       padding: 12px;
       border-radius: 14px;
@@ -235,13 +235,19 @@
       transform: scale(0.99);
     }
 
+    .log-topo-linha {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
     .log-badge {
       font-weight: 800;
       font-size: 11px;
       text-transform: uppercase;
       padding: 4px 10px;
       border-radius: 8px;
-      align-self: flex-start;
     }
 
     .log-badge.rota { background: rgba(234, 179, 8, 0.12); color: #facc15; }
@@ -268,7 +274,6 @@
       font-size: 12px;
       color: #cbd5e1;
       font-weight: 600;
-      align-self: flex-end;
     }
 
     .sem-atividade {
@@ -923,18 +928,17 @@
           if(dados && dados.length > 0) {
             const registro = dados[0];
             
-            // Migrar chaves de status no localStorage se houverem
             if (registro.agenda) {
               const oसेस = parsearAgenda(registro.agenda);
               oसेस.forEach(os => {
                 const statusSalvo = localStorage.getItem(`status_${nomeAntigo}_${os.id}`);
-                const obsSalva = localStorage.getItem(`obs_${nomeAntigo}_${os.id}`);
+                const osSalva = localStorage.getItem(`obs_${nomeAntigo}_${os.id}`);
                 if (statusSalvo) {
                   localStorage.setItem(`status_${nomeLimpo}_${os.id}`, statusSalvo);
                   localStorage.removeItem(`status_${nomeAntigo}_${os.id}`);
                 }
-                if (obsSalva) {
-                  localStorage.setItem(`obs_${nomeLimpo}_${os.id}`, obsSalva);
+                if (osSalva) {
+                  localStorage.setItem(`obs_${nomeLimpo}_${os.id}`, osSalva);
                   localStorage.removeItem(`obs_${nomeAntigo}_${os.id}`);
                 }
                 ['rota', 'concluido', 'nao-concluido'].forEach(st => {
@@ -947,7 +951,6 @@
               });
             }
 
-            // Atualizar na API preservando a agenda e status atuais
             await fetch(`${API_URL}/${registro.id}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
@@ -956,7 +959,6 @@
           }
         }
 
-        // Atualizar lista local
         const idx = listaTecnicos.indexOf(nomeAntigo);
         if (idx !== -1) listaTecnicos[idx] = nomeLimpo;
         localStorage.setItem('lista_tecnicos_smart', JSON.stringify(listaTecnicos));
@@ -968,7 +970,7 @@
 
         renderizarCardsMonitoramento();
         await carregarDashboardGeral();
-        mostrarToast("💾 Nome atualizado!");
+        mostrarToast("💾 Nome updated!");
       } catch (e) {
         alert("Erro ao atualizar o nome do técnico na nuvem.");
       } finally {
@@ -1095,7 +1097,7 @@
             toggleLoading(false);
             abrirModal(targetIndex);
           } else {
-            alert("Ordem de serviço não encontrada na agenda ativa deste técnico.");
+            alert("Ordem de serviço não encontrada na agenda activa deste técnico.");
             toggleLoading(false);
           }
         } else {
@@ -1142,16 +1144,18 @@
               const statusAtual = localStorage.getItem(`status_${tec}_${itemOS.id}`);
               const osIdLimpo = String(itemOS.id).replace(/"/g, '"');
               const tecLimpo = String(tec).replace(/"/g, '"');
-              const obsSalva = localStorage.getItem(`obs_${tec}_${itemOS.id}`) || "";
+              const osSalva = localStorage.getItem(`obs_${tec}_${itemOS.id}`) || "";
 
               if (statusAtual === 'rota') {
                 const horaLog = localStorage.getItem(`timestamp_${tec}_${itemOS.id}_rota`) || '--:--';
                 emRota++;
                 logsHtml += `
                   <div class="log-atividade" onclick="abrirModalDeAtividadeRemota('${tecLimpo}', '${osIdLimpo}')">
-                    <span class="log-badge rota">🚗 Em rota</span>
+                    <div class="log-topo-linha">
+                      <span class="log-badge rota">🚗 Em rota</span>
+                      <div class="log-hora">⏰ ${horaLog}</div>
+                    </div>
                     <div class="log-info"><strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span></div>
-                    <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
                 `;
               } else if (statusAtual === 'concluido') {
@@ -1159,12 +1163,14 @@
                 concluidas++;
                 logsHtml += `
                   <div class="log-atividade" onclick="abrirModalDeAtividadeRemota('${tecLimpo}', '${osIdLimpo}')">
-                    <span class="log-badge concluido">✅ Concluído</span>
+                    <div class="log-topo-linha">
+                      <span class="log-badge concluido">✅ Concluído</span>
+                      <div class="log-hora">⏰ ${horaLog}</div>
+                    </div>
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
-                      ${obsSalva ? `<span class="obs-texto" style="color:#4ade80; background:rgba(34,197,94,0.06); border-left-color:#22c55e;">📝 Obs: ${escapeHtml(obsSalva)}</span>` : ''}
+                      ${osSalva ? `<span class="obs-texto" style="color:#4ade80; background:rgba(34,197,94,0.06); border-left-color:#22c55e;">📝 Obs: ${escapeHtml(osSalva)}</span>` : ''}
                     </div>
-                    <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
                 `;
               } else if (statusAtual === 'nao-concluido') {
@@ -1172,21 +1178,25 @@
                 naoConcluidas++;
                 logsHtml += `
                   <div class="log-atividade" onclick="abrirModalDeAtividadeRemota('${tecLimpo}', '${osIdLimpo}')">
-                    <span class="log-badge nao-concluido">❌ Mal Sucedida</span>
+                    <div class="log-topo-linha">
+                      <span class="log-badge nao-concluido">❌ Mal Sucedida</span>
+                      <div class="log-hora">⏰ ${horaLog}</div>
+                    </div>
                     <div class="log-info">
                       <strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span>
-                      ${obsSalva ? `<span class="obs-texto">⚠️ Motivo: ${escapeHtml(obsSalva)}</span>` : ''}
+                      ${osSalva ? `<span class="obs-texto">⚠️ Motivo: ${escapeHtml(osSalva)}</span>` : ''}
                     </div>
-                    <div class="log-hora">⏰ ${horaLog}</div>
                   </div>
                 `;
               } else {
                 aguardando++;
                 logsHtml += `
                   <div class="log-atividade" onclick="abrirModalDeAtividadeRemota('${tecLimpo}', '${osIdLimpo}')">
-                    <span class="log-badge aguardando">⏳ Pendente</span>
+                    <div class="log-topo-linha">
+                      <span class="log-badge aguardando">⏳ Pendente</span>
+                      <div class="log-hora">Pendente</div>
+                    </div>
                     <div class="log-info"><strong>${escapeHtml(itemOS.cliente)}</strong><span class="tipo-servico">📋 ${escapeHtml(itemOS.assunto)}</span></div>
-                    <div class="log-hora">Pendente</div>
                   </div>
                 `;
               }
@@ -1237,9 +1247,9 @@
               const statusSalvo = JSON.parse(registro.status);
               Object.keys(statusSalvo).forEach(osId => {
                 if (typeof statusSalvo[osId] === 'object') {
-                  localStorage.setItem(`status_${tecnicoAtual}_${osId}`, statusSalvo[osId].status || "");
-                  localStorage.setItem(`obs_${tecnicoAtual}_${osId}`, statusSalvo[osId].obs || "");
-                  localStorage.setItem(`timestamp_${tecnicoAtual}_${osId}_${statusSalvo[osId].status}`, statusSalvo[osId].timestamp || "--:--");
+                  localStorage.setItem(`status_${tecnicoAtual}_${osId}`, statusSalvo[idKey].status || "");
+                  localStorage.setItem(`obs_${tecnicoAtual}_${osId}`, statusSalvo[idKey].obs || "");
+                  localStorage.setItem(`timestamp_${tecnicoAtual}_${osId}_${statusSalvo[idKey].status}`, statusSalvo[idKey].timestamp || "--:--");
                 } else {
                   localStorage.setItem(`status_${tecnicoAtual}_${osId}`, statusSalvo[osId]);
                 }
@@ -1349,7 +1359,7 @@
 
     function escapeHtml(str) {
       if(!str) return "";
-      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return str.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
     }
 
     function criarCards(texto) {
@@ -1515,7 +1525,6 @@
       if (indexTemporarioExpressado === null || !statusTemporarioExpressado) return;
       
       const os = dadosOS[indexTemporarioExpressado];
-      const osIdLimpo = os.id;
       const obsTexto = document.getElementById("input-obs-expressa").value.trim();
 
       if(statusTemporarioExpressado === "nao-concluido" && !obsTexto) {
